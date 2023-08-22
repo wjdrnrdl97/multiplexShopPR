@@ -8,6 +8,7 @@ public class MultiplexshopApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MultiplexshopApplication.class, args);
+		//git dev branch init
 	}
 
 }
