@@ -2,14 +2,16 @@ package backend.shop.com.multiplexshop.domain.board.entity;
 
 
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
+import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-
+@Builder
 public class Board extends BaseEntity {
 
         @Id
@@ -21,5 +23,11 @@ public class Board extends BaseEntity {
 
         @Column(length = 500,nullable=false)
         private String boardContent;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        private Member memberName;
+
+        @Column
+        private Long boardViewCount;
 
     }
