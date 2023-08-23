@@ -18,14 +18,18 @@ public class Board extends BaseEntity {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long boardId;
 
+        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+        @JoinColumn(name="member_id")
+        private Member member;
+
         @Column(length = 30,nullable=false)
         private String boardTitle;
 
         @Column(length = 500,nullable=false)
         private String boardContent;
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        private Member memberName;
+        @Column(length = 20,nullable = false)
+        private String memberName;
 
         @Column
         private Long boardViewCount;
