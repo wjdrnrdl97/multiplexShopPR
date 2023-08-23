@@ -1,6 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.entity;
 
 
+import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,10 +10,10 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 
-    public class Board {
+public class Board extends BaseEntity {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long boardId;
 
         @Column(length = 30,nullable=false)
@@ -20,7 +21,5 @@ import lombok.*;
 
         @Column(length = 500,nullable=false)
         private String boardContent;
-
-        @
 
     }
