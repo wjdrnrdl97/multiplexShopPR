@@ -1,4 +1,4 @@
-git p# TEAM Project [multiplexShop]
+# TEAM Project [multiplexShop]
 
 ### 참여 인원
 
