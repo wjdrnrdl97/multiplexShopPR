@@ -3,14 +3,17 @@ package backend.shop.com.multiplexshop.domain.board.service;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.PostBoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
-import jakarta.transaction.Transactional;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
+@Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class BoardServiceImpl implements BoardService{
     private final BoardRepository boardRepository;
 
@@ -26,6 +29,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    @Transactional
     public Board postBoard(PostBoardRequestDTO postBoardRequestDTO) {
         return boardRepository.save(postBoardRequestDTO.toBoard());
     }

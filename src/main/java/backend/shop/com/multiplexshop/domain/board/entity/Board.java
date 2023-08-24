@@ -19,7 +19,7 @@ public class Board extends BaseEntity {
 
         @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
         @JoinColumn(name="memberId")
-        private Member member_id;
+        private Member member;
 
         @Column(length = 30,nullable=false)
         private String boardTitle;

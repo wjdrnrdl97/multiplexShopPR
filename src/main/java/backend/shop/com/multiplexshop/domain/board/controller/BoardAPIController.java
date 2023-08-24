@@ -5,6 +5,7 @@ import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.GetBoardRespons
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.GetBoardListResponseDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
+import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,13 +19,15 @@ import java.util.List;
 public class BoardAPIController {
     private final BoardService boardService;
 
-    @GetMapping
+    @GetMapping("/api/support/{no}")
     public ResponseEntity<GetBoardResponseDTO> getBoard(@PathVariable Long id){
         Board getBoard =  boardService.getBoard(id);
         return ResponseEntity.ok().body(new GetBoardResponseDTO(getBoard));
     }
-    @GetMapping
-    public ResponseEntity<List<GetBoardListResponseDTO>> getBoardList(){
-        List<Board> getBoardList = boardService.getBoardList().stream().qq.toList();
-        return ResponseEntity.ok().body(new List<GetBoardListResponseDTO>();
+
+
+//    @GetMapping
+//    public ResponseEntity<List<GetBoardListResponseDTO>> getBoardList(){
+//        List<Board> getBoardList = boardService.getBoardList().stream().toList();
+//        return ResponseEntity.ok().body(new List<GetBoardListResponseDTO>();
 }

@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BoardViewController {
     private final BoardService boardService;
 
-    @GetMapping("/{id}")
-    public String getBoard(@PathVariable("id")Long id,Model model){
-        Board getBoard = boardService.findByID(id);
-        model.addAttribute("dto",new BoardDTOs.GetBoardResponseDTO(getBoard));
-        return "support/";
-    }
+//    @GetMapping("/{id}")
+//    public String getBoard(@PathVariable("id")Long id,Model model){
+//        Board getBoard = boardService.findByID(id);
+//        model.addAttribute("dto",new BoardDTOs.GetBoardResponseDTO(getBoard));
+//        return "support/";
+//    }
 }

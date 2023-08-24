@@ -24,7 +24,7 @@ public class BoardDTOs {
             this.boardContent = board.getBoardContent();
             this.regDate = board.getRegDate();
             this.boardViewCount = board.getBoardViewCount();
-            this.memberName = board.getId().getMemberName();
+            this.memberName = board.getMember().getMemberName();
         }
     }
     @Getter
@@ -40,7 +40,7 @@ public class BoardDTOs {
         public GetBoardListResponseDTO(Board board){
             this.boardId = board.getBoardId();
             this.boardTitle=board.getBoardTitle();
-            this.memberName=board.getId().getMemberName();
+            this.memberName=board.getMember().getMemberName();
             this.regDate=board.getRegDate();
         }
     }
