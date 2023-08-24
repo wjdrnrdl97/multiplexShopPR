@@ -39,7 +39,7 @@ class BoardRepositoryTest {
         //when
         Board savedBoard = boardRepository.save(board);
         //then
-        assertThat(savedBoard.getBoardId()).isEqualTo(1);
+        assertThat(savedBoard.getBoardTitle()).isEqualTo("테스트입니다.");
 
     }
 }
