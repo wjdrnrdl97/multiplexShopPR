@@ -13,8 +13,17 @@ import java.util.Optional;
 @Service
 public interface BoardService {
 
+    /**
+     *  게시물 상세조회
+     * @param id / BoardId
+     * @return Board / exception
+     */
     public Board getBoard(Long id);
 
+    /**
+     *  게시물목록 조회
+     * @return List<Board>
+     */
     public List<Board> getBoardList();
     public Board postBoard(PostBoardRequestDTO postBoardRequestDTO);
 }

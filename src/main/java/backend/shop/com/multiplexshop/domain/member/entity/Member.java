@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @Builder
 @AllArgsConstructor
-public class Member extends BaseEntity {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,5 +36,4 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
     private Role role;
-
 }
