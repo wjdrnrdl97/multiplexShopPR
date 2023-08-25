@@ -8,6 +8,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -17,8 +18,7 @@ public class Board extends BaseEntity {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long boardId;
 
-        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-        @JoinColumn(name="memberId")
+        @ManyToOne(fetch = FetchType.LAZY)
         private Member member;
 
         @Column(length = 30,nullable=false)
@@ -33,4 +33,5 @@ public class Board extends BaseEntity {
         @Column
         private Long boardViewCount;
 
-    }
+
+}

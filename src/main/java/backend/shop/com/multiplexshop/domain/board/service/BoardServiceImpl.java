@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.board.service;
 
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.PostBoardRequestDTO;
+import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
@@ -27,10 +27,5 @@ public class BoardServiceImpl implements BoardService{
     public List<Board> getBoardList() {
         return boardRepository.findAll();
     }
-
-    @Override
-    @Transactional
-    public Board postBoard(PostBoardRequestDTO postBoardRequestDTO) {
-        return boardRepository.save(postBoardRequestDTO.toBoard());
-    }
 }
+

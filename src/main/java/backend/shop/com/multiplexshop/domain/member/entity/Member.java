@@ -1,17 +1,17 @@
 package backend.shop.com.multiplexshop.domain.member.entity;
 
+import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Getter
-@Builder
-@AllArgsConstructor
+@ToString
 public class Member {
 
     @Id
@@ -36,4 +36,15 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column(length = 10)
     private Role role;
+
+    @Builder
+    public Member(Long memberId, String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
+        this.memberId = memberId;
+        this.memberEmailId = memberEmailId;
+        this.password = password;
+        this.memberName = memberName;
+        this.memberAddress = memberAddress;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+    }
 }

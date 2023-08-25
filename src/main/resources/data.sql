@@ -1,3 +1,4 @@
-INSERT INTO MEMBER VALUES (1, 'test', 'password1', 'User 1', 'address 1', '1111', 'USER');
-INSERT INTO "Board" ("board_id", "member_id", "board_title", "board_content", "member_name", "board_reg_date",
- "board_mod_date", "board_view_count")VALUES (1, 1, '제목1', '내용1', 'aaaa', NOW(), NOW(), 0);
+INSERT INTO MEMBER VALUES(1,'ADMIN','kim','010','abc@naver.com','yeonsu','1234');
+INSERT INTO MEMBER VALUES(2,'ADMIN','kim2','010','abc@naver.com','yeonsu','1234');
+INSERT INTO BOARD VALUES(1,0,1,now(),now(),'kim','title1','content1');
+INSERT INTO BOARD VALUES(2,0,2,now(),now(),'kim','title2','content2');
