@@ -3,6 +3,7 @@ package backend.shop.com.multiplexshop.domain.board.entity;
 
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class Board extends BaseEntity {
         private Long boardId;
 
         @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "memberId",nullable = false)
         private Member member;
 
         @Column(length = 30,nullable=false)

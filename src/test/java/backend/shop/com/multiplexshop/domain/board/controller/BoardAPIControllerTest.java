@@ -89,10 +89,12 @@ class BoardAPIControllerTest {
         final String title1 = "title1";
         final String title2 = "title2";
         //when
-        ResultActions perform = mockMvc.perform(get(url).contentType(MediaType.APPLICATION_JSON));
-        MvcResult mvcResult = perform.andReturn();
-
+        ResultActions perform = mockMvc.perform(get(url).accept(MediaType.APPLICATION_JSON));
         //then
+        MvcResult mvcResult = perform.andReturn();
+        String responsebody = mvcResult.getResponse().getContentAsString();
+        System.out.println(responsebody);
+
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].boardTitle").value(title1))
                 .andExpect(jsonPath("$[1].boardTitle").value(title2));
