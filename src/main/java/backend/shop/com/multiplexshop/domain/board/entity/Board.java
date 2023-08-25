@@ -5,7 +5,6 @@ import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
 
 @Entity
 @Getter
@@ -18,14 +17,18 @@ public class Board extends BaseEntity {
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long boardId;
 
+        @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+        @JoinColumn(name="memberId")
+        private Member member;
+
         @Column(length = 30,nullable=false)
         private String boardTitle;
 
         @Column(length = 500,nullable=false)
         private String boardContent;
 
-        @ManyToOne(fetch = FetchType.LAZY)
-        private Member memberName;
+        @Column(length = 20,nullable = false)
+        private String memberName;
 
         @Column
         private Long boardViewCount;
