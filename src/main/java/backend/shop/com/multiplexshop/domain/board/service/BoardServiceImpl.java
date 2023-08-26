@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.board.service;
 
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.PostBoardRequestDTO;
+import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
@@ -30,7 +30,25 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     @Transactional
-    public Board postBoard(PostBoardRequestDTO postBoardRequestDTO) {
-        return boardRepository.save(postBoardRequestDTO.toBoard());
+    public Board postBoard(BoardRequestDTO boardRequestDTO) {
+        return boardRepository.save(boardRequestDTO.toBoard());
+    }
+
+    @Override
+    @Transactional
+    public Board updateBoard(Long boardId, BoardRequestDTO boardRequestDTO) {
+        Board getBoard = boardRepository.findById(boardId)
+                .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
+        getBoard.updateBoard(boardRequestDTO.getBoardTitle(), boardRequestDTO.getBoardContent());
+        return boardRepository.save(getBoard);
+    }
+
+    @Override
+    @Transactional
+    public void deleteBoard(Long boardId) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
+        boardRepository.deleteById(boardId);
     }
 }
+
