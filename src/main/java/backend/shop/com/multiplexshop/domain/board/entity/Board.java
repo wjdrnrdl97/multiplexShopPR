@@ -35,5 +35,12 @@ public class Board extends BaseEntity {
         @Column
         private Long boardViewCount;
 
+        /**
+         *  비즈니스 로직 : 게시물 수정
+         */
+        public void updateBoard(String updateTitle, String updateContent){
+                this.boardTitle = updateTitle;
+                this.boardContent = updateContent;
+        }
 
 }

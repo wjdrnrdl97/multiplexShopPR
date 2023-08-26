@@ -6,9 +6,9 @@ import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
-import java.util.Optional;
+
 
 public class BoardDTOs {
 
@@ -40,33 +40,26 @@ public class BoardDTOs {
 
     @Getter
     @AllArgsConstructor
-    @RequiredArgsConstructor
     @Builder
     public static class BoardRequestDTO {
-
-        @Autowired
-        MemberRepository memberRepository;
-
         private Long boardId;
         private Long boardViewCount;
-        private Long memberId;
+        private Member member;
         private String memberName;
         private String boardTitle;
         private String boardContent;
 
         public Board toBoard() {
-            Member member = memberRepository.findById(memberId)
-                    .orElseThrow(() -> new IllegalArgumentException(memberId+"번 글은  찾을 수 없는 게시물입니다."));
-                //
             return Board.builder()
                     .boardId(this.boardId)
                     .boardViewCount(this.boardViewCount)
                     .memberName(this.memberName)
                     .boardTitle(this.boardTitle)
                     .boardContent(this.boardContent)
-                    .member(member)
+                    .member(this.member)
                     .build();
         }
     }
 }
+
 
