@@ -43,7 +43,6 @@ public class BoardDTOs {
     @Builder
     public static class BoardRequestDTO {
         private Long boardId;
-        private Long boardViewCount;
         private Member member;
         private String memberName;
         private String boardTitle;
@@ -52,7 +51,6 @@ public class BoardDTOs {
         public Board toBoard() {
             return Board.builder()
                     .boardId(this.boardId)
-                    .boardViewCount(this.boardViewCount)
                     .memberName(this.memberName)
                     .boardTitle(this.boardTitle)
                     .boardContent(this.boardContent)

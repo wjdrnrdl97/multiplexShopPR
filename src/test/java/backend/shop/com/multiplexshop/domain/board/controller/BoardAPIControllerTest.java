@@ -112,7 +112,6 @@ class BoardAPIControllerTest {
         final String title = "new title";
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardId(0L)
-                .boardViewCount(0L)
                 .memberName(member.getMemberName())
                 .boardTitle(title)
                 .boardContent("new board")
@@ -139,7 +138,7 @@ class BoardAPIControllerTest {
         final String content = "updateContent";
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardId(board.getBoardId())
-                .boardViewCount(board.getBoardViewCount())
+//                .boardViewCount(board.getBoardViewCount())
                 .memberName(board.getMemberName())
                 .boardTitle(title)
                 .boardContent(content)

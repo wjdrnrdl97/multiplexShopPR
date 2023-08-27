@@ -32,7 +32,7 @@ public class Board extends BaseEntity {
         @Column(length = 20,nullable = false)
         private String memberName;
 
-        @Column
+        @Column(columnDefinition = "integer default 0")
         private Long boardViewCount;
 
         /**
