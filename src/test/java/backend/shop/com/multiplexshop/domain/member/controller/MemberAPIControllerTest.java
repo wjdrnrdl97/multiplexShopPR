@@ -5,6 +5,7 @@ import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.entity.Role;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.*;
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.MemberRequestDTO.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,8 +57,11 @@ class MemberAPIControllerTest {
     void test1() throws Exception{
         //given
         final String url = "/api/join";
+        final String userEmail = "test2@naver.com";
+        final String userPW = "1234";
         MemberRequestDTO userRequest = builder()
-                .memberEmailId("test@naver.com")
+                .memberEmailId(userEmail)
+                .password(userPW)
                 .memberName("kim")
                 .memberAddress("test Addr")
                 .phoneNumber("010-9299-3944")
@@ -68,26 +73,41 @@ class MemberAPIControllerTest {
 
         //then
         List<Member> members = memberRepository.findAll();
-        Assertions.assertThat(members.size()).isEqualTo(3);
+        assertThat(members.size()).isEqualTo(2);
+        assertThat(members.get(1).getMemberEmailId()).isEqualTo(userEmail);
+        assertThat(members.get(1).getPassword()).isEqualTo(userPW);
         result.andExpect(status().isOk());
         
     }
 
-
-
-
-
-
-
-
-
-    @Test
-    @DisplayName("test")
-    void test() throws Exception{
+    @Test()
+    @DisplayName("postMemberJoin():회원 등록시 중복회원 검증에 성공해 예외처리가 터져 테스트가 실패해야한다.")
+    void test2() throws Exception{
         //given
+        final String url = "/api/join";
+        final String userEmail = "test@naver.com";
+        final String userPW = "1234";
+        MemberRequestDTO userRequest = builder()
+                .memberEmailId(userEmail)
+                .password(userPW)
+                .memberName("kim")
+                .memberAddress("test Addr")
+                .phoneNumber("010-9299-3944")
+                .build();
+
+        String requestBody = mapper.writeValueAsString(userRequest);
 
         //when
+        assertThrows(ServletException.class, () -> {
+            ResultActions result = mockMvc.perform(post(url)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(requestBody));
 
         //then
+            result.andExpect(status().isBadRequest());
+        });
+
+
     }
+
 }

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiplexShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navBar">
+        <div class="navBar_logo">
+            <a href="../../../../../../FrontStudy/JavaScriptBasic/main.html">
+                <i class="fa-brands fa-drupal"></i>
+                <span class="logo">S H O P</span>
+            </a>
+        </div>
+
+        <ul class="navBar_menu">
+            <li style="color: black;"><a href="">A L L </a></li>
+            <li style="color: black;"><a href="">F O O D</a></li>
+            <li style="color: black;"><a href="">S T U F F</a></li>
+        </ul>
+
+        <ul class="navBar_members">
+            <li>
+                <a href="#" class="iconA">
+                    <i class="fa-solid fa-cart-shopping"
+                        style="display: block; text-align: center; line-height: 40px;"></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="iconA">
+                    <i class="fa-solid fa-handshake"
+                        style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+            <li><a th:href="@{/join}">Join</a></li>
+            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/mypage}">MyPage</a></li>
+        </ul>
+    </nav>
+    <!-- Nav Bar -->
+
+
+    <article id="article">
+        <div class="join_box">
+            <form action="#" method="POST">
+                <table class="join_table" style="margin-top: 50px;">
+                    <tr class="join_tr">
+                        <td class="join_td" style="width: 250px;;">E - M A I L [&nbsp;I D&nbsp;] :</td>
+                        <td class="myPage_td">Test@naver.com</td>
+                    </tr>
+                    <tr class="join_tr">
+                        <td class="join_td">N A M E :</td>
+                        <td class="myPage_td">Kim kill dong</td>
+                    </tr>
+                    <tr class="join_tr">
+                        <td class="join_td">A D D R E S S :</td>
+                        <td class="myPage_td">인천 연수동 552 - 1</td>
+                    </tr>
+                    <tr class="join_tr">
+                        <td class="join_td">P H O N E :</td>
+                        <td class="myPage_td">010 - 9299 - 3944</td>
+                    </tr>
+                </table>
+                <br>
+                <button class="cancle-btn" style="margin-left: 600px;">M O D I F Y</button>
+            </form>
+
+            <div class="order_info">
+                <h3 style="text-align: left; margin-left: 20px;">O R D E R S (주문 내역이 있을시에만 보이는 박스 )</h3>
+                <div class="orders">
+                    <p>주문 번호 : <span>1</span></p>
+                    <p>상품 명: <span>Product1</span></p>
+                    <p>가격 : <span>3,9000 원</span></p>
+                </div>
+                <a href="#">
+                    <button class="cancle-btn">C A N C L E</button>
+                </a>
+            </div>
+
+            <div class="order_info">
+                <h3>주문 내역이 없습니다.</h3>
+                <h2>주문하러 가기</h2>
+                <div class="btns moreOrder">
+                    <a href=""> 
+                        <button>A L L</button>
+                    </a>
+                    <a href=""> 
+                        <button>F O O D</button>
+                    </a>
+                    <a href=""> 
+                        <button>S T U F F</button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+
+    </article>
+
+    <!-- article -->
+
+
+    <footer id="footer">
+        <div>
+            <p>이곳은 footer 입니다.</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
+                Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
+                recusandae maiores quam suscipit consequatur.</p>
+        </div>
+    </footer>
+    <!-- footer -->
+
+    <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+    <script>
+
+    </script>
+
+</body>
+
+</html>

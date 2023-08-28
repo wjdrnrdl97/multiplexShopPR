@@ -1,0 +1,1 @@
+INSERT INTO member VALUES(0,now(),now(),'USER','kim','010-1234-1234','test@naver.com','1234','seoul');
