@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 public class BoardDTOs {
@@ -39,26 +40,12 @@ public class BoardDTOs {
     }
 
     @Getter
-    @AllArgsConstructor
     @Builder
     public static class BoardRequestDTO {
         private Long boardId;
-        private Long boardViewCount;
-        private Member member;
-        private String memberName;
+        private Long memberId;
         private String boardTitle;
         private String boardContent;
-
-        public Board toBoard() {
-            return Board.builder()
-                    .boardId(this.boardId)
-                    .boardViewCount(this.boardViewCount)
-                    .memberName(this.memberName)
-                    .boardTitle(this.boardTitle)
-                    .boardContent(this.boardContent)
-                    .member(this.member)
-                    .build();
-        }
     }
 }
 

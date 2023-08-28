@@ -111,12 +111,10 @@ class BoardAPIControllerTest {
         final String url = "/api/support";
         final String title = "new title";
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
-                .boardId(0L)
-                .boardViewCount(0L)
-                .memberName(member.getMemberName())
+                .boardId(1L)
                 .boardTitle(title)
                 .boardContent("new board")
-                .member(member)
+                .memberId(member.getMemberId())
                 .build();
         final String requestBody = objectMapper.writeValueAsString(boardRequest);
         //when
@@ -133,17 +131,16 @@ class BoardAPIControllerTest {
     @Transactional
     public void test4()throws Exception{
     //given
+        Member member = memberRepository.findById(2L).get();
         Board board = boardRepository.findById(2L).get();
         final String url = "/api/support/{id}";
         final String title = "updateTitle";
         final String content = "updateContent";
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardId(board.getBoardId())
-                .boardViewCount(board.getBoardViewCount())
-                .memberName(board.getMemberName())
                 .boardTitle(title)
                 .boardContent(content)
-                .member(board.getMember())
+                .memberId(member.getMemberId())
                 .build();
         String requestBody = objectMapper.writeValueAsString(boardRequest);
     //when
