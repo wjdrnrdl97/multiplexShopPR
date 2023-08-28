@@ -3,6 +3,7 @@ package backend.shop.com.multiplexshop.domain.board.entity;
 
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
+import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,5 +43,7 @@ public class Board extends BaseEntity {
                 this.boardTitle = updateTitle;
                 this.boardContent = updateContent;
         }
+
+
 
 }
