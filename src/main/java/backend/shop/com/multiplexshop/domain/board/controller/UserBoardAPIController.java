@@ -1,7 +1,6 @@
 package backend.shop.com.multiplexshop.domain.board.controller;
 
 
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardResponseDTO;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class BoardAPIController {
+public class UserBoardAPIController {
     private final BoardService boardService;
 
     /**

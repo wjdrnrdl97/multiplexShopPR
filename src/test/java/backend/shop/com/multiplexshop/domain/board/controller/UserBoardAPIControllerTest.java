@@ -39,7 +39,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class BoardAPIControllerTest {
+class UserBoardAPIControllerTest {
     @Autowired
     BoardService boardService;
     @Autowired
