@@ -1,12 +1,7 @@
 package backend.shop.com.multiplexshop.domain.member.entity;
 
-import backend.shop.com.multiplexshop.domain.board.entity.Board;
-import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor

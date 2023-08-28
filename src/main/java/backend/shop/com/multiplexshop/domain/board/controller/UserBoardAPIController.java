@@ -1,9 +1,9 @@
 package backend.shop.com.multiplexshop.domain.board.controller;
 
 
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardResponseDTO;
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
-import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.BoardResponseDTO;
+import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.BoardRequestDTO;
+import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,8 @@ public class UserBoardAPIController {
      */
     @GetMapping("/api/support/{id}")
     public ResponseEntity<BoardResponseDTO> getBoard(@PathVariable("id") Long id) {
-        Board getBoard = boardService.getBoard(id);
-        return ResponseEntity.ok().body(new BoardResponseDTO(getBoard));
+        UserBoard getUserBoard = boardService.getBoard(id);
+        return ResponseEntity.ok().body(new BoardResponseDTO(getUserBoard));
     }
 
     /**
@@ -44,9 +44,9 @@ public class UserBoardAPIController {
      * @return Http 201 created, body(postBoard(new Board))
      */
     @PostMapping("/api/support")
-    public ResponseEntity<Board> postBoard(@RequestBody BoardRequestDTO boardRequestDTO){
-        Board postBoard = boardService.postBoard(boardRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(postBoard);
+    public ResponseEntity<UserBoard> postBoard(@RequestBody BoardRequestDTO boardRequestDTO){
+        UserBoard postUserBoard = boardService.postBoard(boardRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postUserBoard);
     }
 
     /**
@@ -57,10 +57,10 @@ public class UserBoardAPIController {
      */
 
     @PutMapping("/api/support/{id}")
-    public ResponseEntity<Board> updateBoard(@PathVariable("id") Long boardId,
-                                             @RequestBody BoardRequestDTO boardRequestDTO){
-        Board updateBoard = boardService.updateBoard(boardId,boardRequestDTO);
-        return ResponseEntity.ok().body(updateBoard);
+    public ResponseEntity<UserBoard> updateBoard(@PathVariable("id") Long boardId,
+                                                 @RequestBody BoardRequestDTO boardRequestDTO){
+        UserBoard updateUserBoard = boardService.updateBoard(boardId,boardRequestDTO);
+        return ResponseEntity.ok().body(updateUserBoard);
     }
 
     @DeleteMapping("/api/support/{id}")

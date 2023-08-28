@@ -1,16 +1,20 @@
 package backend.shop.com.multiplexshop.domain.board.controller;
 
-import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs;
+import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
-import lombok.Getter;
+import backend.shop.com.multiplexshop.domain.board.service.UserBoardServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
+import static backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,16 +24,25 @@ public class BoardViewController {
 
     @GetMapping()
     public String getBoardList(Model model){
-        List<Board> boardList = boardService.getBoardList();
-        model.addAttribute("boardList",boardList);
+        List<UserBoard> userBoardList = boardService.getBoardList();
+        model.addAttribute("userBoardList", userBoardList);
         return "support/board";
     }
 
     @GetMapping("/{id}")
     public String getBoard(@PathVariable("id") Long boardId, Model model){
-        Board getboard = boardService.getBoard(boardId);
-        model.addAttribute("board",getboard);
+        UserBoard getBoard = boardService.getBoard(boardId);
+        model.addAttribute("getBoard",getBoard);
         return "support/read";
     }
 
+    @GetMapping("/post")
+    public String postBoard(){
+        return "support/createBoard";
+    }
+
+    @GetMapping("/post/{id}")
+    public String updateBoard(@PathVariable("id") Long boardId){
+        return "support/createBoard";
+    }
 }

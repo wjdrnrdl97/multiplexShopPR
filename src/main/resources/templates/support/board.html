@@ -71,7 +71,7 @@
                 <td>Jane Smith</td>
                 <td>2023-08-25</td>
             </tr>
-            <th:block th:each = "dto : ${boardList}">
+            <th:block th:each = "dto : ${userBoardList}">
                 <tr>
                     <td>
                         <a th:href="@{/support/{id}(id=${dto.boardId})}">[[${dto.boardId}]]</a>
@@ -86,7 +86,7 @@
         
     </table>
 
-    <a href="createBoard.html">
+    <a th:href="@{/support/post}">
         <button class="post_btn">POST</button>
     </a>
         </div>

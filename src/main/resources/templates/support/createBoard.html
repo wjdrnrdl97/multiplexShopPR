@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 
 <body>
@@ -52,47 +53,32 @@
     <article id="article">
         <div class="right_contents">
             <!-- 공지사항 본문 -->
-            <div class="notice_contents1">
-                <h2  class="txt_title_notice_read" style="text-align: center; font-size: 35px;">
-                    [[${getBoard.boardTitle}]]</h2>
+            <div class="notice_contents">
+<!--                <input type="hidden" id="boardId" th:value="${board.boardId}">-->
+                <p>
+                <h3> TITLE : </h3> <input class="txt_tit_notice" name="boardTitle"
+                                          id="boardTitle" th:value="getBoard.boardTitle">
+                </p>
+                <p>
+                <h3> ID : </h3> <input class="txt_tit_notice" name="memberId" id="memberId" th:value="getBoard.memberId">
+                </p>
+                <h3> CONTENT : </h3>
+                <textarea class="box_contents" name="boardContent" id="boardContent" th:text="getBoard.boardContent">
 
-                <div class="read_info">
-                    <span > [[${getBoard.boardId}]] </span>
-                    / <span>WRITER : <span>[[${getBoard.memberName}]]</span>
-                    / <span>[[${#temporals.format(getBoard.regDate, 'yyyy-MM-dd')}]]</span>
-                    / <span>[[${getBoard.boardViewCount}]]</span>
-                </div>
-
-                <div class="box_content">
-                    [[${getBoard.boardContent}]]다 Tlqkf
-                </div>
-
-                <div class="btns">
-
-                    <a th:href="@{/support}" class="list-btn" style="margin-top:20px;">LIST</a>
-                    <a th:href="@{/support/post/{id}(id=${getBoard.boardId})}" class="list-btn" style="margin-top:20px;">UPDATE</a>
-                    <a href="userBoard.html" class="list-btn" style="margin-top:20px;">DELETE</a>
-
-                </div>
-
-                <div class="comment-form">
-                    <h2>Comment</h2>
-                    <form>
-                        <textarea class="cmt_area" rows="4" placeholder="
-                    Please enter your comment."></textarea>
-                        <p>
-                            <button class="cmt-btn" type="submit">COMMNET SUBMIT</button>
-                        </p>
-                    </form>
-                </div>
+                </textarea>
 
             </div>
-
-            <!-- //공지사항 본문 -->
-
+        </div>
+        <div class="btns">
+            <a th:href="@{/support}" class="list-btn" style="margin-top:20px;">LIST</a>
+<!--            <a th:if="${board.boardId==null}" onclick="post();" class="list-btn" style="margin-top:20px;">POST</a>-->
+<!--            <a th:if="${board.boardId!=null}" onclick="update();"-->
+<!--               class="list-btn" style="margin-top:20px;">UPDATE</a>-->
+<!--            <a th:if="${board.boardId!=null}" onclick="delete();"-->
+<!--               class="list-btn" style="margin-top:20px;">DELETE</a>-->
         </div>
 
-
+        </div>
     </article>
 
     <!-- article -->
@@ -109,9 +95,7 @@
     <!-- footer -->
 
     <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
-    <script>
-
-    </script>
+    <script src="/static/js/board.js"></script>
 
 </body>
 

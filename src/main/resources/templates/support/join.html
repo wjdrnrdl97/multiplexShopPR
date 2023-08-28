@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
 <body>
     <nav class="navBar">
         <div class="navBar_logo">
-            <a href="main.html">
+            <a href="../../../../../../../Users/wjdrn/Downloads/JavaScriptsBasic-master/main.html">
                 <i class="fa-brands fa-drupal"></i>
                 <span class="logo">S H O P</span>
             </a>
@@ -50,49 +50,34 @@
 
 
     <article id="article">
-        <div class="right_contents">
-            <!-- 공지사항 본문 -->
-            <div class="notice_contents1">
-                <h2  class="txt_title_notice_read" style="text-align: center; font-size: 35px;">
-                    [[${getBoard.boardTitle}]]</h2>
-
-                <div class="read_info">
-                    <span > [[${getBoard.boardId}]] </span>
-                    / <span>WRITER : <span>[[${getBoard.memberName}]]</span>
-                    / <span>[[${#temporals.format(getBoard.regDate, 'yyyy-MM-dd')}]]</span>
-                    / <span>[[${getBoard.boardViewCount}]]</span>
-                </div>
-
-                <div class="box_content">
-                    [[${getBoard.boardContent}]]다 Tlqkf
-                </div>
-
-                <div class="btns">
-
-                    <a th:href="@{/support}" class="list-btn" style="margin-top:20px;">LIST</a>
-                    <a th:href="@{/support/post/{id}(id=${getBoard.boardId})}" class="list-btn" style="margin-top:20px;">UPDATE</a>
-                    <a href="userBoard.html" class="list-btn" style="margin-top:20px;">DELETE</a>
-
-                </div>
-
-                <div class="comment-form">
-                    <h2>Comment</h2>
-                    <form>
-                        <textarea class="cmt_area" rows="4" placeholder="
-                    Please enter your comment."></textarea>
-                        <p>
-                            <button class="cmt-btn" type="submit">COMMNET SUBMIT</button>
-                        </p>
-                    </form>
-                </div>
-
-            </div>
-
-            <!-- //공지사항 본문 -->
-
+        <div class="join_box">
+            <form action="#" method="POST">
+                <table class="join_table">
+                  <tr class="join_tr">
+                    <td class="join_td">E - M A I L [&nbsp;I D&nbsp;]:</td>
+                    <td class="join_td"><input type="email" name="email" required></td>
+                  </tr>
+                  <tr class="join_tr">
+                    <td class="join_td">P A S S W O R D :</td>
+                    <td class="join_td"><input type="password" name="password" required></td>
+                  </tr>
+                  <tr class="join_tr">
+                    <td class="join_td">N A M E:</td>
+                    <td class="join_td"><input type="text" name="name"></td>
+                  </tr>
+                  <tr class="join_tr">
+                    <td class="join_td">A D D R E S S:</td>
+                    <td class="join_td"><input type="text" id="address_kakao" name="address"></td>
+                  </tr>
+                  <tr class="join_tr"s>
+                    <td class="join_td">P H O N E :</td>
+                    <td class="join_td"><input type="text" name="phone"></td>
+                  </tr>
+                </table>
+                <br>
+                <input class="join_btn" type="submit" value="S U B M I T">
+              </form>
         </div>
-
-
     </article>
 
     <!-- article -->
@@ -109,8 +94,21 @@
     <!-- footer -->
 
     <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
-
+        window.onload = function(){
+    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
+        //카카오 지도 발생
+        new daum.Postcode({
+            oncomplete: function(data) { //선택시 입력값 세팅
+                document.getElementById("address_kakao").value = data.address; // 주소 넣기
+                document.querySelector("input[name=address_detail]").focus(); //상세입력 포커싱
+                
+                document.querySelector(".layer").style.display = "none";
+            }
+        }).open();
+    });
+}
     </script>
 
 </body>
