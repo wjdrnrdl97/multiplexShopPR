@@ -44,7 +44,7 @@
             </li>
             <li><a th:href="@{/join}">Join</a></li>
             <li><a th:href="@{/login}">Login</a></li>
-            <li><a th:href="@{/mypage}">MyPage</a></li>
+            <li><a th:href="@{/mypage/1}">MyPage</a></li>
         </ul>
     </nav>
     <!-- Nav Bar -->
@@ -52,30 +52,39 @@
 
     <article id="article">
         <div class="join_box">
+                <input type="hidden" id="member_id" th:value="${member.memberId}">
                 <table class="join_table">
                   <tr class="join_tr">
                     <td class="join_td">E - M A I L [&nbsp;I D&nbsp;]:</td>
-                    <td class="join_td"><input type="email" id="memberEmailId" name="memberEmailId" required></td>
+                    <td class="join_td" th:if="${member.memberId} != null">
+                        <input type="email" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" required  readonly >
+                    </td>
+                      <td class="join_td" th:if="${member.memberId} == null">
+                          <input type="email" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" required >
+                      </td>
                   </tr>
                   <tr class="join_tr">
                     <td class="join_td">P A S S W O R D :</td>
-                    <td class="join_td"><input type="password" id="password" name="password" required></td>
+                    <td class="join_td" th:if="${member.memberId} != null"><input type="password" class="password" name="password" th:value="${member.password}" readonly required></td>
+                    <td class="join_td" th:if="${member.memberId} == null"><input type="password" class="password" name="password" th:value="${member.password}" required></td>
                   </tr>
                   <tr class="join_tr">
                     <td class="join_td">N A M E:</td>
-                    <td class="join_td"><input type="text" id="memberName" name="memberName"></td>
+                    <td class="join_td" th:if="${member.memberId} != null"><input type="text" class="memberName" name="memberName" th:value="${member.memberName}" readonly></td>
+                    <td class="join_td" th:if="${member.memberId} == null"><input type="text" class="memberName" name="memberName" th:value="${member.memberName}"></td>
                   </tr>
                   <tr class="join_tr">
                     <td class="join_td">A D D R E S S:</td>
-                    <td class="join_td"><input type="text" id="address_kakao" name="memberAddress"></td>
+                    <td class="join_td" ><input type="text" id="address_kakao" name="memberAddress" th:value="${member.memberAddress}"></td>
                   </tr>
                   <tr class="join_tr"s>
                     <td class="join_td">P H O N E :</td>
-                    <td class="join_td"><input type="text" id="phoneNumber" name="phoneNumber"></td>
+                    <td class="join_td"><input type="text" id="phoneNumber" name="phoneNumber" th:value="${member.phoneNumber}"></td>
                   </tr>
                 </table>
                 <br>
-                <input class="join_btn" id="join_btn" type="button" value="S U B M I T">
+                <input th:if="${member.memberId} == null" class="join_btn" id="join_btn" type="button" value="S U B M I T">
+                <input th:if="${member.memberId} != null" class="modify_btn" id="modify_btn" type="button" value="U P D A T E">
         </div>
     </article>
 
@@ -110,25 +119,48 @@
         const joinBtn = document.getElementById('join_btn');
             if (joinBtn) {
                 joinBtn.addEventListener('click', event => {
+
                     fetch('/api/join', {
                         method: 'POST',
                         headers: {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            memberEmailId : document.getElementById('memberEmailId').value,
-                            password : document.getElementById('password').value,
-                            memberName : document.getElementById('memberName').value,
+                            memberEmailId : document.querySelector('.memberEmailId').value,
+                            password : document.querySelector('.password').value,
+                            memberName : document.querySelector('.memberName').value,
                             memberAddress : document.getElementById('address_kakao').value,
                             phoneNumber : document.getElementById('phoneNumber').value
                         })
                     })
                         .then(() => {
-                            alert('등록 완료되었습니다.');
+                            alert('회원가입이 완료되었습니다!');
                             location.replace('/');
                         });
                 });
             }
+
+               const modifyButton = document.getElementById('modify_btn');
+        if (modifyButton) {
+            modifyButton.addEventListener('click', event => {
+            let params = new URLSearchParams(location.search);
+            let id = params.get('id');
+                fetch(`/api/mypage/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        "Content-Type": "application/json",
+                        },
+                    body: JSON.stringify({
+                    memberAddress : document.getElementById('address_kakao').value,
+                    phoneNumber : document.getElementById('phoneNumber').value
+                })
+            })
+            .then(() => {
+                alert('회원 정보가 수정되었습니다.');
+                location.replace(`/mypage/${id}`);
+            });
+        });
+}
     </script>
 
 </body>

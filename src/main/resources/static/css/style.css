@@ -437,6 +437,7 @@ input[type="text"]
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
+    margin-bottom: 30px
 }
 
 .join_btn:hover{
@@ -699,6 +700,24 @@ input[type="text"]
 .orderBtn:hover{
     background-color: white;
     color: #000;
+}
+
+.modify_btn{
+    background-color: transparent;
+    border: 1px solid #000;
+    width: 130px;
+    height: 50px;
+    margin-left: 350px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px
+}
+
+.modify_btn:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
 }
 
 

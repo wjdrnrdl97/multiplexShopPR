@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,16 +14,16 @@
 <body>
     <nav class="navBar">
         <div class="navBar_logo">
-            <a href="../../../../../../FrontStudy/JavaScriptBasic/main.html">
+            <a th:href="@{/}">
                 <i class="fa-brands fa-drupal"></i>
                 <span class="logo">S H O P</span>
             </a>
         </div>
 
         <ul class="navBar_menu">
-            <li style="color: black;"><a href="">A L L </a></li>
-            <li style="color: black;"><a href="">F O O D</a></li>
-            <li style="color: black;"><a href="">S T U F F</a></li>
+            <li style="color: black;"><a href="#">A L L </a></li>
+            <li style="color: black;"><a href="#">F O O D</a></li>
+            <li style="color: black;"><a href="#">S T U F F</a></li>
         </ul>
 
         <ul class="navBar_members">
@@ -55,23 +55,25 @@
                 <table class="join_table" style="margin-top: 50px;">
                     <tr class="join_tr">
                         <td class="join_td" style="width: 250px;;">E - M A I L [&nbsp;I D&nbsp;] :</td>
-                        <td class="myPage_td">Test@naver.com</td>
+                        <td class="myPage_td">[[${member.memberEmailId}]]</td>
                     </tr>
                     <tr class="join_tr">
                         <td class="join_td">N A M E :</td>
-                        <td class="myPage_td">Kim kill dong</td>
+                        <td class="myPage_td">[[${member.memberName}]]</td>
                     </tr>
                     <tr class="join_tr">
                         <td class="join_td">A D D R E S S :</td>
-                        <td class="myPage_td">인천 연수동 552 - 1</td>
+                        <td class="myPage_td" id="memberAddress">[[${member.memberAddress}]]</td>
                     </tr>
                     <tr class="join_tr">
                         <td class="join_td">P H O N E :</td>
-                        <td class="myPage_td">010 - 9299 - 3944</td>
+                        <td class="myPage_td" id="phoneNumber">[[${member.phoneNumber}]]</td>
                     </tr>
                 </table>
                 <br>
-                <button class="cancle-btn" style="margin-left: 600px;">M O D I F Y</button>
+                <a th:href="@{/join?(id=${member.memberId})}" class="cancle-btn" style="margin-left: 600px; border: none; font-size: 20px; padding: 5px;">
+                    modify
+                </a>
             </form>
 
             <div class="order_info">
@@ -122,6 +124,7 @@
 
     <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
     <script>
+
 
     </script>
 
