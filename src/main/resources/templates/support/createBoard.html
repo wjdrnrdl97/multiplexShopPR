@@ -121,7 +121,7 @@
          });
          }
  )}
- let id = document.getElementById('boardId');
+ let id = document.getElementById('boardId').value;
  const updateBtn = document.getElementById('update_btn');
  if(updateBtn){
      updateBtn.addEventListener('click', event => {
@@ -131,6 +131,7 @@
                  "Content-Type": "application/json",
              },
              body: JSON.stringify({
+                 boardId : document.getElementById('boardId').value,
                  memberId : document.getElementById('memberId').value,
                  boardTitle : document.getElementById('boardTitle').value,
                  boardContent : document.getElementById('boardContent').value

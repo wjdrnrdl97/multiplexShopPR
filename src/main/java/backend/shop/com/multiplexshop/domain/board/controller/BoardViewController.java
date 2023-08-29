@@ -38,15 +38,26 @@ public class BoardViewController {
         return "support/read";
     }
 
-        @GetMapping("/post/{boardId}")
-        public String updateBoard(@PathVariable(required = false) Long boardId, Model model){
+//        @GetMapping("/post/{boardId}")
+//        public String updateBoard(@PathVariable(required = false) Long boardId, Model model){
+//
+//             if(boardId==0){
+//                model.addAttribute("Board", new BoardResponseDTO());
+//            }else {
+//                UserBoard board = boardService.getBoard(boardId);
+//                model.addAttribute("Board", new BoardResponseDTO(board));
+//            }
+//            return "support/createBoard";
+//        }
+    @GetMapping("/post/")
+    public String updateBoard(@RequestParam(required = false) Long boardId, Model model){
 
-             if(boardId==0){
-                model.addAttribute("Board", new BoardResponseDTO());
-            }else {
-                UserBoard board = boardService.getBoard(boardId);
-                model.addAttribute("Board", new BoardResponseDTO(board));
-            }
-            return "support/createBoard";
+        if(boardId==0){
+            model.addAttribute("Board", new BoardResponseDTO());
+        }else {
+            UserBoard board = boardService.getBoard(boardId);
+            model.addAttribute("Board", new BoardResponseDTO(board));
         }
+        return "support/createBoard";
+    }
 }
