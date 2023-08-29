@@ -73,10 +73,10 @@
             </tr>
             <th:block th:each = "dto : ${userBoardList}">
                 <tr>
+                    <td>[[${dto.boardId}]]</td>
                     <td>
-                        <a th:href="@{/support/{id}(id=${dto.boardId})}">[[${dto.boardId}]]</a>
+                        <a th:href="@{/support/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
                     </td>
-                    <td>[[${dto.boardTitle}]]</td>
                     <td>[[${dto.memberName}]]</td>
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                 </tr>
@@ -86,9 +86,10 @@
         
     </table>
 
-    <a th:href="@{/support/post}">
-        <button class="post_btn">POST</button>
-    </a>
+<!--        <button th:onclick="|location.href='@{/support/post/}'|" class="post_btn">POST</button>-->
+            <button th:onclick="|location.href='@{/support/post/{boardId}(boardId='0')}'|"
+                    class="post_btn">POST</button>
+
         </div>
         
 

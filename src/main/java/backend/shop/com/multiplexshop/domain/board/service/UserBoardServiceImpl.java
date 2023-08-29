@@ -33,7 +33,6 @@ public class UserBoardServiceImpl implements BoardService{
     }
 
     @Override
-    @Transactional
     public UserBoard postBoard(BoardRequestDTO boardRequestDTO) {
         UserBoard userBoard = DtoToBoardEntity(boardRequestDTO);
         return userBoardRepository.save(userBoard);

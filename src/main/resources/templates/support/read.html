@@ -64,13 +64,16 @@
                 </div>
 
                 <div class="box_content">
-                    [[${getBoard.boardContent}]]다 Tlqkf
+                    [[${getBoard.boardContent}]]
                 </div>
 
                 <div class="btns">
 
-                    <a th:href="@{/support}" class="list-btn" style="margin-top:20px;">LIST</a>
-                    <a th:href="@{/support/post/{id}(id=${getBoard.boardId})}" class="list-btn" style="margin-top:20px;">UPDATE</a>
+                    <a th:href="@{/support/{0}}" class="list-btn" style="margin-top:20px;">LIST</a>
+<!--                    <a th:onClick="|location.href='@{/support/post?id={boardId}(boardId=${getBoard.boardId})}'|"-->
+<!--                       class="list-btn" style="margin-top:20px;">-->
+                        <a th:if="${getBoard != null}" th:onClick="|location.href='@{/support/post/{boardId}(boardId=${getBoard.boardId})}'|" style="margin-top:20px;">
+                            UPDATE</a>
                     <a href="userBoard.html" class="list-btn" style="margin-top:20px;">DELETE</a>
 
                 </div>

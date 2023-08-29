@@ -55,7 +55,6 @@ public class UserBoardAPIController {
      * @param boardRequestDTO (수정할 게시물 내용)
      * @return Board(수정한 게시물)
      */
-
     @PutMapping("/api/support/{id}")
     public ResponseEntity<UserBoard> updateBoard(@PathVariable("id") Long boardId,
                                                  @RequestBody BoardRequestDTO boardRequestDTO){

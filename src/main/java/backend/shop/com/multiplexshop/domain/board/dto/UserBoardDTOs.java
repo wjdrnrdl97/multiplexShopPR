@@ -7,12 +7,15 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 
+@Getter
 public class UserBoardDTOs {
 
+    /**
+     * static class 생성자의 외부접근을 허용하기위해 access = AccessLevel.PUBLIC 설정
+     */
 
     @Getter
-    @AllArgsConstructor
-    @Builder
+    @NoArgsConstructor(access = AccessLevel.PUBLIC)
     public static class BoardResponseDTO {
         private Long boardId;
         private Long boardViewCount;
@@ -23,6 +26,7 @@ public class UserBoardDTOs {
         private String boardContent;
         private Long memberId;
 
+        @Builder
         public BoardResponseDTO(UserBoard userBoard) {
             this.boardId = userBoard.getBoardId();
             this.boardViewCount = userBoard.getBoardViewCount();
@@ -36,15 +40,22 @@ public class UserBoardDTOs {
     }
 
     @Getter
-    @Builder
     public static class BoardRequestDTO {
-        private Long boardId;
-        private Long memberId;
-        private String boardTitle;
-        private String boardContent;
+        private final Long boardId;
+        private final Long memberId;
+        private final String boardTitle;
+        private final String boardContent;
+
+        @Builder
+        public BoardRequestDTO(Long boardId,Long memberId, String boardTitle, String boardContent) {
+            this.memberId = memberId;
+            this.boardId = boardId;
+            this.boardTitle = boardTitle;
+            this.boardContent = boardContent;
+        }
     }
 
-    }
+}
 
 
 

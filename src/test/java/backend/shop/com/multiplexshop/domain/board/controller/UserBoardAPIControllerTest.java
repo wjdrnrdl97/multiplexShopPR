@@ -98,17 +98,16 @@ class UserBoardAPIControllerTest {
     }
     @Test
     @DisplayName("postBoard(): Board컨트롤러를 이용하여 게시물 등록")
-    @Transactional
     public void test3()throws Exception{
         //given
         Member member = memberRepository.findById(1L).get();
         final String url = "/api/support";
         final String title = "new title";
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
-                .boardId(1L)
                 .boardTitle(title)
                 .boardContent("new board")
                 .memberId(member.getMemberId())
+                .boardId(3L)
                 .build();
         final String requestBody = objectMapper.writeValueAsString(boardRequest);
         //when
@@ -126,23 +125,23 @@ class UserBoardAPIControllerTest {
     public void test4()throws Exception{
     //given
         Member member = memberRepository.findById(2L).get();
-        UserBoard userBoard = userBoardRepository.findById(2L).get();
+        UserBoard userBoard = userBoardRepository.findById(1L).get();
         final String url = "/api/support/{id}";
         final String title = "updateTitle";
         final String content = "updateContent";
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
-                .boardId(userBoard.getBoardId())
+                .boardId(1L)
                 .boardTitle(title)
                 .boardContent(content)
                 .memberId(member.getMemberId())
                 .build();
         String requestBody = objectMapper.writeValueAsString(boardRequest);
     //when
-        final ResultActions result = mockMvc.perform(put(url, 2).contentType(MediaType.APPLICATION_JSON)
+        final ResultActions result = mockMvc.perform(put(url, 1).contentType(MediaType.APPLICATION_JSON)
                                              .content(requestBody));
     //then
     result.andExpect(status().isOk());
-    UserBoard updateUserBoard = userBoardRepository.findById(2L).get();
+    UserBoard updateUserBoard = userBoardRepository.findById(1L).get();
     assertThat(updateUserBoard.getBoardTitle()).isEqualTo(title);
     assertThat(updateUserBoard.getBoardContent()).isEqualTo(content);
 }

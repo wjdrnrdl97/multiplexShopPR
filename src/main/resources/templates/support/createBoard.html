@@ -13,89 +13,139 @@
 </head>
 
 <body>
-    <nav class="navBar">
-        <div class="navBar_logo">
-            <a href="main.html">
-                <i class="fa-brands fa-drupal"></i>
-                <span class="logo">S H O P</span>
+<nav class="navBar">
+    <div class="navBar_logo">
+        <a href="main.html">
+            <i class="fa-brands fa-drupal"></i>
+            <span class="logo">S H O P</span>
+        </a>
+    </div>
+
+    <ul class="navBar_menu">
+        <li style="color: black;"><a href="">A L L </a></li>
+        <li style="color: black;"><a href="">F O O D</a></li>
+        <li style="color: black;"><a href="">S T U F F</a></li>
+    </ul>
+
+    <ul class="navBar_members">
+        <li>
+            <a href="#" class="iconA">
+                <i class="fa-solid fa-cart-shopping"
+                   style="display: block; text-align: center; line-height: 40px;"></i>
+                <span>Cart</span>
             </a>
-        </div>
-
-        <ul class="navBar_menu">
-            <li style="color: black;"><a href="">A L L </a></li>
-            <li style="color: black;"><a href="">F O O D</a></li>
-            <li style="color: black;"><a href="">S T U F F</a></li>
-        </ul>
-
-        <ul class="navBar_members">
-            <li>
-                <a href="#" class="iconA">
-                    <i class="fa-solid fa-cart-shopping"
-                        style="display: block; text-align: center; line-height: 40px;"></i>
-                    <span>Cart</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="iconA">
-                    <i class="fa-solid fa-handshake"
-                        style="color: black; display: block; text-align: center; line-height: 40px;"></i>
-                    <span>Support</span>
-                </a>
-            </li>
-            <li><a href="#">Join</a></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#">MyPage</a></li>
-        </ul>
-    </nav>
-    <!-- Nav Bar -->
+        </li>
+        <li>
+            <a href="#" class="iconA">
+                <i class="fa-solid fa-handshake"
+                   style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                <span>Support</span>
+            </a>
+        </li>
+        <li><a href="#">Join</a></li>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">MyPage</a></li>
+    </ul>
+</nav>
+<!-- Nav Bar -->
 
 
-    <article id="article">
-        <div class="right_contents">
-            <!-- 공지사항 본문 -->
-            <div class="notice_contents">
-<!--                <input type="hidden" id="boardId" th:value="${board.boardId}">-->
-                <p>
-                <h3> TITLE : </h3> <input class="txt_tit_notice" name="boardTitle"
-                                          id="boardTitle" th:value="getBoard.boardTitle">
-                </p>
-                <p>
-                <h3> ID : </h3> <input class="txt_tit_notice" name="memberId" id="memberId" th:value="getBoard.memberId">
-                </p>
-                <h3> CONTENT : </h3>
-                <textarea class="box_contents" name="boardContent" id="boardContent" th:text="getBoard.boardContent">
+<article id="article">
+    <div class="right_contents">
+        <!-- 공지사항 본문 -->
+        <div class="notice_contents">
+            <p>
+            <h3> TITLE : </h3> <input class="txt_tit_notice" name="boardTitle" id="boardTitle"
+                                      th:value="${Board.boardTitle}">
+            </p>
+            <p>
+            <h3> USER ID : </h3> <input class="txt_tit_notice" name="memberId" id="memberId"
+                                        th:value="${Board.memberId}">
+            </p>
+            <p>
+            <h3> BOARD ID : </h3> <input type="hidden" class="txt_tit_notice" name="boardId" id="boardId"
+                                         th:value="${Board.boardId}">
+            </p>
+            <h3> CONTENT : </h3>
+            <textarea class="box_contents" name="boardContent" id="boardContent" th:text="${Board.boardContent}">
 
                 </textarea>
 
-            </div>
         </div>
-        <div class="btns">
-            <a th:href="@{/support}" class="list-btn" style="margin-top:20px;">LIST</a>
-<!--            <a th:if="${board.boardId==null}" onclick="post();" class="list-btn" style="margin-top:20px;">POST</a>-->
-<!--            <a th:if="${board.boardId!=null}" onclick="update();"-->
-<!--               class="list-btn" style="margin-top:20px;">UPDATE</a>-->
-<!--            <a th:if="${board.boardId!=null}" onclick="delete();"-->
-<!--               class="list-btn" style="margin-top:20px;">DELETE</a>-->
-        </div>
+    </div>
+    <div class="btns">
+        <a th:href="@{/support}" class="list-btn list2" style="margin-top:20px;">LIST</a>
+        <a class="list-btn" style="margin-top:20px;" id="post_btn">POST</a>
+        <a class="list-btn" style="margin-top:20px;" id="update_btn">UPDATE</a>
+        <!--            <a th:if="${board.boardId!=null}" onclick="delete();"-->
+        <!--               class="list-btn" style="margin-top:20px;">DELETE</a>-->
+    </div>
 
-        </div>
-    </article>
+    </div>
+</article>
 
-    <!-- article -->
+<!-- article -->
 
 
-    <footer id="footer">
-        <div>
-            <p>이곳은 footer 입니다.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
-                Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
-                recusandae maiores quam suscipit consequatur.</p>
-        </div>
-    </footer>
-    <!-- footer -->
+<footer id="footer">
+    <div>
+        <p>이곳은 footer 입니다.</p>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
+            Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
+            recusandae maiores quam suscipit consequatur.</p>
+    </div>
+</footer>
+<!-- footer -->
 
-    <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
-    <script src="/static/js/board.js"></script>
+<script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+<script>
+
+    const postBtn = document.getElementById('post_btn');
+ if(postBtn){
+     postBtn.addEventListener('click', event => {
+         fetch('/api/support',{
+             method:'POST',
+             headers:{
+                 "Content-Type": "application/json",
+             },
+             body: JSON.stringify({
+                 boardId : document.getElementById('boardId').value,
+                 memberId : document.getElementById('memberId').value,
+                 boardTitle : document.getElementById('boardTitle').value,
+                 boardContent : document.getElementById('boardContent').value
+             })
+         })
+         .then(()=>{
+             alert('게시물이 등록되었습니다.');
+             location.replace('/support');
+         });
+         }
+ )}
+ let id = document.getElementById('boardId');
+ const updateBtn = document.getElementById('update_btn');
+ if(updateBtn){
+     updateBtn.addEventListener('click', event => {
+         fetch('/api/support/${id}',{
+             method:'PUT',
+             headers:{
+                 "Content-Type": "application/json",
+             },
+             body: JSON.stringify({
+                 memberId : document.getElementById('memberId').value,
+                 boardTitle : document.getElementById('boardTitle').value,
+                 boardContent : document.getElementById('boardContent').value
+             })
+         })
+         .then(()=>{
+             alert('게시물이 수정되었습니다.');
+             location.replace('/support');
+         });
+         }
+     )}
+
+
+
+</script>
 
 </body>
 

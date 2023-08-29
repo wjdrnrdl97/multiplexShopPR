@@ -41,7 +41,4 @@ public class UserBoard extends BaseEntity {
                 this.boardTitle = updateTitle;
                 this.boardContent = updateContent;
         }
-
-
-
 }
