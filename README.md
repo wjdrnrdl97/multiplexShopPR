@@ -98,8 +98,6 @@
 
 ## Commit Convention
 
-## Commit Convention
-
 - `ex) feat: 로그인 API 기능 추가`
 - `ex) refactor: posting service 내 인증 로직 필터로 분리`
     - feat : 기능 개발
