@@ -15,8 +15,8 @@ public class UserBoardDTOs {
      */
 
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PUBLIC)
-    public static class BoardResponseDTO {
+    @NoArgsConstructor
+    public static class UserBoardResponseDTO {
         private Long boardId;
         private Long boardViewCount;
         private LocalDateTime modDate;
@@ -26,8 +26,8 @@ public class UserBoardDTOs {
         private String boardContent;
         private Long memberId;
 
-        @Builder
-        public BoardResponseDTO(UserBoard userBoard) {
+
+        public UserBoardResponseDTO(UserBoard userBoard) {
             this.boardId = userBoard.getBoardId();
             this.boardViewCount = userBoard.getBoardViewCount();
             this.modDate = userBoard.getModDate();
@@ -40,19 +40,13 @@ public class UserBoardDTOs {
     }
 
     @Getter
-    public static class BoardRequestDTO {
-        private final Long boardId;
-        private final Long memberId;
-        private final String boardTitle;
-        private final String boardContent;
+    @AllArgsConstructor
+    @Builder
+    public static class UserBoardRequestDTO {
+        private Long memberId;
+        private String boardTitle;
+        private String boardContent;
 
-        @Builder
-        public BoardRequestDTO(Long boardId,Long memberId, String boardTitle, String boardContent) {
-            this.memberId = memberId;
-            this.boardId = boardId;
-            this.boardTitle = boardTitle;
-            this.boardContent = boardContent;
-        }
     }
 
 }

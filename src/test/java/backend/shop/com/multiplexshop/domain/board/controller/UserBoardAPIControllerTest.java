@@ -89,8 +89,8 @@ class UserBoardAPIControllerTest {
         final ResultActions perform = mockMvc.perform(get(url).accept(MediaType.APPLICATION_JSON));
         //then
         MvcResult mvcResult = perform.andReturn();
-        String responsebody = mvcResult.getResponse().getContentAsString();
-        System.out.println(responsebody);
+        String responseBody = mvcResult.getResponse().getContentAsString();
+        System.out.println(responseBody);
 
         perform.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].boardTitle").value(title1))
@@ -103,11 +103,10 @@ class UserBoardAPIControllerTest {
         Member member = memberRepository.findById(1L).get();
         final String url = "/api/support";
         final String title = "new title";
-        BoardRequestDTO boardRequest = BoardRequestDTO.builder()
+        UserBoardRequestDTO boardRequest = UserBoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent("new board")
                 .memberId(member.getMemberId())
-                .boardId(3L)
                 .build();
         final String requestBody = objectMapper.writeValueAsString(boardRequest);
         //when
@@ -129,8 +128,7 @@ class UserBoardAPIControllerTest {
         final String url = "/api/support/{id}";
         final String title = "updateTitle";
         final String content = "updateContent";
-        BoardRequestDTO boardRequest = BoardRequestDTO.builder()
-                .boardId(1L)
+        UserBoardRequestDTO boardRequest = UserBoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent(content)
                 .memberId(member.getMemberId())

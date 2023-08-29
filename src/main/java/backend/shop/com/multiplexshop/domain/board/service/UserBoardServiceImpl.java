@@ -1,8 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.service;
 
-import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.BoardRequestDTO;
+import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.UserBoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
-import backend.shop.com.multiplexshop.domain.board.exception.DifferentMemberIdException;
 import backend.shop.com.multiplexshop.domain.board.repository.UserBoardRepository;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
@@ -23,52 +22,47 @@ public class UserBoardServiceImpl implements BoardService{
 
 
     @Override
-    public UserBoard getBoard(Long id) {
+    public UserBoard findById(Long id) {
         return userBoardRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Board not Found" + id));
     }
 
     @Override
-    public List<UserBoard> getBoardList() {
+    public List<UserBoard> findByAll() {
         return userBoardRepository.findAll();
     }
 
     @Override
-    public UserBoard postBoard(BoardRequestDTO boardRequestDTO) {
-        UserBoard userBoard = DtoToBoardEntity(boardRequestDTO);
+    public UserBoard save(UserBoardRequestDTO userBoardRequestDTO) {
+        UserBoard userBoard = DtoToBoardEntity(userBoardRequestDTO);
         return userBoardRepository.save(userBoard);
     }
 
 
     @Override
     @Transactional
-    public UserBoard updateBoard(Long boardId, BoardRequestDTO boardRequestDTO){
-        UserBoard getUserBoard = userBoardRepository.findById(boardId)
-                .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
-        UserBoard updateUserBoard = DtoToBoardEntity(boardRequestDTO);
-        // MemberId가 일치하지 않을 때
-        if(!getUserBoard.getMember().getMemberId().equals(updateUserBoard.getMember().getMemberId())){
-            throw new DifferentMemberIdException("Not Match MemberID");
-        }
+    public UserBoard update(Long boardId, UserBoardRequestDTO userBoardRequestDTO){
+        UserBoard getUserBoard = userBoardRepository.findById(boardId).get();
+
+        UserBoard updateUserBoard = DtoToBoardEntity(userBoardRequestDTO);
             getUserBoard.updateBoard(updateUserBoard.getBoardTitle(), updateUserBoard.getBoardContent());
         return userBoardRepository.save(getUserBoard);
     }
 
     @Override
     @Transactional
-    public void deleteBoard(Long boardId) {
+    public void delete(Long boardId) {
         UserBoard userBoard = userBoardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalStateException("Board not Found" + boardId));
         userBoardRepository.deleteById(boardId);
     }
 
     @Override
-    public UserBoard DtoToBoardEntity(BoardRequestDTO boardRequestDTO) {
-            Member member = memberRepository.findById(boardRequestDTO.getMemberId())
+    public UserBoard DtoToBoardEntity(UserBoardRequestDTO userBoardRequestDTO) {
+            Member member = memberRepository.findById(userBoardRequestDTO.getMemberId())
                     .orElseThrow(()->new IllegalArgumentException("Member not found"));
             return UserBoard.builder()
-                    .boardId(boardRequestDTO.getBoardId())
-                    .boardTitle(boardRequestDTO.getBoardTitle())
-                    .boardContent(boardRequestDTO.getBoardContent())
+                    .boardTitle(userBoardRequestDTO.getBoardTitle())
+                    .boardContent(userBoardRequestDTO.getBoardContent())
                     .member(member)
                     .memberName(member.getMemberName())
                     .build();

@@ -54,6 +54,8 @@
     <div class="right_contents">
         <!-- 공지사항 본문 -->
         <div class="notice_contents">
+            <input type="hidden" class="txt_tit_notice" name="boardId" id="boardId" th:value="${Board.boardId}">
+
             <p>
             <h3> TITLE : </h3> <input class="txt_tit_notice" name="boardTitle" id="boardTitle"
                                       th:value="${Board.boardTitle}">
@@ -62,23 +64,19 @@
             <h3> USER ID : </h3> <input class="txt_tit_notice" name="memberId" id="memberId"
                                         th:value="${Board.memberId}">
             </p>
-            <p>
-            <h3> BOARD ID : </h3> <input type="hidden" class="txt_tit_notice" name="boardId" id="boardId"
-                                         th:value="${Board.boardId}">
-            </p>
+
             <h3> CONTENT : </h3>
             <textarea class="box_contents" name="boardContent" id="boardContent" th:text="${Board.boardContent}">
 
                 </textarea>
-
         </div>
     </div>
+
     <div class="btns">
         <a th:href="@{/support}" class="list-btn list2" style="margin-top:20px;">LIST</a>
-        <a class="list-btn" style="margin-top:20px;" id="post_btn">POST</a>
-        <a class="list-btn" style="margin-top:20px;" id="update_btn">UPDATE</a>
-        <!--            <a th:if="${board.boardId!=null}" onclick="delete();"-->
-        <!--               class="list-btn" style="margin-top:20px;">DELETE</a>-->
+        <a th:if="${Board.boardId} == null" class="list-btn" style="margin-top:20px;" id="post_btn">POST</a>
+        <a th:if="${Board.boardId} != null" class="list-btn" style="margin-top:20px;" id="update_btn">UPDATE</a>
+        <a th:if="${Board.boardId} != null" class="list-btn" style="margin-top:20px;" id="delete_btn">DELETE</a>
     </div>
 
     </div>
@@ -109,7 +107,6 @@
                  "Content-Type": "application/json",
              },
              body: JSON.stringify({
-                 boardId : document.getElementById('boardId').value,
                  memberId : document.getElementById('memberId').value,
                  boardTitle : document.getElementById('boardTitle').value,
                  boardContent : document.getElementById('boardContent').value
@@ -121,28 +118,46 @@
          });
          }
  )}
- let id = document.getElementById('boardId').value;
- const updateBtn = document.getElementById('update_btn');
- if(updateBtn){
-     updateBtn.addEventListener('click', event => {
-         fetch('/api/support/${id}',{
-             method:'PUT',
-             headers:{
-                 "Content-Type": "application/json",
-             },
-             body: JSON.stringify({
-                 boardId : document.getElementById('boardId').value,
-                 memberId : document.getElementById('memberId').value,
-                 boardTitle : document.getElementById('boardTitle').value,
-                 boardContent : document.getElementById('boardContent').value
-             })
-         })
-         .then(()=>{
-             alert('게시물이 수정되었습니다.');
-             location.replace('/support');
-         });
-         }
-     )}
+    let id = document.getElementById('boardId').value;
+const updateBtn = document.getElementById('update_btn');
+
+if (updateBtn) {
+    updateBtn.addEventListener('click', event => {
+        fetch(`/api/support/${id}`, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                memberId: document.getElementById('memberId').value,
+                boardTitle: document.getElementById('boardTitle').value,
+                boardContent: document.getElementById('boardContent').value
+            })
+        })
+        .then(response => response.json()) // 서버 응답을 JSON으로 파싱
+        .then(data => {
+            // 성공적으로 처리되었을 때의 로직
+            alert('게시물이 수정되었습니다.');
+            location.replace('/support');
+        })
+        .catch(error => {
+            // 에러 발생시 처리
+            console.error('Error:', error);
+        });
+    });
+}
+const deleteBtn = document.getElementById('delete_btn');
+
+if(deleteBtn){
+    deleteBtn.addEventListener('click',event => {
+        fetch(`/api/support/${id}`, {
+            method:'DELETE'
+        })
+        .then(()=>
+        alert('삭제가 완료되었습니다.'))
+        location.replace('/support');
+    });
+}
 
 
 
