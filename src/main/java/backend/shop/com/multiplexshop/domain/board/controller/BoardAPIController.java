@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequiredArgsConstructor
+
 public class BoardAPIController {
-    private final BoardService boardService;
 
     /**
      * 게시물 상세조회
