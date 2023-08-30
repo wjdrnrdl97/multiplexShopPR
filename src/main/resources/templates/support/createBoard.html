@@ -64,6 +64,10 @@
             <h3> USER ID : </h3> <input class="txt_tit_notice" name="memberId" id="memberId"
                                         th:value="${Board.memberId}">
             </p>
+            <p>
+            <h3> BOARD TYPE : </h3> <input class="txt_tit_notice" name="boardType" id="boardType"
+                                        th:value="${Board.boardType}">
+            </p>
 
             <h3> CONTENT : </h3>
             <textarea class="box_contents" name="boardContent" id="boardContent" th:text="${Board.boardContent}">
@@ -108,6 +112,7 @@
              },
              body: JSON.stringify({
                  memberId : document.getElementById('memberId').value,
+                 boardType : document.getElementById('boardType').value,
                  boardTitle : document.getElementById('boardTitle').value,
                  boardContent : document.getElementById('boardContent').value
              })

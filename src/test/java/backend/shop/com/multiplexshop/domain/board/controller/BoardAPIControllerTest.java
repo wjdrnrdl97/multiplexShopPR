@@ -1,8 +1,8 @@
 package backend.shop.com.multiplexshop.domain.board.controller;
 
-import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.*;
-import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
-import backend.shop.com.multiplexshop.domain.board.repository.UserBoardRepository;
+import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
+import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
@@ -33,11 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserBoardAPIControllerTest {
+class BoardAPIControllerTest {
     @Autowired
     BoardService boardService;
     @Autowired
-    UserBoardRepository userBoardRepository;
+    BoardRepository BoardRepository;
     @Autowired
     MemberRepository memberRepository;
 
@@ -56,17 +56,16 @@ class UserBoardAPIControllerTest {
     }
 
     @Test
-    @DisplayName("getBoard(): Board컨트롤러를 이용하여 게시물 상세조회")
-    @Transactional
+    @DisplayName("getBoard(): UserBoard컨트롤러를 이용하여 게시물 상세조회")
     public void test1() throws Exception{
         //given
         Member member = memberRepository.findById(1L).get();
         final String url = "/api/support/{good}";
-        final String title = "title1";
-        final String content = "content1";
-        UserBoard userBoard = userBoardRepository.findById(1L).get();
+        final String title = "NOTICE";
+        final String content = "NOTIFICATION";
+        Board Board = BoardRepository.findById(1L).get();
         //when
-        final ResultActions result = mockMvc.perform(get (url, userBoard.getBoardId()));
+        final ResultActions result = mockMvc.perform(get (url, Board.getBoardId()));
         MvcResult mvcResult = result.andReturn();
 
         //then
@@ -79,12 +78,11 @@ class UserBoardAPIControllerTest {
     }
     @Test
     @DisplayName("getBoardList(): Board컨트롤러를 이용하여 게시물 목록조회")
-    @Transactional
     public void test2() throws Exception{
         //given
         final String url = "/api/support";
-        final String title1 = "title1";
-        final String title2 = "title2";
+        final String title1 = "NOTICE";
+        final String title2 = "POST";
         //when
         final ResultActions perform = mockMvc.perform(get(url).accept(MediaType.APPLICATION_JSON));
         //then
@@ -102,8 +100,8 @@ class UserBoardAPIControllerTest {
         //given
         Member member = memberRepository.findById(1L).get();
         final String url = "/api/support";
-        final String title = "new title";
-        UserBoardRequestDTO boardRequest = UserBoardRequestDTO.builder()
+        final String title = "NEW POST";
+        BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent("new board")
                 .memberId(member.getMemberId())
@@ -114,38 +112,36 @@ class UserBoardAPIControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(requestBody));
         //then
         perform.andExpect(status().isCreated());
-        List<UserBoard> userBoardList = userBoardRepository.findAll();
+        List<Board> userBoardList = BoardRepository.findAll();
         assertThat(userBoardList.get(0).getBoardTitle()).isEqualTo(title);
     }
 
     @Test
     @DisplayName("updateBoard(): Board컨트롤러를 이용하여 게시물 수정")
-    @Transactional
     public void test4()throws Exception{
     //given
         Member member = memberRepository.findById(2L).get();
-        UserBoard userBoard = userBoardRepository.findById(1L).get();
+        Board userBoard = BoardRepository.findById(2L).get();
         final String url = "/api/support/{id}";
-        final String title = "updateTitle";
-        final String content = "updateContent";
-        UserBoardRequestDTO boardRequest = UserBoardRequestDTO.builder()
+        final String title = "NEW NOTICE";
+        final String content = "NEW NOTIFICATION";
+        BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent(content)
                 .memberId(member.getMemberId())
                 .build();
         String requestBody = objectMapper.writeValueAsString(boardRequest);
     //when
-        final ResultActions result = mockMvc.perform(put(url, 1).contentType(MediaType.APPLICATION_JSON)
+        final ResultActions result = mockMvc.perform(put(url, 2).contentType(MediaType.APPLICATION_JSON)
                                              .content(requestBody));
     //then
     result.andExpect(status().isOk());
-    UserBoard updateUserBoard = userBoardRepository.findById(1L).get();
+    Board updateUserBoard = BoardRepository.findById(2L).get();
     assertThat(updateUserBoard.getBoardTitle()).isEqualTo(title);
     assertThat(updateUserBoard.getBoardContent()).isEqualTo(content);
 }
 @Test
 @DisplayName("deleteBoad(): Board컨트롤러를 이용하여 게시물 삭제")
-@Transactional
 public void test5()throws Exception{
     //given
     final String url = "/api/support/{id}";
@@ -153,8 +149,8 @@ public void test5()throws Exception{
     ResultActions resultActions = mockMvc.perform(delete(url,2));
     //then
     resultActions.andExpect(status().isOk());
-    List<UserBoard> userBoardList = userBoardRepository.findAll();
-    assertThat(userBoardList.size()).isEqualTo(1);
+    List<Board> userBoardList = BoardRepository.findAll();
+    assertThat(userBoardList.size()).isEqualTo(2);
 
 }
 }
