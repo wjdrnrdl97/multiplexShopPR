@@ -42,9 +42,7 @@ public class UserBoardServiceImpl implements BoardService{
     @Transactional
     public UserBoard update(Long boardId, UserBoardRequestDTO userBoardRequestDTO){
         UserBoard getUserBoard = userBoardRepository.findById(boardId).get();
-
-        UserBoard updateUserBoard = DtoToBoardEntity(userBoardRequestDTO);
-            getUserBoard.updateBoard(updateUserBoard.getBoardTitle(), updateUserBoard.getBoardContent());
+        getUserBoard.updateBoard(userBoardRequestDTO.getBoardTitle(), userBoardRequestDTO.getBoardContent());
         return userBoardRepository.save(getUserBoard);
     }
 

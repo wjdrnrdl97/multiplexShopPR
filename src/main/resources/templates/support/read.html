@@ -57,7 +57,8 @@
                     [[${getBoard.boardTitle}]]</h2>
 
                 <div class="read_info">
-                    <span > [[${getBoard.boardId}]] </span>
+<!--                    <span id="boardId"> [[${getBoard.boardId}]] </span>-->
+                    <span id="boardId" th:text="${getBoard.boardId}"></span>
                     / <span> WRITER : </span> <span>[[${getBoard.memberName}]]</span>
                     / <span>[[${#temporals.format(getBoard.regDate, 'yyyy-MM-dd')}]]</span>
                     / <span>[[${getBoard.boardViewCount}]]</span>
@@ -111,18 +112,23 @@
 
     <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
     <script>
-    let id = document.getElementById('boardId').value;
-    if(deleteBtn){
-        deleteBtn.addEventListener('click',event => {
-            fetch(`/api/support/${id}`, {
-                method:'DELETE'
-            })
-            .then(()=>
-            alert('삭제가 완료되었습니다.'))
-            location.replace('/support');
-        });
-    }
+        let id = document.getElementById('boardId').textContent;
+        const deleteBtn = document.getElementById('delete_btn');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', event => {
+                if (confirm('삭제하시겠습니까?')) { // 확인/취소 버튼이 있는 confirm 대화상자
+                    fetch(`/api/support/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(() => {
+                        alert('삭제가 완료되었습니다.');
+                        location.replace('/support');
+                    });
+                }
+            });
+        }
     </script>
+
 
 </body>
 
