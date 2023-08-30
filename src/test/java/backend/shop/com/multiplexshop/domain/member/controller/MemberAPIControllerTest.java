@@ -21,13 +21,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.*;
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.MemberRequestDTO.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -137,6 +137,20 @@ class MemberAPIControllerTest {
         assertThat(modifiedMember.getPhoneNumber()).isEqualTo(newTel);
 
 
+    }
+
+    @Test
+    @DisplayName("deleteMember(): 회원 삭제에 성공한다.")
+    void test4() throws Exception{
+        //given
+        String url = "/api/mypage/{id}";
+        Member deleteMember = memberRepository.findById(99L).get();
+        //when
+        ResultActions result = mockMvc.perform(delete(url, deleteMember.getMemberId()));
+        //then
+        result.andExpect(status().isOk());
+        List<Member> members = memberRepository.findAll();
+        assertThat(members).isEmpty();
     }
 
 }

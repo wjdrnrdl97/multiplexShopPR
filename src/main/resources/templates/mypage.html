@@ -52,6 +52,7 @@
     <article id="article">
         <div class="join_box">
             <form action="#" method="POST">
+                <input type="hidden" id="member_id" th:value="${member.memberId}">
                 <table class="join_table" style="margin-top: 50px;">
                     <tr class="join_tr">
                         <td class="join_td" style="width: 250px;;">E - M A I L [&nbsp;I D&nbsp;] :</td>
@@ -73,6 +74,9 @@
                 <br>
                 <a th:href="@{/join?(id=${member.memberId})}" class="cancle-btn" style="margin-left: 600px; border: none; font-size: 20px; padding: 5px;">
                     modify
+                </a>
+                <a class="cancle-btn" id="delete-btn" style="margin-left: 20px; border: none; font-size: 20px; padding: 5px;">
+                    sign out
                 </a>
             </form>
 
@@ -124,7 +128,25 @@
 
     <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
     <script>
+        const deleteButton = document.getElementById('delete-btn');
 
+        if (deleteButton) {
+            deleteButton.addEventListener('click', event => {
+                let id = document.getElementById('member_id').value;
+                if (!confirm("정말 탈퇴 하시겠습니까?")) {
+                         return;
+                } else if (!confirm("진짜 정말정말 탈퇴 하시겠습니까?")) {
+                        return;
+                }
+                fetch(`/api/mypage/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(() => {
+                        alert('회원 탈퇴가 완료되었습니다.');
+                        location.replace('/');
+                    });
+            });
+        }
 
     </script>
 

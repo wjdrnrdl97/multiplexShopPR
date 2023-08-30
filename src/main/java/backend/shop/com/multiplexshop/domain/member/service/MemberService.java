@@ -29,12 +29,18 @@ public class MemberService {
                 .orElseThrow(() -> new IllegalArgumentException("등록되지않은 회원 입니다. : "+id));
     }
 
-    private void duplicateEmailValidate(Member member){
+    public void duplicateEmailValidate(Member member){
         List<Member> findMemberByEmail = memberRepository.findByEmail(member.getMemberEmailId());
         if (!findMemberByEmail.isEmpty()){
             throw new IllegalStateException("이미 존재하는 E-Mail[ID] 입니다.");
         }
     }
+
+    public void deleteMemberById(Long id){
+        Member deleteMember = findById(id);
+        memberRepository.delete(deleteMember);
+    }
+
 
 
     public Member dtoToMemberEntity(MemberRequestDTO memberRequestDTO){

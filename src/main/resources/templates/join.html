@@ -76,6 +76,9 @@
                   <tr class="join_tr">
                     <td class="join_td">A D D R E S S:</td>
                     <td class="join_td" ><input type="text" id="address_kakao" name="memberAddress" th:value="${member.memberAddress}"></td>
+                      <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                          <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+                      </div>
                   </tr>
                   <tr class="join_tr"s>
                     <td class="join_td">P H O N E :</td>

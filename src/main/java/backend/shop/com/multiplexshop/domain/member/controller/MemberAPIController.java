@@ -30,6 +30,12 @@ public class MemberAPIController {
         return ResponseEntity.ok().body(updatedMember);
     }
 
+    @DeleteMapping("/api/mypage/{id}")
+    public ResponseEntity deleteMember(@PathVariable Long id){
+        memberService.deleteMemberById(id);
+        return ResponseEntity.ok().build();
+    }
+
 
 
 
