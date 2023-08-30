@@ -18,7 +18,6 @@ public class MemberDTOs {
         private String memberAddress;
         private String phoneNumber;
         private Role role;
-
     }
 
     @Getter
