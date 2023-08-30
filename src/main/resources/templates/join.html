@@ -57,7 +57,7 @@
                   <tr class="join_tr">
                     <td class="join_td">E - M A I L [&nbsp;I D&nbsp;]:</td>
                     <td class="join_td" th:if="${member.memberId} != null">
-                        <input type="email" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" required  readonly >
+                        <input type="email" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" style="cursor:default; background-color: #efefef;" readonly >
                     </td>
                       <td class="join_td" th:if="${member.memberId} == null">
                           <input type="email" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" required >
@@ -65,12 +65,12 @@
                   </tr>
                   <tr class="join_tr">
                     <td class="join_td">P A S S W O R D :</td>
-                    <td class="join_td" th:if="${member.memberId} != null"><input type="password" class="password" name="password" th:value="${member.password}" readonly required></td>
-                    <td class="join_td" th:if="${member.memberId} == null"><input type="password" class="password" name="password" th:value="${member.password}" required></td>
+                    <td class="join_td" th:if="${member.memberId} != null"><input type="password"  class="password" name="password" th:value="${member.password}" style="cursor:default; background-color: #efefef;" readonly required></td>
+                    <td class="join_td" th:if="${member.memberId} == null"><input type="password" id="password"  class="password" name="password" th:value="${member.password}" th:utext="${member.password}" required></td>
                   </tr>
                   <tr class="join_tr">
                     <td class="join_td">N A M E:</td>
-                    <td class="join_td" th:if="${member.memberId} != null"><input type="text" class="memberName" name="memberName" th:value="${member.memberName}" readonly></td>
+                    <td class="join_td" th:if="${member.memberId} != null"><input type="text" class="memberName" name="memberName" style="cursor:default; background-color: #efefef;" th:value="${member.memberName}" readonly></td>
                     <td class="join_td" th:if="${member.memberId} == null"><input type="text" class="memberName" name="memberName" th:value="${member.memberName}"></td>
                   </tr>
                   <tr class="join_tr">
@@ -107,17 +107,30 @@
     <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script>
-        window.onload = function(){
-    document.getElementById("address_kakao").addEventListener("click", function(){ //주소입력칸을 클릭하면
-        //카카오 지도 발생
-        new daum.Postcode({
-            oncomplete: function(data) { //선택시 입력값 세팅
-                document.getElementById("address_kakao").value = data.address; // 주소 넣기
 
+
+        window.onload = function() {
+        document.getElementById("address_kakao").addEventListener("click", function() {
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    document.getElementById("address_kakao").value = data.address;
+                }
+            }).open();
+        });
+
+        const passwordPattern = /^(?=.*\d).{6,12}$/;
+        const passwordInput = document.getElementById("password");
+
+        passwordInput.addEventListener("input", function() {
+
+        if (passwordPattern.test(passwordInput.value)) {
+            passwordInput.setCustomValidity("GOOD");
+        } else {
+            passwordInput.setCustomValidity("비밀번호는 최소 6자에서 12자 사이의 숫자를 포함해야 합니다.");
             }
-        }).open();
-    });
-}
+        });
+
+        }
 
         const joinBtn = document.getElementById('join_btn');
             if (joinBtn) {
@@ -143,7 +156,7 @@
                 });
             }
 
-               const modifyButton = document.getElementById('modify_btn');
+        const modifyButton = document.getElementById('modify_btn');
         if (modifyButton) {
             modifyButton.addEventListener('click', event => {
             let params = new URLSearchParams(location.search);
@@ -163,7 +176,9 @@
                 location.replace(`/mypage/${id}`);
             });
         });
-}
+       }
+
+
     </script>
 
 </body>
