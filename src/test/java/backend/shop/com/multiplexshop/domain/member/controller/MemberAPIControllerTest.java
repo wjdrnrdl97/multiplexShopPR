@@ -151,6 +151,7 @@ class MemberAPIControllerTest {
         result.andExpect(status().isOk());
         List<Member> members = memberRepository.findAll();
         assertThat(members).isEmpty();
+        //
     }
 
 }
