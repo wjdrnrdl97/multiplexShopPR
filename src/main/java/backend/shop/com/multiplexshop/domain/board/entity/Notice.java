@@ -33,5 +33,9 @@ public class Notice extends BaseEntity {
     @Column
     private Long boardViewCount;
 
+    public void update(String newBoardTitle,String newBoardContent){
+        this.boardTitle = newBoardTitle;
+        this.boardContent=newBoardContent;
+    }
 
 }

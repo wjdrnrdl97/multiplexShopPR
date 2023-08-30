@@ -40,9 +40,8 @@ public interface BoardService<T> {
      */
     public T update(Long boardId, BoardRequestDTO boardRequestDTO);
 
-//    public Notice findById(Long id);
-
     public void delete(Long boardId);
 
+    public T dtoToBoardEntity(BoardRequestDTO boardRequestDTO);
 
 }

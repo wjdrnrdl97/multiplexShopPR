@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-@Service
+@Service("userBoard")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserBoardServiceImpl implements BoardService<UserBoard>{
@@ -34,7 +34,7 @@ public class UserBoardServiceImpl implements BoardService<UserBoard>{
 
     @Override
     public UserBoard save(BoardRequestDTO boardRequestDTO) {
-        UserBoard userBoard = DtoToBoardEntity(boardRequestDTO);
+        UserBoard userBoard = dtoToBoardEntity(boardRequestDTO);
         return userBoardRepository.save(userBoard);
     }
 
@@ -55,21 +55,18 @@ public class UserBoardServiceImpl implements BoardService<UserBoard>{
         userBoardRepository.deleteById(boardId);
     }
 
-    /**
-     * DTO를 Entity로 변환
-     * @param boardRequestDTO
-     * @return UserBoard
-     */
-    public UserBoard DtoToBoardEntity(BoardRequestDTO boardRequestDTO) {
-            Member member = memberRepository.findById(boardRequestDTO.getMemberId())
-                    .orElseThrow(()->new IllegalArgumentException("Member not found"));
-            return UserBoard.builder()
-                    .boardTitle(boardRequestDTO.getBoardTitle())
-                    .boardContent(boardRequestDTO.getBoardContent())
-                    .member(member)
-                    .memberName(member.getMemberName())
-                    .build();
-        }
+    @Override
+    public UserBoard dtoToBoardEntity(BoardRequestDTO boardRequestDTO) {
+        Member member = memberRepository.findById(boardRequestDTO.getMemberId())
+            .orElseThrow(()->new IllegalArgumentException("Member not found"));
+        return UserBoard.builder()
+                .boardTitle(boardRequestDTO.getBoardTitle())
+                .boardContent(boardRequestDTO.getBoardContent())
+                .member(member)
+                .memberName(member.getMemberName())
+                .build();
+    }
+
     }
 
 

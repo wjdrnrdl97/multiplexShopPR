@@ -7,6 +7,8 @@ import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO
 import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,16 @@ import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
-@RequiredArgsConstructor
+
 @RestController
 public class UserBoardAPIController {
 
     private final BoardService<UserBoard> boardService;
 
+
+    public UserBoardAPIController(@Qualifier("userBoard") BoardService<UserBoard> boardService) {
+        this.boardService = boardService;
+    }
 
     /**
      * 게시물 상세조회
