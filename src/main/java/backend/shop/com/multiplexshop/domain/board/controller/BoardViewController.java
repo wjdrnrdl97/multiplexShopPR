@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.*;
-
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/support")
@@ -30,7 +28,7 @@ public class BoardViewController {
 
     @GetMapping("/{id}")
     public String getBoard(@PathVariable("id") Long boardId, Model model){
-        UserBoard getBoard = boardService.findById(boardId);
+        UserBoard getBoard = (UserBoard) boardService.findById(boardId);
         model.addAttribute("getBoard",getBoard);
         return "support/read";
     }
@@ -40,7 +38,7 @@ public class BoardViewController {
         if(boardId==null){
             model.addAttribute("Board", new UserBoardResponseDTO());
         }else {
-            UserBoard board = boardService.findById(boardId);
+            UserBoard board = (UserBoard) boardService.findById(boardId);
             model.addAttribute("Board", new UserBoardResponseDTO(board));
         }
 

@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.board.controller;
 
-import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.*;
+import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
 import backend.shop.com.multiplexshop.domain.board.repository.UserBoardRepository;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
@@ -103,7 +103,7 @@ class UserBoardAPIControllerTest {
         Member member = memberRepository.findById(1L).get();
         final String url = "/api/support";
         final String title = "new title";
-        UserBoardRequestDTO boardRequest = UserBoardRequestDTO.builder()
+        BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent("new board")
                 .memberId(member.getMemberId())
@@ -128,7 +128,7 @@ class UserBoardAPIControllerTest {
         final String url = "/api/support/{id}";
         final String title = "updateTitle";
         final String content = "updateContent";
-        UserBoardRequestDTO boardRequest = UserBoardRequestDTO.builder()
+        BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent(content)
                 .memberId(member.getMemberId())

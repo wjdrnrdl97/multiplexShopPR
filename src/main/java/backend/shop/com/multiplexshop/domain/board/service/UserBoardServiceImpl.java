@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.board.service;
 
-import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.UserBoardRequestDTO;
+import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
 import backend.shop.com.multiplexshop.domain.board.repository.UserBoardRepository;
 
@@ -16,7 +16,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UserBoardServiceImpl implements BoardService{
+public class UserBoardServiceImpl implements BoardService<UserBoard>{
+
     private final UserBoardRepository userBoardRepository;
     private final MemberRepository memberRepository;
 
@@ -32,17 +33,17 @@ public class UserBoardServiceImpl implements BoardService{
     }
 
     @Override
-    public UserBoard save(UserBoardRequestDTO userBoardRequestDTO) {
-        UserBoard userBoard = DtoToBoardEntity(userBoardRequestDTO);
+    public UserBoard save(BoardRequestDTO boardRequestDTO) {
+        UserBoard userBoard = DtoToBoardEntity(boardRequestDTO);
         return userBoardRepository.save(userBoard);
     }
 
 
     @Override
     @Transactional
-    public UserBoard update(Long boardId, UserBoardRequestDTO userBoardRequestDTO){
+    public UserBoard update(Long boardId, BoardRequestDTO boardRequestDTO){
         UserBoard getUserBoard = userBoardRepository.findById(boardId).get();
-        getUserBoard.updateBoard(userBoardRequestDTO.getBoardTitle(), userBoardRequestDTO.getBoardContent());
+        getUserBoard.updateBoard(boardRequestDTO.getBoardTitle(), boardRequestDTO.getBoardContent());
         return userBoardRepository.save(getUserBoard);
     }
 
@@ -54,13 +55,17 @@ public class UserBoardServiceImpl implements BoardService{
         userBoardRepository.deleteById(boardId);
     }
 
-    @Override
-    public UserBoard DtoToBoardEntity(UserBoardRequestDTO userBoardRequestDTO) {
-            Member member = memberRepository.findById(userBoardRequestDTO.getMemberId())
+    /**
+     * DTO를 Entity로 변환
+     * @param boardRequestDTO
+     * @return UserBoard
+     */
+    public UserBoard DtoToBoardEntity(BoardRequestDTO boardRequestDTO) {
+            Member member = memberRepository.findById(boardRequestDTO.getMemberId())
                     .orElseThrow(()->new IllegalArgumentException("Member not found"));
             return UserBoard.builder()
-                    .boardTitle(userBoardRequestDTO.getBoardTitle())
-                    .boardContent(userBoardRequestDTO.getBoardContent())
+                    .boardTitle(boardRequestDTO.getBoardTitle())
+                    .boardContent(boardRequestDTO.getBoardContent())
                     .member(member)
                     .memberName(member.getMemberName())
                     .build();

@@ -15,23 +15,23 @@ public class Notice extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long noticeId;
+    private Long boardId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
 
     @Column(length = 30,nullable = false)
-    private String noticeTitle;
+    private String boardTitle;
 
     @Column(length = 500,nullable = false)
-    private String noticeContent;
+    private String boardContent;
 
     @Column(length = 20,nullable = false)
     private String memberName;
 
-    @Column(columnDefinition = "integer default 0")
-    private Long noticeViewCount;
+    @Column
+    private Long boardViewCount;
 
 
 }
