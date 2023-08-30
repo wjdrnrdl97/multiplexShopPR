@@ -4,6 +4,7 @@ import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,12 +24,23 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    private void duplicateEmailValidate(Member member){
+    public Member findById(Long id){
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("등록되지않은 회원 입니다. : "+id));
+    }
+
+    public void duplicateEmailValidate(Member member){
         List<Member> findMemberByEmail = memberRepository.findByEmail(member.getMemberEmailId());
         if (!findMemberByEmail.isEmpty()){
             throw new IllegalStateException("이미 존재하는 E-Mail[ID] 입니다.");
         }
     }
+
+    public void deleteMemberById(Long id){
+        Member deleteMember = findById(id);
+        memberRepository.delete(deleteMember);
+    }
+
 
 
     public Member dtoToMemberEntity(MemberRequestDTO memberRequestDTO){
@@ -40,6 +52,17 @@ public class MemberService {
                 .phoneNumber(memberRequestDTO.getPhoneNumber())
                 .role(memberRequestDTO.getRole())
                 .build();
+    }
+
+    @Transactional
+    public Member update(Long id, MemberRequestDTO request){
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("등록되지 않은 회원입니다."));
+
+        member.updateMember(request.getMemberAddress(), request.getPhoneNumber());
+
+        return member;
+
     }
 
 }

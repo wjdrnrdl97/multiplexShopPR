@@ -21,12 +21,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
+import java.util.Optional;
 
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.*;
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.MemberRequestDTO.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -74,8 +75,8 @@ class MemberAPIControllerTest {
         //then
         List<Member> members = memberRepository.findAll();
         assertThat(members.size()).isEqualTo(2);
-        assertThat(members.get(1).getMemberEmailId()).isEqualTo(userEmail);
-        assertThat(members.get(1).getPassword()).isEqualTo(userPW);
+        assertThat(members.get(0).getMemberEmailId()).isEqualTo(userEmail);
+        assertThat(members.get(0).getPassword()).isEqualTo(userPW);
         result.andExpect(status().isOk());
         
     }
@@ -108,6 +109,48 @@ class MemberAPIControllerTest {
         });
 
 
+    }
+
+    @Test
+    @DisplayName("updateMemberInfo(): 회원 정보 수정에 성공한다.")
+    void test3() throws Exception{
+         //given
+        String url = "/api/mypage/{id}";
+        String newAddr = "연수동 552-1";
+        String newTel = "010-9299-3944";
+
+        Member member = memberRepository.findById(99L).get();
+        MemberRequestDTO request = builder()
+                .memberAddress(newAddr)
+                .phoneNumber(newTel)
+                .build();
+
+        //when
+        ResultActions result = mockMvc.perform(put(url, member.getMemberId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(request)));
+        //then
+        result.andExpect(status().isOk());
+
+        Member modifiedMember = memberRepository.findById(member.getMemberId()).get();
+        assertThat(modifiedMember.getMemberAddress()).isEqualTo(newAddr);
+        assertThat(modifiedMember.getPhoneNumber()).isEqualTo(newTel);
+
+
+    }
+
+    @Test
+    @DisplayName("deleteMember(): 회원 삭제에 성공한다.")
+    void test4() throws Exception{
+        //given
+        String url = "/api/mypage/{id}";
+        Member deleteMember = memberRepository.findById(99L).get();
+        //when
+        ResultActions result = mockMvc.perform(delete(url, deleteMember.getMemberId()));
+        //then
+        result.andExpect(status().isOk());
+        List<Member> members = memberRepository.findAll();
+        assertThat(members).isEmpty();
     }
 
 }

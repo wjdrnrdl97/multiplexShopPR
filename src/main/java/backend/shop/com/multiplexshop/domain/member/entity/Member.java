@@ -51,4 +51,9 @@ public class Member extends BaseEntity {
         this.role = role;
     }
 
+    public void updateMember(String memberAddress, String phoneNumber){
+        this.memberAddress = memberAddress;
+        this.phoneNumber = phoneNumber;
+    }
+
 }
