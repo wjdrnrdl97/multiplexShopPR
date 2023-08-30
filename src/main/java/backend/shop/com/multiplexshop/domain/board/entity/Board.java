@@ -8,11 +8,8 @@ import lombok.*;
 
 @Entity
 @Getter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
-public class UserBoard extends BaseEntity {
+public class Board extends BaseEntity {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +28,12 @@ public class UserBoard extends BaseEntity {
         @Column(length = 20,nullable = false)
         private String memberName;
 
-        @Column(columnDefinition = "integer default 0")
+        @Column
         private Long boardViewCount;
+
+        @Enumerated(EnumType.STRING)
+        @Column(length = 10)
+        private BoardType boardType;
 
         /**
          *  비즈니스 로직 : 게시물 수정
@@ -40,5 +41,13 @@ public class UserBoard extends BaseEntity {
         public void updateBoard(String updateTitle, String updateContent){
                 this.boardTitle = updateTitle;
                 this.boardContent = updateContent;
+        }
+        @Builder
+        public Board(Member member, String boardTitle, String boardContent, String memberName,String boardType){
+                this.boardTitle = boardTitle;
+                this.boardContent = boardContent;
+                this.memberName = member.getMemberName();
+                this.member = member;
+                this.boardType = BoardType.valueOf(boardType);
         }
 }

@@ -1,7 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.dto;
 
-import backend.shop.com.multiplexshop.domain.board.entity.Notice;
-import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
+import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.entity.BoardType;
 import lombok.*;
 
 
@@ -21,41 +21,36 @@ public class BoardDTOs {
         private String memberName;
         private String boardTitle;
         private String boardContent;
+        private BoardType boardType;
         private Long memberId;
 
-        // 공지사항
-        public BoardResponseDTO(Notice notice){
-            this.boardId = notice.getBoardId();
-            this.boardTitle = notice.getBoardTitle();
-            this.boardContent = notice.getBoardContent();
-            this.memberName = notice.getMember().getMemberName();
-            this.regDate = notice.getRegDate();
-            this.modDate = notice.getModDate();
-            this.boardViewCount = notice.getBoardViewCount();
-            this.memberId = notice.getMember().getMemberId();
-        }
-        
-        // 유저보드
-        public BoardResponseDTO(UserBoard userBoard){
-            this.boardId = userBoard.getBoardId();
-            this.boardTitle = userBoard.getBoardTitle();
-            this.boardContent = userBoard.getBoardContent();
-            this.memberName = userBoard.getMember().getMemberName();
-            this.regDate = userBoard.getRegDate();
-            this.modDate = userBoard.getModDate();
-            this.boardViewCount = userBoard.getBoardViewCount();
-            this.memberId = userBoard.getMember().getMemberId();
+        public BoardResponseDTO(Board board){
+            this.boardId = board.getBoardId();
+            this.boardTitle = board.getBoardTitle();
+            this.boardContent = board.getBoardContent();
+            this.memberName = board.getMember().getMemberName();
+            this.regDate = board.getRegDate();
+            this.modDate = board.getModDate();
+            this.boardViewCount = board.getBoardViewCount();
+            this.boardType = board.getBoardType();
+            this.memberId = board.getMember().getMemberId();
         }
     }
 
     @Getter
-    @AllArgsConstructor
-    @Builder
     public static class BoardRequestDTO {
         private Long memberId;
         private String boardTitle;
         private String boardContent;
+        private  String boardType;
 
+        @Builder
+        public  BoardRequestDTO(Long memberId,String boardTitle,String boardContent, String boardType){
+            this.memberId = memberId;
+            this.boardTitle = boardTitle;
+            this.boardContent = boardContent;
+            this.boardType = boardType;
+        }
     }
 
 }

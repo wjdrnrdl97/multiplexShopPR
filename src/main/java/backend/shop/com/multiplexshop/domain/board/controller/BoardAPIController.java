@@ -2,13 +2,11 @@ package backend.shop.com.multiplexshop.domain.board.controller;
 
 
 
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs;
+
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
-import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
+import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,58 +17,54 @@ import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
 
 @RestController
-public class UserBoardAPIController {
+@RequiredArgsConstructor
+public class BoardAPIController {
 
-    private final BoardService<UserBoard> boardService;
-
-
-    public UserBoardAPIController(@Qualifier("userBoard") BoardService<UserBoard> boardService) {
-        this.boardService = boardService;
-    }
+    private final BoardService boardService;
 
     /**
-     * 게시물 상세조회
-     * @param id (@PathVariable)
+     * 게시물 상세 조회
+     * @param id (@PathVariable, 게시물 번호)
      * @return : Http 200 OK, body(getBoard)
      */
     @GetMapping("/api/support/{id}")
     public ResponseEntity<BoardResponseDTO> getUserBoard(@PathVariable("id") Long id) {
-        UserBoard getUserBoard = boardService.findById(id);
-        return ResponseEntity.ok().body(new BoardResponseDTO(getUserBoard));
+        Board getBoard = boardService.findById(id);
+        return ResponseEntity.ok().body(new BoardResponseDTO(getBoard));
     }
 
     /**
-     * 게시물 목록조회
+     * 게시물 목록 조회
      * @return : Http 200 ok, body(List(Board))
      */
     @GetMapping("/api/support")
-    public ResponseEntity<List<BoardResponseDTO>> getUserBoardList() {
+    public ResponseEntity<List<BoardResponseDTO>> getBoardList() {
         List<BoardResponseDTO> list = boardService.findByAll().stream().map(BoardResponseDTO::new).toList();
         return ResponseEntity.ok().body(list);
     }
 
     /**
      * 게시물 등록
-     * @param boardRequestDTO
+     * @param boardRequestDTO (등록할 게시물 정보)
      * @return Http 201 created, body(postBoard(new Board))
      */
     @PostMapping("/api/support")
-    public ResponseEntity<UserBoard> postUserBoard(@RequestBody BoardRequestDTO boardRequestDTO){
-        UserBoard postUserBoard = boardService.save(boardRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(postUserBoard);
+    public ResponseEntity<Board> postUserBoard(@RequestBody BoardRequestDTO boardRequestDTO){
+        Board postBoard = boardService.save(boardRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(postBoard);
     }
 
     /**
      * 게시물 수정
      * @param boardId (수정할 게시물 번호)
      * @param boardRequestDTO (수정할 게시물 내용)
-     * @return UserBoard(수정한 게시물)
+     * @return Board(수정한 게시물)
      */
     @PutMapping("/api/support/{id}")
-    public ResponseEntity<UserBoard> updateUserBoard(@PathVariable("id") Long boardId,
+    public ResponseEntity<Board> updateUserBoard(@PathVariable("id") Long boardId,
                                                  @RequestBody BoardRequestDTO boardRequestDTO){
-        UserBoard updateUserBoard = boardService.update(boardId, boardRequestDTO);
-        return ResponseEntity.ok().body(updateUserBoard);
+        Board updateBoard = boardService.update(boardId, boardRequestDTO);
+        return ResponseEntity.ok().body(updateBoard);
     }
 
     @DeleteMapping("/api/support/{id}")

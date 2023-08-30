@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class BoardRepositoryTest {
 
     @Autowired
-    UserBoardRepository userBoardRepository;
+    BoardRepository boardRepository;
 //
 //    @Test
 //    @DisplayName("save(): 게시물 생성에 성공한다.")
