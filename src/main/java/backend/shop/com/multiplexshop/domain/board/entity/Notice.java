@@ -1,4 +1,4 @@
-package backend.shop.com.multiplexshop.domain.notice.entity;
+package backend.shop.com.multiplexshop.domain.board.entity;
 
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;

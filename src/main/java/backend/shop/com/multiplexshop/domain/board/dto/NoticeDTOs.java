@@ -1,7 +1,7 @@
-package backend.shop.com.multiplexshop.domain.notice.dto;
+package backend.shop.com.multiplexshop.domain.board.dto;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.notice.entity.Notice;
+import backend.shop.com.multiplexshop.domain.board.entity.Notice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

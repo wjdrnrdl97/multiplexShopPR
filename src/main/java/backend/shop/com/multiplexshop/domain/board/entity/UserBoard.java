@@ -3,8 +3,6 @@ package backend.shop.com.multiplexshop.domain.board.entity;
 
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Board extends BaseEntity {
+public class UserBoard extends BaseEntity {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +41,4 @@ public class Board extends BaseEntity {
                 this.boardTitle = updateTitle;
                 this.boardContent = updateContent;
         }
-
-
-
 }

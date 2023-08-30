@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiplexShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navBar">
+        <div class="navBar_logo">
+            <a href="main.html">
+                <i class="fa-brands fa-drupal"></i>
+                <span class="logo">S H O P</span>
+            </a>
+        </div>
+
+        <ul class="navBar_menu" >
+            <li style="color: black;"><a href="">A L L </a></li>
+            <li style="color: black;"><a href="">F O O D</a></li>
+            <li style="color: black;"><a href="">S T U F F</a></li>
+        </ul>
+
+        <ul class="navBar_members">
+            <li>
+                <a href="#" class="iconA">
+                    <i class="fa-solid fa-cart-shopping" style="display: block; text-align: center; line-height: 40px;" ></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="iconA">    
+                    <i class="fa-solid fa-handshake" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+            <li><a href="#">Join</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">MyPage</a></li>
+        </ul>
+    </nav>
+    <!-- Nav Bar -->
+
+
+    <article id="article">
+        <div class="table_box">
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>WRITER</th>
+                <th>DATE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="read.html">[ NOTICE ] 공지 사항</a></td>
+                <td>John Doe</td>
+                <td>2023-08-24</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><a href="#">두 번째 게시물</a></td>
+                <td>Jane Smith</td>
+                <td>2023-08-25</td>
+            </tr>
+            <th:block th:each = "dto : ${userBoardList}">
+                <tr>
+                    <td>[[${dto.boardId}]]</td>
+                    <td>
+                        <a th:href="@{/support/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
+                    </td>
+                    <td>[[${dto.memberName}]]</td>
+                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                </tr>
+            </th:block>
+            <!-- 여기에 더 많은 게시물 행 추가 가능 -->
+        </tbody>
+        
+    </table>
+
+<!--        <button th:onclick="|location.href='@{/support/post/}'|" class="post_btn">POST</button>-->
+            <button th:onclick="|location.href='@{/support/post}'|"
+                    class="post_btn">POST</button>
+
+        </div>
+        
+
+
+    <div class="pagination">
+        <span class="page-link">1</span>
+        <span class="page-link">2</span>
+        <span class="page-link">3</span>
+        <!-- 여기에 더 많은 페이지 링크 추가 -->
+    </div>
+    </article>
+
+    <!-- article -->
+
+
+    <footer id="footer">
+        <div>
+            <p>이곳은 footer 입니다.</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
+                Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
+                recusandae maiores quam suscipit consequatur.</p>
+        </div>
+    </footer>
+    <!-- footer -->
+
+    <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+    <script>
+
+    </script>
+      
+</body>
+</html>

@@ -1,13 +1,11 @@
 package backend.shop.com.multiplexshop.domain.board.service;
 
 
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
-import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.dto.UserBoardDTOs.UserBoardRequestDTO;
+import backend.shop.com.multiplexshop.domain.board.entity.UserBoard;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-
 
 
 /**
@@ -15,34 +13,40 @@ import java.util.Optional;
  */
 @Service
 public interface BoardService {
-
     /**
      *  게시물 상세조회
      * @param id / BoardId
      * @return Board / exception
      */
-    public Board getBoard(Long id);
+    public UserBoard findById(Long id);
 
     /**
      *  게시물목록 조회
      * @return List<Board>
      */
-    public List<Board> getBoardList();
+    public List<UserBoard> findByAll();
 
     /**
      *  게시물 등록
-     * @param boardRequestDTO
+     * @param userBoardRequestDTO
      * @return Board
      */
-    public Board postBoard(BoardRequestDTO boardRequestDTO);
+    public UserBoard save(UserBoardRequestDTO userBoardRequestDTO);
 
     /**
      *  게시물 수정
      * @param boardId (수정할 게시물 번호)
-     * @param boardRequestDTO (수정한 게시물 정보)
+     * @param userBoardRequestDTO (수정한 게시물 정보)
      * @return Board(수정된 게시물 정보)
      */
-    public Board updateBoard(Long boardId, BoardRequestDTO boardRequestDTO);
+    public UserBoard update(Long boardId, UserBoardRequestDTO userBoardRequestDTO);
 
-    public void deleteBoard(Long boardId);
+    public void delete(Long boardId);
+
+    /**
+     * 게시물 DTO -> Entity 변환하기
+     * @param userBoardRequestDTO
+     * @return board
+     */
+    public UserBoard DtoToBoardEntity(UserBoardRequestDTO userBoardRequestDTO);
 }
