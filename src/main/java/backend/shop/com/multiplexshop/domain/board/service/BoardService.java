@@ -86,7 +86,6 @@ public class BoardService {
                 .boardContent(boardRequestDTO.getBoardContent())
                 .member(member)
                 .memberName(member.getMemberName())
-                .boardType(boardRequestDTO.getBoardType())
                 .build();
     }
 

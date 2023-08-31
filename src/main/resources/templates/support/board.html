@@ -59,27 +59,29 @@
                 <th>DATE</th>
             </tr>
             </thead>
-            <tbody class="notice" >
-                <tr class="notice" th:each="dto : ${notice}">
-                    <td>[[${dto.boardType}]]</td>
-                    <td>
-                        <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
-                    </td>
-                    <td>[[${dto.memberName}]]</td>
-                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
-                </tr>
-            </tbody>
-            <tbody class="post">
-                <tr th:each="dto : ${post}" >
-                    <td>[[${dto.boardType}]]</td>
-                    <td>
-                        <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
-                    </td>
-                    <td>[[${dto.memberName}]]</td>
-                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
-                </tr>
-            </tbody>
 
+            <tbody>
+            <div>
+                <tr class="notice" th:each="dto : ${board}" th:if="${dto.boardType.equals('NOTICE')}">
+                    <td>[[${dto.boardType}]]</td>
+                    <td>
+                        <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
+                    </td>
+                    <td>[[${dto.memberName}]]</td>
+                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                </tr>
+            </div>
+            <div>
+                <tr class="post" th:each="dto : ${board}" th:if="${dto.boardType=='POST'}">
+                    <td>[[${dto.boardType}]]</td>
+                    <td>
+                        <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
+                    </td>
+                    <td>[[${dto.memberName}]]</td>
+                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                </tr>
+            </div>
+            </tbody>
             <!-- 여기에 더 많은 게시물 행 추가 가능 -->
 
 
