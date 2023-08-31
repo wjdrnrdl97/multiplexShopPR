@@ -6,6 +6,9 @@ import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +26,55 @@ public class BoardService {
 
     /**
      *  게시물 상세 조회
-     * @param id (조회할 게시물 번호)
-     * @return Board(조회 상세정보)
+     * @param boardId (조회할 게시물 번호)
+     * @return Board(조회 상세정보) + 조회수 증가
      */
-    public Board findById(Long id) {
-        return boardRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Board not Found" + id));
+    public Board findById(Long boardId) {
+        boardRepository.updateCount(boardId);
+        return boardRepository.findById(boardId)
+                .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
     }
+
+    /**
+     * Cookie를 사용한 조회수 증가
+     * @param boardId (게시물 번호)
+     * @param request
+     * @param response
+     * @return 조회수 증가
+     */
+    @Transactional
+    public Board viewCountValidation(Long boardId, HttpServletRequest request, HttpServletResponse response){
+        Cookie myCookie = null;
+        Cookie[] cookies = request.getCookies();
+
+        if(cookies!=null){
+            for(Cookie cookie : cookies) {
+                if (cookie.getName().equals("boardView")){
+                    myCookie = cookie;
+                }
+            }
+        }
+
+        if (myCookie!=null){
+            if(!myCookie.getValue().contains("[" + boardId.toString() + "]")){
+                boardRepository.updateCount(boardId);
+                myCookie.setValue(myCookie.getValue() + "_[" + boardId + "]");
+                myCookie.setPath("/");
+                myCookie.setMaxAge(60*60*24);
+            }
+        }
+        else {
+            boardRepository.updateCount(boardId);
+            Cookie newCookie = new Cookie("boardView","["+ boardId + "]");
+            newCookie.setPath("/");
+            newCookie.setMaxAge(60*60*24);
+            response.addCookie(newCookie);
+        }
+        return boardRepository.findById(boardId).orElseThrow(() -> {
+            return new IllegalArgumentException("Board Not Found");
+        });
+    }
+
 
     /**
      *  게시물 목록 조회
