@@ -59,28 +59,29 @@
                 <th>DATE</th>
             </tr>
             </thead>
-            <th:block th:each="dto : ${boardList}">
-                <tbody th:if="${dto.boardType}=='NOTICE'">
-                <tr>
-                    <td>[[${dto.boardId}]]</td>
+
+            <tbody>
+            <div>
+                <tr class="notice" th:each="dto : ${board}" th:if="${dto.boardType.equals('NOTICE')}">
+                    <td>[[${dto.boardType}]]</td>
                     <td>
                         <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
                     </td>
                     <td>[[${dto.memberName}]]</td>
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                 </tr>
-                </tbody>
-                <tbody th:if="${dto.boardType}!='NOTICE'">
-                <tr>
-                    <td>[[${dto.boardId}]]</td>
+            </div>
+            <div>
+                <tr class="post" th:each="dto : ${board}" th:if="${dto.boardType=='POST'}">
+                    <td>[[${dto.boardType}]]</td>
                     <td>
                         <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
                     </td>
                     <td>[[${dto.memberName}]]</td>
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                 </tr>
-                </tbody>
-            </th:block>
+            </div>
+            </tbody>
             <!-- 여기에 더 많은 게시물 행 추가 가능 -->
 
 
