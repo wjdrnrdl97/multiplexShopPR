@@ -40,7 +40,11 @@ public class MemberViewController {
     public String getMyPageView(Model model, @PathVariable Long id){
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("등록 되지않은 회원입니다."));
-        model.addAttribute("member", member);
+        MemberResponseDTO responseDTO = new MemberResponseDTO(member);
+        model.addAttribute("member", responseDTO);
         return "mypage";
     }
+
+
+
 }

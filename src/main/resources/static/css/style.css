@@ -720,6 +720,24 @@ input[type="text"]
     transition: all 0.3s;
 }
 
+  .addr_td{
+    border-bottom: none;
+  }
+
+  #address_kakao{
+      background-color: transparent;
+      width: 100px;
+      height: 40px;
+      border: 1px solid #000;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #address_kakao:hover{
+      background-color: black;
+      color: white;
+    }
+
 
 
 
