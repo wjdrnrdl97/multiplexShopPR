@@ -21,7 +21,7 @@ public class BoardDTOs {
         private String memberName;
         private String boardTitle;
         private String boardContent;
-        private BoardType boardType;
+        private String boardType;
         private Long memberId;
 
         public BoardResponseDTO(Board board){
@@ -32,7 +32,7 @@ public class BoardDTOs {
             this.regDate = board.getRegDate();
             this.modDate = board.getModDate();
             this.boardViewCount = board.getBoardViewCount();
-            this.boardType = board.getBoardType();
+            this.boardType = board.getBoardType().label();
             this.memberId = board.getMember().getMemberId();
         }
     }
@@ -42,7 +42,7 @@ public class BoardDTOs {
         private Long memberId;
         private String boardTitle;
         private String boardContent;
-        private  String boardType;
+        private String boardType;
 
         @Builder
         public  BoardRequestDTO(Long memberId,String boardTitle,String boardContent, String boardType){

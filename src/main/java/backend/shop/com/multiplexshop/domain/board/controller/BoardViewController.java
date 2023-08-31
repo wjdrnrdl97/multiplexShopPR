@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
@@ -23,8 +24,25 @@ public class BoardViewController {
     @GetMapping()
     public String getBoardList(Model model){
         List<Board> boardList = boardService.findByAll();
-        model.addAttribute("boardList", boardList);
+        ArrayList<Board> noticeList = new ArrayList<>();
+        ArrayList<Board> postList = new ArrayList<>();
+        NoticeBoardValidation(boardList, noticeList, postList);
+
+
+        model.addAttribute("notice", noticeList);
+        model.addAttribute("post",postList);
         return "support/board";
+    }
+
+    private static void NoticeBoardValidation
+            (List<Board> boardList, ArrayList<Board> noticeList, ArrayList<Board> postList) {
+        for (Board board : boardList) {
+            if (board.getBoardType().label().equals("NOTICE")){
+                noticeList.add(board);
+            }else if (board.getBoardType().label().equals("POST")){
+                postList.add(board);
+            }
+        }
     }
 
     @GetMapping("/board/{id}")
