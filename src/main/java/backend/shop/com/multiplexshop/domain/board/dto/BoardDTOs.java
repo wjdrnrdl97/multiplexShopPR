@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class BoardDTOs {
 
-
     @Getter
     @AllArgsConstructor
     @Builder
@@ -46,6 +45,7 @@ public class BoardDTOs {
         private Long memberId;
         private String boardTitle;
         private String boardContent;
+
     }
 }
 

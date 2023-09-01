@@ -1,6 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.entity;
 
 
+
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
@@ -15,10 +16,6 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Board extends BaseEntity {
-
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long boardId;
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "memberId",nullable = false)
