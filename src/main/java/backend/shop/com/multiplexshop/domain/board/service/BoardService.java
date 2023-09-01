@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 @Service
@@ -30,10 +32,10 @@ public class BoardService {
      * @return Board(조회 상세정보) + 조회수 증가
      */
     public Board findById(Long boardId) {
-        boardRepository.updateCount(boardId);
         return boardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
     }
+
 
     /**
      * Cookie를 사용한 조회수 증가
@@ -42,7 +44,7 @@ public class BoardService {
      * @param response
      * @return 조회수 증가
      */
-    @Transactional
+    
     public Board viewCountValidation(Long boardId, HttpServletRequest request, HttpServletResponse response){
         Cookie myCookie = null;
         Cookie[] cookies = request.getCookies();
@@ -55,24 +57,26 @@ public class BoardService {
             }
         }
 
-        if (myCookie!=null){
-            if(!myCookie.getValue().contains("[" + boardId.toString() + "]")){
+        setCookie(boardId, response, myCookie);
+        return boardRepository.findById(boardId).orElseThrow(() ->
+            new IllegalArgumentException("Board Not Found"));
+    }
+
+    private void setCookie(Long boardId, HttpServletResponse response, Cookie cookie) {
+        if (cookie !=null){
+            if(!cookie.getValue().contains("[" + boardId.toString() + "]")){
                 boardRepository.updateCount(boardId);
-                myCookie.setValue(myCookie.getValue() + "_[" + boardId + "]");
-                myCookie.setPath("/");
-                myCookie.setMaxAge(60*60*24);
+                cookie.setValue(cookie.getValue() + "_[" + boardId + "]");
+                cookie.setPath("/");
+                cookie.setMaxAge(60*60*24);
+                response.addCookie(cookie);
             }
         }
-        else {
             boardRepository.updateCount(boardId);
             Cookie newCookie = new Cookie("boardView","["+ boardId + "]");
             newCookie.setPath("/");
             newCookie.setMaxAge(60*60*24);
             response.addCookie(newCookie);
-        }
-        return boardRepository.findById(boardId).orElseThrow(() -> {
-            return new IllegalArgumentException("Board Not Found");
-        });
     }
 
 

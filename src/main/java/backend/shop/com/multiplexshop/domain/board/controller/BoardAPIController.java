@@ -6,6 +6,8 @@ package backend.shop.com.multiplexshop.domain.board.controller;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,5 +73,13 @@ public class BoardAPIController {
     public ResponseEntity deleteBoard(@PathVariable("id") Long boardId){
         boardService.delete(boardId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/api/support/boardView/{id}")
+    public ResponseEntity<BoardResponseDTO> upgradeViewCount(@CookieValue("boardView")String boardView,
+                                                             @PathVariable("id") Long boardId,
+                                                             HttpServletResponse response, HttpServletRequest request){
+        Board board = boardService.viewCountValidation(boardId,request,response);
+        return ResponseEntity.ok().body(new BoardResponseDTO(board));
     }
 }
