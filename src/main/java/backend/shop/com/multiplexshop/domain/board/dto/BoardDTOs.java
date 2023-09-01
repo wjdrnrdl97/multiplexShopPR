@@ -13,40 +13,7 @@ import java.util.Optional;
 
 public class BoardDTOs {
 
-    @Getter
-    @AllArgsConstructor
-    @Builder
-    public static class BoardResponseDTO {
-        private Long boardId;
-        private Long boardViewCount;
-        private LocalDateTime modDate;
-        private LocalDateTime regDate;
-        private String memberName;
-        private String boardTitle;
-        private String boardContent;
-        private Long memberId;
 
-        public BoardResponseDTO(Board board) {
-            this.boardId = board.getBoardId();
-            this.boardViewCount = board.getBoardViewCount();
-            this.modDate = board.getModDate();
-            this.regDate = board.getRegDate();
-            this.memberName = board.getMember().getMemberName();
-            this.boardTitle = board.getBoardTitle();
-            this.boardContent = board.getBoardContent();
-            this.memberId = board.getMember().getMemberId();
-        }
-    }
-
-    @Getter
-    @Builder
-    public static class BoardRequestDTO {
-        private Long boardId;
-        private Long memberId;
-        private String boardTitle;
-        private String boardContent;
-
-    }
 }
 
 

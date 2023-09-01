@@ -2,16 +2,12 @@ package backend.shop.com.multiplexshop.domain.member.dto;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 public class MemberDTOs {
 
     @Getter
-    @AllArgsConstructor
-    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class MemberRequestDTO{
         private String memberEmailId;
         private String password;
@@ -19,6 +15,16 @@ public class MemberDTOs {
         private String memberAddress;
         private String phoneNumber;
         private Role role;
+
+        @Builder
+        public MemberRequestDTO(String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
+            this.memberEmailId = memberEmailId;
+            this.password = password;
+            this.memberName = memberName;
+            this.memberAddress = memberAddress;
+            this.phoneNumber = phoneNumber;
+            this.role = role;
+        }
     }
 
     @Getter

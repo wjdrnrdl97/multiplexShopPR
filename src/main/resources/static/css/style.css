@@ -730,6 +730,7 @@ input[type="text"]
       height: 40px;
       border: 1px solid #000;
       cursor: pointer;
+      font-size: 18px;
       font-weight: bold;
     }
 
