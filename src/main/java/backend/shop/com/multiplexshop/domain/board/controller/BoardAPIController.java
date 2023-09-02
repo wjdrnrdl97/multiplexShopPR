@@ -7,8 +7,10 @@ import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 public class BoardAPIController {
 
     private final BoardService boardService;
+
 
     /**
      * 게시물 상세 조회
@@ -38,9 +41,11 @@ public class BoardAPIController {
      * @return : Http 200 ok, body(List(Board))
      */
     @GetMapping("/api/support")
-    public ResponseEntity<List<BoardResponseDTO>> getBoardList() {
-        List<BoardResponseDTO> list = boardService.findByAll().stream().map(BoardResponseDTO::new).toList();
-        return ResponseEntity.ok().body(list);
+    public ResponseEntity<Page<BoardResponseDTO>>
+    getBoardList(@RequestParam(defaultValue = "0")int page, Model model) {
+        Page<BoardResponseDTO> postPages = boardService.findByPost(page);
+
+        return ResponseEntity.ok().body(postPages);
     }
 
     /**

@@ -73,7 +73,7 @@
     </div>
 
     <div class="btns">
-        <a th:href="@{/support}" class="list-btn list2" style="margin-top:20px;">LIST</a>
+        <a th:href="@{/support(page=${page})}" class="list-btn list2" style="margin-top:20px;">LIST</a></a>
         <a th:if="${Board.boardId} == null" class="list-btn" style="margin-top:20px;" id="post_btn">POST</a>
         <a th:if="${Board.boardId} != null" class="list-btn" style="margin-top:20px;" id="update_btn">UPDATE</a>
         <a th:if="${Board.boardId} != null" class="list-btn" style="margin-top:20px;" id="delete_btn">DELETE</a>
