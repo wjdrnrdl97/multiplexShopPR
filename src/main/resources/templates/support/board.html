@@ -10,6 +10,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 </head>
+<style>
+    .pageActive{
+    background-color: #000;
+    color: white;
+  };
+
+ .notice:last-of-type td {
+    border-bottom: 2px solid black;
+}
+
+</style>
 <body>
 <nav class="navBar">
     <div class="navBar_logo">
@@ -61,19 +72,14 @@
             </thead>
 
             <tbody>
-            <div>
-<!--                th:if="${dto.boardType.equals('NOTICE')}"-->
-                <tr class="notice" th:each="dto : ${notice}" >
+                <tr class="notice" th:each="dto : ${notice}"  >
                     <td>[[${dtoStat.count}]]</td>
                     <td>
-                        <a th:href="@{/support/board/{id}(id=${dto.boardId}, page=${page})}">[[${dto.boardTitle}]]</a>
+                        <a th:href="@{/support/board/{id}(id=${dto.boardId}, page=${page})}" style="font-weight: bold;">[[${dto.boardTitle}]]</a>
                     </td>
                     <td>[[${dto.memberName}]]</td>
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                 </tr>
-            </div>
-            <div>
-<!--                th:if="${dto.boardType=='POST'}"-->
                 <tr class="post" th:each="dto : ${board}" >
                     <td th:text="${dto.boardId}"></td>
                     <td>
@@ -82,7 +88,6 @@
                     <td>[[${dto.memberName}]]</td>
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                 </tr>
-            </div>
             </tbody>
             <!-- 여기에 더 많은 게시물 행 추가 가능 -->
 
@@ -99,16 +104,10 @@
 
     <div class="pagination">
         <th:block th:each="page : ${#numbers.sequence(1, board.totalPages)}">
-            <span class="page-link" th:class="'page-item '+ ${(board.number + 1) == page? 'active':''}">
-                <a class="page-link" th:href="@{/support(page = ${page})}">
+                <a class="page-link" th:class="'page-link '+ ${(board.number + 1) == page? 'pageActive':''}"  th:href="@{/support(page = ${page})}">
                     [[${page}]]
                 </a>
-            </span>
         </th:block>
-<!--        <span class="page-link">1</span>-->
-<!--        <span class="page-link">2</span>-->
-<!--        <span class="page-link">3</span>-->
-        <!-- 여기에 더 많은 페이지 링크 추가 -->
     </div>
 </article>
 

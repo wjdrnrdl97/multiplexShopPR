@@ -34,6 +34,8 @@ public class BoardViewController {
         return "support/board";
     }
 
+
+
     @GetMapping("/board/{id}")
     public String getBoard(@PathVariable("id") Long boardId,
                            @RequestParam(defaultValue = "0") int page,

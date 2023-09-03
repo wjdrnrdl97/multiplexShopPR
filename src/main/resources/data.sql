@@ -9,7 +9,7 @@ VALUES
 -- 더미 데이터 삽입
 INSERT INTO BOARD (board_id, mod_date, reg_date, board_content, board_title, board_type, board_view_count, member_name, member_id)
 VALUES
-(1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '공지 사항1', '[ NOTICE ] 주문 관련 공지 드립니다.', 'NOTICE', 100, '관리자', 3),
+(1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '추석 연휴 기간내 주문 관련 공지사항 말씀 드립니다.', '[ NOTICE ] 주문 관련 공지 드립니다.', 'NOTICE', 100, '관리자', 3),
 (2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '공지 사항2', '[ NOTICE ] 배송 관련 안내 말씀 드립니다.', 'NOTICE', 50, '관리자', 3),
 (3, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 1', '게시글 제목 1', 'POST', 75, '사용자1', 1),
 (4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 2', '게시글 제목 2', 'POST', 75, '사용자1', 1),

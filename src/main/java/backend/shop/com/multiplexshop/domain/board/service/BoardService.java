@@ -39,20 +39,21 @@ public class BoardService {
     }
 
     /**
-     *  게시물 목록 조회
-     * @return List<Board>
+     *  공지사항 게시물 목록 조회
+     * @return List<BoardResponseDTO>
      */
     public List<BoardResponseDTO> findByNotice() {
-
-//        int pageNum = (page == 0)? 0 : page - 1;
-//        PageRequest pageAble = PageRequest.of(pageNum, 1, Sort.by("boardId").descending());
-//        Page<Board> noticePage = boardRepository.findByNotie(pageAble);
-
         List<Board> notice = boardRepository.findByNotie();
         return notice.stream()
                 .map(BoardResponseDTO::new)
                 .toList();
     }
+
+    /**
+     * 일반 게시물 목록 조회
+     * @param page
+     * @return Page<BoardResponseDTO>
+     */
     public Page<BoardResponseDTO> findByPost(int page) {
 
         int pageNum = (page == 0)? 0 : page - 1;

@@ -297,6 +297,11 @@ textarea {
     resize: none;
   }
 
+  .pageActive{
+    background-color: #000;
+    color: white;
+  }
+
 
 
   .cmt-btn{
