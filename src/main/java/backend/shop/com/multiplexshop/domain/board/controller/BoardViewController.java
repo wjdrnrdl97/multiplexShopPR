@@ -2,15 +2,14 @@ package backend.shop.com.multiplexshop.domain.board.controller;
 
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
@@ -29,8 +28,9 @@ public class BoardViewController {
     }
 
     @GetMapping("/board/{id}")
-    public String getBoard(@PathVariable("id") Long boardId, Model model){
-        Board getBoard = boardService.findById(boardId);
+    public String getBoard(@PathVariable("id") Long boardId,HttpServletRequest request,
+                                                HttpServletResponse response, Model model){
+        Board getBoard = boardService.viewCountValidation(boardId, request,response);
         model.addAttribute("getBoard",new BoardResponseDTO(getBoard));
         return "support/read";
     }

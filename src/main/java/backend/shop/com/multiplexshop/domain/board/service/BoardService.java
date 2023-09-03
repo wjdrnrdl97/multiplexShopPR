@@ -6,11 +6,16 @@ import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 @Service
@@ -23,11 +28,76 @@ public class BoardService {
 
     /**
      *  게시물 상세 조회
-     * @param id (조회할 게시물 번호)
-     * @return Board(조회 상세정보)
+     * @param boardId (조회할 게시물 번호)
+     * @return Board(조회 상세정보) + 조회수 증가
      */
-    public Board findById(Long id) {
-        return boardRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Board not Found" + id));
+    public Board findById(Long boardId) {
+        return boardRepository.findById(boardId)
+                .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
+    }
+
+
+    /**
+     * Cookie를 사용한 조회수 증가
+     * @param boardId (게시물 번호)
+     * @param request
+     * @param response
+     * @return 조회수 증가
+     */
+    @Transactional
+    public Board viewCountValidation(Long boardId, HttpServletRequest request, HttpServletResponse response){
+        Cookie myCookie = findCookie(request.getCookies(), "boardView");
+        if (myCookie!=null && !myCookie.getValue().contains("[" + boardId.toString() + "]")){
+                increaseViewCount(boardId,response,myCookie);
+        }
+        if(myCookie == null){
+            newCookieAndIncreaseViewCount(boardId,response);
+        }
+        return boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("Board Not Found"));
+
+    }
+
+    /**
+     *  특정 cookie 찾기
+     * @param cookies
+     * @param cookieName
+     * @return
+     */
+    private Cookie findCookie(Cookie[] cookies, String cookieName) {
+        if(cookies !=null){
+            return Arrays.stream(cookies)
+                    .filter(cookie -> cookie.getName().equals(cookieName))
+                    .findFirst()
+                    .orElse(null);
+        }
+        return null;
+    }
+
+    /**
+     *  특정 게시물 조회수 증가 및 Cookie Value 변경
+     * @param boardId
+     * @param response
+     * @param cookie
+     */
+    private void increaseViewCount(Long boardId, HttpServletResponse response, Cookie cookie){
+        boardRepository.updateCount(boardId);
+        cookie.setValue(cookie.getValue() + "_[" + boardId + "]");
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        response.addCookie(cookie);
+    }
+
+    /**
+     *  쿠키 생성 및 Cookie Setting
+     * @param boardId
+     * @param response
+     */
+    private void newCookieAndIncreaseViewCount(Long boardId, HttpServletResponse response){
+        Cookie cookie = new Cookie("boardView","["+ boardId + "]");
+        boardRepository.updateCount(boardId);
+        cookie.setPath("/");
+        cookie.setMaxAge(60 * 60 * 24);
+        response.addCookie(cookie);
     }
 
     /**
