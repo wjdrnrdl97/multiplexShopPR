@@ -53,7 +53,7 @@
 <article id="article">
     <div class="right_contents">
         <!-- 공지사항 본문 -->
-        <div class="notice_contents">
+        <div th:object="${Board}" class="notice_contents">
             <input type="hidden" class="txt_tit_notice" name="boardId" id="boardId" th:value="${Board.boardId}">
             <input type="hidden" class="txt_tit_notice" name="boardType" id="boardType" th:value="${Board.boardType}">
             <p>
@@ -61,10 +61,8 @@
                                       th:value="${Board.boardTitle}">
             </p>
             <p>
-            <h3> USER ID : </h3> <input class="txt_tit_notice" name="memberId" id="memberId"
-                                        th:value="${Board.memberId}">
+            <h3> USER ID : </h3> <input class="txt_tit_notice" th:field="*{memberId}">
             </p>
-
             <h3> CONTENT : </h3>
             <textarea class="box_contents" name="boardContent" id="boardContent" th:text="${Board.boardContent}">
 
