@@ -38,6 +38,7 @@ public class BoardDTOs {
     }
 
     @Getter
+    @NoArgsConstructor
     public static class BoardRequestDTO {
         private Long memberId;
         private String boardTitle;

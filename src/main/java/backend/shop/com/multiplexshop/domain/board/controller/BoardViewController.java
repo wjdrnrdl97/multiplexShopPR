@@ -28,8 +28,8 @@ public class BoardViewController {
     }
 
     @GetMapping("/board/{id}")
-    public String getBoard(@PathVariable("id") Long boardId, HttpServletRequest request,
-                                                                HttpServletResponse response, Model model){
+    public String getBoard(@CookieValue("boardView") String boardView, @PathVariable("id") Long boardId,
+                                                HttpServletRequest request,HttpServletResponse response, Model model){
         Board getBoard = boardService.findById(boardId);
         boardService.viewCountValidation(boardId, request,response);
         model.addAttribute("getBoard",new BoardResponseDTO(getBoard));

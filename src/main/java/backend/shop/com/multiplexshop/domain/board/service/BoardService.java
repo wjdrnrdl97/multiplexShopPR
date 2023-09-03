@@ -49,10 +49,9 @@ public class BoardService {
 
         if(cookies!=null){
             for(Cookie cookie : cookies) {
-                if (cookie.getName().equals("boardView")){
+                if (cookie.getName().equals("boardView"))
                     myCookie = cookie;
                 }
-            }
         }
 
         if (myCookie!=null){
