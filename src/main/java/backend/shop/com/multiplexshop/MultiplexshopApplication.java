@@ -11,7 +11,7 @@ public class MultiplexshopApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MultiplexshopApplication.class, args);
-		//git feat/member branch init
+		//git feat_order branch init
 	}
 
 }
