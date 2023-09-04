@@ -11,9 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-
-import java.awt.print.Pageable;
-import java.util.ArrayList;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
@@ -58,7 +55,7 @@ public class BoardViewController {
             model.addAttribute("Board", new BoardResponseDTO());
             model.addAttribute("page",page);
         }else {
-            Board board = (Board) boardService.findById(boardId);
+            Board board = (Board) boardService.searchById(boardId);
             model.addAttribute("Board", new BoardResponseDTO(board));
             model.addAttribute("page",page);
         }

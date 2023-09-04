@@ -1,6 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.entity;
 
 
+
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import jakarta.persistence.*;
@@ -34,6 +35,7 @@ public class Board extends BaseEntity {
         @Enumerated(EnumType.STRING)
         @Column(length = 10,columnDefinition = "varchar(10) default 'POST'")
         private BoardType boardType = BoardType.POST;
+
 
         /**
          *  비즈니스 로직 : 게시물 수정

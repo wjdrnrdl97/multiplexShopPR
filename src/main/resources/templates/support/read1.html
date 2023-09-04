@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 </head>
 
-
 <body>
     <nav class="navBar">
         <div class="navBar_logo">
@@ -56,6 +55,7 @@
             <div class="notice_contents1">
                 <h2  class="txt_title_notice_read" style="text-align: center; font-size: 35px;">
                     [[${getBoard.boardTitle}]]</h2>
+
                 <div class="read_info">
 <!--                    <span id="boardId"> [[${getBoard.boardId}]] </span>-->
                     <span id="boardId" th:text="${getBoard.boardId}"></span>
@@ -67,30 +67,16 @@
                 <div class="box_content">
                     [[${getBoard.boardContent}]]
                 </div>
+
                 <div class="btns">
 
                     <a th:href="@{/support(page = ${page})}" class="list-btn" style="margin-top:20px;">LIST</a>
                         <a th:onclick="|location.href='@{/support/post(boardId=${getBoard.boardId},page=${page})}'|"
                            class="list-btn" style="margin-top:20px;">UPDATE</a>
                     <a class="list-btn" style="margin-top:20px;" id="delete_btn">DELETE</a>
+
                 </div>
 
-                <hr class="hr">
-
-                <div class="comment-view">
-                    <div class="comment_header">
-                        <div class="commenter">writer : <span>kim</span></div>
-                        <span class="comment-date">2023/09/04 10:00:00</span>
-                    </div>
-                    <div class="comment">
-                        <div class="comment_inform">댓글내용입니다~~</div>
-                        <div class="comment-btns">
-                            <button class="comment-btn">수정</button>
-                            <button class="comment-btn">삭제</button>    
-                        </div>
-                    </div>
-                </div>
-            
                 <div class="comment-form">
                     <h2>Comment</h2>
                     <form>

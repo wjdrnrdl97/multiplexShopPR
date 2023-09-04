@@ -262,6 +262,16 @@ tr:hover {
 
 }
 
+
+.pageActive{
+    background-color: #000;
+    color: white;
+};
+
+.notice:last-of-type td {
+    border-bottom: 2px solid black;
+}
+
 .right_contents, .comment-form{
     width: 800px;
     margin: auto;
@@ -356,6 +366,7 @@ textarea {
 .btns{
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
 }
 
 
@@ -734,6 +745,49 @@ input[type=file]::file-selector-button {
     padding-top: 0px;
     padding-bottom: 0px;
   }
+
+.comment-view{
+    padding: 10px;
+    border-bottom: 1px solid #bebebe;
+}
+
+.commenter{
+    margin-bottom: 10px;
+}
+
+.comment{
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-btns{
+    margin-left: 500px;    
+}
+
+.comment-btn{
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid #000;
+    font-size: 14px;
+}
+
+.comment-btn:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+}
+
+.hr{
+    margin: 0px;
+}
+
+.comment_header{
+    justify-content: space-between;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+
 
 
 
