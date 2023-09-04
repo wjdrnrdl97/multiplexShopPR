@@ -46,3 +46,4 @@ VALUES
 (35, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 20', '게시글 제목 33', 'POST', 75, '사용자1', 1),
 (36, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 20', '게시글 제목 34', 'POST', 75, '사용자1', 1),
 (37, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 20', '게시글 제목 35', 'POST', 75, '사용자1', 1);
+

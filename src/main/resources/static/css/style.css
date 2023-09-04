@@ -204,6 +204,7 @@ img{
 
   .table_box{
     margin: auto;
+    text-align:center;
     width: 800px;
   }
 
@@ -214,6 +215,16 @@ img{
     width: 100%;
     border-bottom: 1px solid black;
     width: 800px;
+
+    text-align:center;
+}
+
+.notice th,.notice td,
+.post th, .post td,
+.boardName th{
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #e9e6e6;
 }
 
 th, td {
@@ -284,6 +295,11 @@ textarea {
     height: 6.25em;
     border: none;
     resize: none;
+  }
+
+  .pageActive{
+    background-color: #000;
+    color: white;
   }
 
 

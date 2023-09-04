@@ -10,6 +10,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 </head>
+<style>
+    .pageActive{
+    background-color: #000;
+    color: white;
+  };
+
+ .notice:last-of-type td {
+    border-bottom: 2px solid black;
+}
+
+</style>
 <body>
 <nav class="navBar">
     <div class="navBar_logo">
@@ -52,7 +63,7 @@
 
         <table>
             <thead>
-            <tr>
+            <tr class="boardName">
                 <th>ID</th>
                 <th>TITLE</th>
                 <th>WRITER</th>
@@ -61,26 +72,22 @@
             </thead>
 
             <tbody>
-            <div>
-                <tr class="notice" th:each="dto : ${board}" th:if="${dto.boardType.equals('NOTICE')}">
-                    <td>[[${dto.boardType}]]</td>
+                <tr class="notice" th:each="dto : ${notice}"  >
+                    <td>[[${dtoStat.count}]]</td>
                     <td>
-                        <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
+                        <a th:href="@{/support/board/{id}(id=${dto.boardId}, page=${page})}" style="font-weight: bold;">[[${dto.boardTitle}]]</a>
                     </td>
                     <td>[[${dto.memberName}]]</td>
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                 </tr>
-            </div>
-            <div>
-                <tr class="post" th:each="dto : ${board}" th:if="${dto.boardType=='POST'}">
-                    <td>[[${dto.boardType}]]</td>
+                <tr class="post" th:each="dto : ${board}" >
+                    <td th:text="${dto.boardId}"></td>
                     <td>
-                        <a th:href="@{/support/board/{id}(id=${dto.boardId})}">[[${dto.boardTitle}]]</a>
+                        <a th:href="@{/support/board/{id}(id=${dto.boardId}, page=${page})}">[[${dto.boardTitle}]]</a>
                     </td>
                     <td>[[${dto.memberName}]]</td>
                     <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
                 </tr>
-            </div>
             </tbody>
             <!-- 여기에 더 많은 게시물 행 추가 가능 -->
 
@@ -96,10 +103,11 @@
 
 
     <div class="pagination">
-        <span class="page-link">1</span>
-        <span class="page-link">2</span>
-        <span class="page-link">3</span>
-        <!-- 여기에 더 많은 페이지 링크 추가 -->
+        <th:block th:each="page : ${#numbers.sequence(1, board.totalPages)}">
+                <a class="page-link" th:class="'page-link '+ ${(board.number + 1) == page? 'pageActive':''}"  th:href="@{/support(page = ${page})}">
+                    [[${page}]]
+                </a>
+        </th:block>
     </div>
 </article>
 

@@ -1,7 +1,9 @@
 package backend.shop.com.multiplexshop.domain.board.service;
 
+import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.entity.BoardType;
 import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
@@ -10,12 +12,19 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 import java.util.Arrays;
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Stream;
+
+import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
 
 @Service
@@ -101,11 +110,27 @@ public class BoardService {
     }
 
     /**
-     *  게시물 목록 조회
-     * @return List<Board>
+     *  공지사항 게시물 목록 조회
+     * @return List<BoardResponseDTO>
      */
-    public List<Board> findByAll() {
-        return boardRepository.findAll();
+    public List<BoardResponseDTO> findByNotice() {
+        List<Board> notice = boardRepository.findByNotie();
+        return notice.stream()
+                .map(BoardResponseDTO::new)
+                .toList();
+    }
+
+    /**
+     * 일반 게시물 목록 조회
+     * @param page
+     * @return Page<BoardResponseDTO>
+     */
+    public Page<BoardResponseDTO> findByPost(int page) {
+        int pageNum = (page == 0)? 0 : page - 1;
+        PageRequest pageAble = PageRequest.of(pageNum, 10, Sort.by("boardId").descending());
+        Page<Board> postPage = boardRepository.findByPost(pageAble);
+
+        return postPage.map(BoardResponseDTO::new);
     }
 
     /**
