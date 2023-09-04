@@ -39,7 +39,7 @@ dependencies {
 	//h2 database
 	runtimeOnly 'com.h2database:h2'
 
-	//test
+	//testgit
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
