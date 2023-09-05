@@ -3,6 +3,7 @@ package backend.shop.com.multiplexshop.domain.comment.dto;
 
 import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +19,8 @@ public class CommentDTOs {
         private LocalDateTime regDate;
         private LocalDateTime modDate;
 
-    public CommentResponseDTO(Comment comment){
+
+        public CommentResponseDTO(Comment comment){
         this.memberName = comment.getMemberName();
         this.commentContent = comment.getCommentContent();
         this.regDate = comment.getRegDate();
@@ -31,5 +33,13 @@ public class CommentDTOs {
     public static class CommentRequestDTO{
         private String memberName;
         private String commentContent;
+
+        @Builder
+        public CommentRequestDTO(String memberName, String commentContent) {
+            this.memberName = memberName;
+            this.commentContent = commentContent;
+        }
     }
+
+
 }

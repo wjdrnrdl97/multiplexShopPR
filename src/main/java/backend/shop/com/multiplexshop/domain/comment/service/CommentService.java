@@ -1,5 +1,7 @@
 package backend.shop.com.multiplexshop.domain.comment.service;
 
+import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
 import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.comment.repository.CommentRepository;
@@ -19,8 +21,9 @@ import static backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs.*;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final BoardRepository boardRepository;
 
-    private Comment searchById(Long commentId) {
+    public Comment searchById(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() ->
                 new IllegalArgumentException("등록되지않는 번호입니다." + commentId));
     }
@@ -28,16 +31,33 @@ public class CommentService {
     public List<Comment> findAll(){
         return commentRepository.findAll();
     }
+
+    public List<Comment> findAllByBoard(Long boardId){
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 게시물 번호입니다."));
+        return commentRepository.findAllByBoard(board);
+    }
+
+
+
+
     public Comment save(CommentRequestDTO commentRequestDTO){
         Comment comment = Comment.dtoToCommentEntity(commentRequestDTO);
         return commentRepository.save(comment);
     }
 
+    @Transactional
     public void deleteCommentById(Long commentId) {
         Comment comment = searchById(commentId);
         commentRepository.delete(comment);
     }
 
+    @Transactional
+    public Comment update(Long commentId, CommentRequestDTO commentRequestDTO) {
+        Comment updateComment = searchById(commentId);
+        updateComment.update(commentRequestDTO.getCommentContent());
 
+        return commentRepository.save(updateComment);
+    }
 }
 

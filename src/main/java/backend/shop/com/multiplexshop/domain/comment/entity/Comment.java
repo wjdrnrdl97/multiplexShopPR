@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Getter
@@ -23,7 +24,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="boardId")
     private Board board;
 
@@ -34,10 +35,12 @@ public class Comment extends BaseEntity {
     private String memberName;
 
     @Builder
-    public Comment(String commentContent,String memberName){
+    public Comment(String commentContent,String memberName, Board board){
+        this.board = board;
         this.commentContent = commentContent;
         this.memberName = memberName;
     }
+
     public static Comment dtoToCommentEntity(CommentDTOs.CommentRequestDTO commentRequestDTO){
         return Comment.builder()
                 .commentContent(commentRequestDTO.getCommentContent())
@@ -45,4 +48,11 @@ public class Comment extends BaseEntity {
                 .build();
     }
 
+    /**
+     * 댓글을 수정할 때 기존 댓글 내용을 수정된 댓글 내용으로 수정하는 로직
+     * @param commentContent (수정할 댓글 내용)
+     */
+    public void update(String commentContent) {
+        this.commentContent=commentContent;
+    }
 }
