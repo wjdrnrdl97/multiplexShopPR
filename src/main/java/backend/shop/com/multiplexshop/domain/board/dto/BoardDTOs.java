@@ -35,7 +35,7 @@ public class BoardDTOs {
             this.memberName = board.getMember().getMemberName();
             this.boardTitle = board.getBoardTitle();
             this.boardContent = board.getBoardContent();
-            this.memberId = board.getMember().getMemberId();
+            this.memberId = board.getMember().getId();
         }
     }
 
