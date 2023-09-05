@@ -114,7 +114,7 @@ class BoardAPIControllerTest{
                 .boardId(1L)
                 .boardTitle(title)
                 .boardContent("new board")
-                .memberId(member.getMemberId())
+                .memberId(member.getId())
                 .build();
         final String requestBody = objectMapper.writeValueAsString(boardRequest);
         //when
@@ -140,7 +140,7 @@ class BoardAPIControllerTest{
                 .boardId(board.getBoardId())
                 .boardTitle(title)
                 .boardContent(content)
-                .memberId(member.getMemberId())
+                .memberId(member.getId())
                 .build();
         String requestBody = objectMapper.writeValueAsString(boardRequest);
     //when

@@ -10,10 +10,7 @@ import lombok.*;
 
 @Entity
 @Getter
-@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Board extends BaseEntity {
 
         @Id
@@ -33,8 +30,12 @@ public class Board extends BaseEntity {
         @Column(length = 20,nullable = false)
         private String memberName;
 
-        @Column(columnDefinition = "integer default 0")
-        private Long boardViewCount;
+        @Column(columnDefinition = "bigint default 0")
+        private Long boardViewCount = 0L;
+
+        @Enumerated(EnumType.STRING)
+        @Column(length = 10,columnDefinition = "varchar(10) default 'POST'")
+        private BoardType boardType = BoardType.POST;
 
         /**
          *  비즈니스 로직 : 게시물 수정
@@ -43,7 +44,13 @@ public class Board extends BaseEntity {
                 this.boardTitle = updateTitle;
                 this.boardContent = updateContent;
         }
-
-
+        @Builder
+        public Board(Long boardId,Member member, String boardTitle, String boardContent, String memberName){
+                this.boardId = boardId;
+                this.boardTitle = boardTitle;
+                this.boardContent = boardContent;
+                this.memberName = member.getMemberName();
+                this.member = member;
+        }
 
 }
