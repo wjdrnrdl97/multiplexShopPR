@@ -1,9 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.service;
 
-import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
-import backend.shop.com.multiplexshop.domain.board.entity.BoardType;
 import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
@@ -20,9 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Arrays;
-import java.awt.print.Pageable;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
@@ -40,7 +36,7 @@ public class BoardService {
      * @param boardId (조회할 게시물 번호)
      * @return Board(조회 상세정보) + 조회수 증가
      */
-    public Board findById(Long boardId) {
+    public Board searchById(Long boardId) {
         return boardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
     }

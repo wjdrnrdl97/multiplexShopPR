@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 </head>
 
+
 <body>
     <nav class="navBar">
         <div class="navBar_logo">
@@ -55,7 +56,6 @@
             <div class="notice_contents1">
                 <h2  class="txt_title_notice_read" style="text-align: center; font-size: 35px;">
                     [[${getBoard.boardTitle}]]</h2>
-
                 <div class="read_info">
 <!--                    <span id="boardId"> [[${getBoard.boardId}]] </span>-->
                     <span id="boardId" th:text="${getBoard.boardId}"></span>
@@ -67,19 +67,28 @@
                 <div class="box_content">
                     [[${getBoard.boardContent}]]
                 </div>
-
                 <div class="btns">
-
                     <a th:href="@{/support(page = ${page})}" class="list-btn" style="margin-top:20px;">LIST</a>
                         <a th:onclick="|location.href='@{/support/post(boardId=${getBoard.boardId},page=${page})}'|"
                            class="list-btn" style="margin-top:20px;">UPDATE</a>
                     <a class="list-btn" style="margin-top:20px;" id="delete_btn">DELETE</a>
+                </div>
 
+                <hr class="hr">
+
+                <div id="replyCont">
+                    <ul class="list-group" style="padding-left : 0px; margin-top: 0px;">
+                        <li style="list-style-type: none;" class="list-group-item" th:each="reply : ${comment}">
+                            <th:block th:include="/reply/comment"></th:block>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="comment-form">
                     <h2>Comment</h2>
-                    <form>
+                    <label for="memberId">멤바 아이ㄷ;</label>
+                    <input type="text" id="memberId" class="memberId">
+                    <form class="commentSubmitForm">
                         <textarea class="cmt_area" rows="4" placeholder="
                     Please enter your comment."></textarea>
                         <p>
@@ -114,6 +123,15 @@
     <script>
         let id = document.getElementById('boardId').textContent;
         const deleteBtn = document.getElementById('delete_btn');
+        const replySubmitBtn = document.querySelector('.cmt-btn');
+        const replyArea = document.querySelector('.cmt_area');
+        const replyMemberId = document.querySelector('.memberId');
+        const replyBoardId = document.querySelector('#boardId');
+
+        const replyCont = document.getElementById('replyCont');
+        const commentForm = document.forms["commentSubmitForm"];
+
+
         if (deleteBtn) {
             deleteBtn.addEventListener('click', event => {
                 if (confirm('삭제하시겠습니까?')) { // 확인/취소 버튼이 있는 confirm 대화상자
@@ -126,10 +144,67 @@
                     });
                 }
             });
+            
         }
+
+        // function getReplies(boardId){
+        //     let url = `/api/comment/${boardId}`
+        //     fetch(url).then(function(resp){
+        //         resp.text().then(function(text){
+        //             replyCont.innerHTML = text;
+        //         })
+        //     })
+            // if(resp.status===200){
+            //     alert("댓글 리스트 호출 성공")
+            //     let text = resp.text();
+            //     replyCont.innerHTML=text;
+            // }
+
+        async function getReplies(boardId) {
+            let url = `/api/comment/1`;
+            const resp = await fetch(url);
+            if(resp.status === 200){
+              let text = await resp.text();
+              replyCont.innerHTML = text;
+            }
+        }
+         
+        
+            
+        if(replySubmitBtn){
+            replySubmitBtn.addEventListener('click', postReply)
+        }
+
+         function postReply(e){
+            e.preventDefault();
+
+            let url = "/api/comment";
+            const resp = fetch(url,
+            {method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+            },body: JSON.stringify({
+                commentContent: replyArea.value,
+                boardId : [[${getBoard.boardId}]],
+                memberId : replyMemberId.value
+            })
+        });
+
+            resp.then(function (result){
+                if(result.status===201){
+                    // alert("등록 성공")
+                    getReplies(1);
+            }else{
+                alert("등록 실패")
+            }
+            
+        });
+
+        }
+
+       
+
     </script>
-
-
 </body>
 
 </html>

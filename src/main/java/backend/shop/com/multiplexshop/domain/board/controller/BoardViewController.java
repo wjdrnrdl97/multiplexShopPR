@@ -2,6 +2,8 @@ package backend.shop.com.multiplexshop.domain.board.controller;
 
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
+import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
+import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -11,19 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-
-import java.awt.print.Pageable;
-import java.util.ArrayList;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
+import static backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs.*;
 
 @Controller
 @RequestMapping("/support")
 @RequiredArgsConstructor
 public class BoardViewController {
     private final BoardService boardService;
-
+    private final CommentService commentService;
     @GetMapping()
     public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model){
         List<BoardResponseDTO> noticePages = boardService.findByNotice();
@@ -42,8 +42,11 @@ public class BoardViewController {
                            @RequestParam(defaultValue = "0") int page,
                                                 HttpServletResponse response, Model model){
         Board getBoard = boardService.viewCountValidation(boardId, request,response);
-//        Board getBoard = boardService.findById(boardId);
-//>>>>>>> feat_board_paging
+        List<CommentResponseDTO> commentResponseDTOList =
+                commentService.findAllByBoard(boardId);
+
+
+        model.addAttribute("comment", commentResponseDTOList);
         model.addAttribute("getBoard",new BoardResponseDTO(getBoard));
         model.addAttribute("page",page);
         return "support/read";
@@ -58,7 +61,7 @@ public class BoardViewController {
             model.addAttribute("Board", new BoardResponseDTO());
             model.addAttribute("page",page);
         }else {
-            Board board = (Board) boardService.findById(boardId);
+            Board board = (Board) boardService.searchById(boardId);
             model.addAttribute("Board", new BoardResponseDTO(board));
             model.addAttribute("page",page);
         }
