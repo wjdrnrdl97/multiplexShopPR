@@ -20,31 +20,34 @@ public class Comment extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
+    @ManyToOne
+    @JoinColumn(name = "memberId", nullable = false)
     private Member member;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name="boardId")
+    @JoinColumn(name="boardId", nullable = false)
     private Board board;
 
     @Column(length = 50,nullable = false)
     private String commentContent;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 20)
     private String memberName;
 
     @Builder
-    public Comment(String commentContent,String memberName, Board board){
+    public Comment(String commentContent,String memberName, Board board, Member member){
         this.board = board;
+        this.member = member;
         this.commentContent = commentContent;
         this.memberName = memberName;
     }
 
-    public static Comment dtoToCommentEntity(CommentDTOs.CommentRequestDTO commentRequestDTO){
+    public static Comment dtoToCommentEntity(CommentDTOs.CommentRequestDTO commentRequestDTO, Member member, Board board){
         return Comment.builder()
                 .commentContent(commentRequestDTO.getCommentContent())
                 .memberName(commentRequestDTO.getMemberName())
+                .member(member)
+                .board(board)
                 .build();
     }
 

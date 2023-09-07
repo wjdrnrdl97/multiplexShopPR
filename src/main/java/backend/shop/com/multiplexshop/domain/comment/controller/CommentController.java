@@ -4,7 +4,9 @@ import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,8 +14,9 @@ import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs.*;
 
-@RestController
+//@RestController
 @RequiredArgsConstructor
+@Controller
 public class CommentController {
 
     private final CommentService commentService;
@@ -25,23 +28,25 @@ public class CommentController {
      * @return
      */
     @GetMapping("/api/comment/{boardId}")
-    public String  getCommentList(@PathVariable Long boardId, Model model){
+    public String getCommentList(@PathVariable Long boardId, Model model){
         List<CommentResponseDTO> commentResponseDTOList
-                = commentService.findAllByBoard(boardId)
-                .stream()
-                .map(CommentResponseDTO::new)
-                .toList();
+                = commentService.findAllByBoard(boardId);
 
-        model.addAttribute("comment",commentResponseDTOList);
-        return "/support/read";
+        model.addAttribute("reply",commentResponseDTOList);
+        return "reply/comment";
     }
 
-    @PostMapping("/api/comment")
-    public ResponseEntity<Comment> postComment (@RequestBody CommentRequestDTO commentRequestDTO){
+
+    @ResponseBody
+    @PostMapping(value = "/api/comment", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommentResponseDTO> postComment (@RequestBody CommentRequestDTO commentRequestDTO){
         Comment comment = commentService.save(commentRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(comment);
+        CommentResponseDTO response = CommentResponseDTO.of(comment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @ResponseBody
     @PutMapping("/api/comment/{id}")
     public ResponseEntity<Comment> updateComment(@PathVariable("id") Long commentId,
                                                  @RequestBody CommentRequestDTO commentRequestDTO){
@@ -49,6 +54,7 @@ public class CommentController {
         return ResponseEntity.ok().body(comment);
     }
 
+    @ResponseBody
     @DeleteMapping("/api/comment/{id}")
     public ResponseEntity deleteComment(@PathVariable("id")Long commentId) {
           commentService.deleteCommentById(commentId);

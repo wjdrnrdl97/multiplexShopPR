@@ -47,9 +47,9 @@ VALUES
 (36, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 20', '게시글 제목 34', 'POST', 75, '사용자1', 1),
 (37, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 20', '게시글 제목 35', 'POST', 75, '사용자1', 1);
 
-INSERT INTO Comment (comment_id, member_id, board_id, comment_content, member_name, mod_date, reg_date)VALUES
-(1, 1, 1, '코딩 재밌당', '권동혁', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(2, 1, 2, '환불해주세요.', '진상', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-(3, 1, 1, '배고프당', '서정국', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+--INSERT INTO Comment (comment_id, member_id, board_id, comment_content, member_name, mod_date, reg_date)VALUES
+--(1, 1, 1, '코딩 재밌당', '권동혁', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--(2, 1, 2, '환불해주세요.', '진상', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+--(3, 1, 1, '배고프당', '서정국', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 

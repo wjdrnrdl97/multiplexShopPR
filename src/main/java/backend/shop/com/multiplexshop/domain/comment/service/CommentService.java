@@ -5,6 +5,8 @@ import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
 import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.comment.repository.CommentRepository;
+import backend.shop.com.multiplexshop.domain.member.entity.Member;
+import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
 
     public Comment searchById(Long commentId) {
         return commentRepository.findById(commentId).orElseThrow(() ->
@@ -32,17 +35,21 @@ public class CommentService {
         return commentRepository.findAll();
     }
 
-    public List<Comment> findAllByBoard(Long boardId){
+    public List<CommentResponseDTO> findAllByBoard(Long boardId){
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 게시물 번호입니다."));
-        return commentRepository.findAllByBoard(board);
+        List<Comment> commentsByBoard = commentRepository.findAllByBoard(board);
+
+        return commentsByBoard.stream()
+                .map(CommentResponseDTO::of)
+                .toList();
     }
 
-
-
-
     public Comment save(CommentRequestDTO commentRequestDTO){
-        Comment comment = Comment.dtoToCommentEntity(commentRequestDTO);
+        Member member = getMemberByMemberId(commentRequestDTO);
+        Board board = getBoardByBoardId(commentRequestDTO);
+
+        Comment comment = Comment.dtoToCommentEntity(commentRequestDTO, member, board);
         return commentRepository.save(comment);
     }
 
@@ -58,6 +65,18 @@ public class CommentService {
         updateComment.update(commentRequestDTO.getCommentContent());
 
         return commentRepository.save(updateComment);
+    }
+
+    private Board getBoardByBoardId(CommentRequestDTO commentRequestDTO) {
+        return boardRepository.findById(commentRequestDTO.getBoardId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("잘못된 게시물 번호입니다 :" + commentRequestDTO.getBoardId()));
+    }
+
+    private Member getMemberByMemberId(CommentRequestDTO commentRequestDTO) {
+        return memberRepository.findById(commentRequestDTO.getMemberId())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("잘못된 게시물 번호입니다 :" + commentRequestDTO.getMemberId()));
     }
 }
 

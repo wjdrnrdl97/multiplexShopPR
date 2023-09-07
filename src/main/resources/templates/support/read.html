@@ -86,6 +86,8 @@
 
                 <div class="comment-form">
                     <h2>Comment</h2>
+                    <label for="memberId">멤바 아이ㄷ;</label>
+                    <input type="text" id="memberId" class="memberId">
                     <form class="commentSubmitForm">
                         <textarea class="cmt_area" rows="4" placeholder="
                     Please enter your comment."></textarea>
@@ -123,6 +125,8 @@
         const deleteBtn = document.getElementById('delete_btn');
         const replySubmitBtn = document.querySelector('.cmt-btn');
         const replyArea = document.querySelector('.cmt_area');
+        const replyMemberId = document.querySelector('.memberId');
+        const replyBoardId = document.querySelector('#boardId');
 
         const replyCont = document.getElementById('replyCont');
         const commentForm = document.forms["commentSubmitForm"];
@@ -143,43 +147,62 @@
             
         }
 
-        async function getReplies(boardId){
-            let url = `/api/comment/{boardId}`
+        // function getReplies(boardId){
+        //     let url = `/api/comment/${boardId}`
+        //     fetch(url).then(function(resp){
+        //         resp.text().then(function(text){
+        //             replyCont.innerHTML = text;
+        //         })
+        //     })
+            // if(resp.status===200){
+            //     alert("댓글 리스트 호출 성공")
+            //     let text = resp.text();
+            //     replyCont.innerHTML=text;
+            // }
+
+        async function getReplies(boardId) {
+            let url = `/api/comment/1`;
             const resp = await fetch(url);
-            if(resp.status===200){
-                alert("댓글 리스트 호출 성공")
-                let text = await resp.text();
-                replyCont.innerHTML=text;
+            if(resp.status === 200){
+              let text = await resp.text();
+              replyCont.innerHTML = text;
             }
-        
         }
+         
+        
+            
         if(replySubmitBtn){
             replySubmitBtn.addEventListener('click', postReply)
         }
 
-        async function postReply(e){
+         function postReply(e){
             e.preventDefault();
 
             let url = "/api/comment";
-            const resp = await fetch(url,
+            const resp = fetch(url,
             {method:"POST",
             headers: {
                 "Content-Type": "application/json",
             },body: JSON.stringify({
-                commentContent: replyArea.value
+                commentContent: replyArea.value,
+                boardId : [[${getBoard.boardId}]],
+                memberId : replyMemberId.value
             })
         });
-            if(resp.status===201){
-                const json = await resp.json();
-                if(json.register>0){
-                    alert("등록 성공")
-                    await getReplies(id);
-                }
+
+            resp.then(function (result){
+                if(result.status===201){
+                    // alert("등록 성공")
+                    getReplies(1);
             }else{
                 alert("등록 실패")
             }
+            
+        });
+
         }
 
+       
 
     </script>
 </body>

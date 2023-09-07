@@ -9,6 +9,7 @@ import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ class CommentServiceTest {
     @Autowired
     BoardRepository boardRepository;
 
+    @AfterEach
+    void tearDown() {
+        commentRepository.deleteAllInBatch();
+        boardRepository.deleteAllInBatch();
+    }
 
     @Test
     @DisplayName("댓글이 삭제가되어야한다.")
@@ -63,20 +69,24 @@ class CommentServiceTest {
     public void save(){
         //given
         Member member = getMember(1L);
+        Board board = boardRepository.findById(1L).get();
         final String commentContent = "new Content";
         CommentRequestDTO dto = CommentRequestDTO.builder()
+                .boardId(board.getBoardId())
+                .memberId(member.getMemberId())
                 .commentContent(commentContent)
                 .memberName(member.getMemberName())
                 .build();
-
         //when
         Comment save = commentService.save(dto);
         //then
-        Comment comment = commentRepository.findById(1L).get();
+        Comment comment = commentRepository.findById(save.getCommentId()).get();
         assertThat(comment)
                 .isNotNull()
                 .extracting("commentContent","memberName")
                 .contains(commentContent,member.getMemberName());
+        assertThat(comment.getMember().getMemberId()).isEqualTo(member.getMemberId());
+        assertThat(comment.getBoard().getBoardId()).isEqualTo(board.getBoardId());
     }
 
     @Test
@@ -96,6 +106,7 @@ class CommentServiceTest {
                 .memberName(member.getMemberName()).build();
         commentRepository.save(comment1);
         commentRepository.save(comment2);
+
         //when
         List<Comment> comments = commentService.findAll();
         //then

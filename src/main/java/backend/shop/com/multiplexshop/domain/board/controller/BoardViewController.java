@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
+import static backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs.*;
 
 @Controller
 @RequestMapping("/support")
@@ -41,11 +42,9 @@ public class BoardViewController {
                            @RequestParam(defaultValue = "0") int page,
                                                 HttpServletResponse response, Model model){
         Board getBoard = boardService.viewCountValidation(boardId, request,response);
-        List<CommentDTOs.CommentResponseDTO> commentResponseDTOList
-                = commentService.findAllByBoard(boardId)
-                .stream()
-                .map(CommentDTOs.CommentResponseDTO::new)
-                .toList();
+        List<CommentResponseDTO> commentResponseDTOList =
+                commentService.findAllByBoard(boardId);
+
 
         model.addAttribute("comment", commentResponseDTOList);
         model.addAttribute("getBoard",new BoardResponseDTO(getBoard));

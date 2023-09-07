@@ -1,5 +1,7 @@
 package backend.shop.com.multiplexshop.domain.comment.controller;
 
+import backend.shop.com.multiplexshop.domain.board.entity.Board;
+import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
 import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.comment.repository.CommentRepository;
@@ -49,6 +51,8 @@ class CommentControllerTest {
     WebApplicationContext context;
 
     @Autowired
+    BoardRepository boardRepository;
+    @Autowired
     ObjectMapper objectMapper;
 
     @Autowired
@@ -92,8 +96,11 @@ class CommentControllerTest {
         //given
             final String url = "/api/comment";
             Member member = memberRepository.findById(1L).get();
-            final String commentContent = "new Content";
+        Board board = boardRepository.findById(1L).get();
+        final String commentContent = "new Content";
             CommentRequestDTO dto = CommentRequestDTO.builder()
+                    .memberId(member.getMemberId())
+                    .boardId(board.getBoardId())
                 .commentContent(commentContent)
                 .memberName(member.getMemberName())
                 .build();
