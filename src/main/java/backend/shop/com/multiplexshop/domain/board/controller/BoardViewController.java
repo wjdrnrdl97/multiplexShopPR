@@ -2,6 +2,8 @@ package backend.shop.com.multiplexshop.domain.board.controller;
 
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
+import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
+import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,7 @@ import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 @RequiredArgsConstructor
 public class BoardViewController {
     private final BoardService boardService;
-
+    private final CommentService commentService;
     @GetMapping()
     public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model){
         List<BoardResponseDTO> noticePages = boardService.findByNotice();
@@ -39,8 +41,13 @@ public class BoardViewController {
                            @RequestParam(defaultValue = "0") int page,
                                                 HttpServletResponse response, Model model){
         Board getBoard = boardService.viewCountValidation(boardId, request,response);
-//        Board getBoard = boardService.findById(boardId);
-//>>>>>>> feat_board_paging
+        List<CommentDTOs.CommentResponseDTO> commentResponseDTOList
+                = commentService.findAllByBoard(boardId)
+                .stream()
+                .map(CommentDTOs.CommentResponseDTO::new)
+                .toList();
+
+        model.addAttribute("comment", commentResponseDTOList);
         model.addAttribute("getBoard",new BoardResponseDTO(getBoard));
         model.addAttribute("page",page);
         return "support/read";

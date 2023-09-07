@@ -68,7 +68,6 @@
                     [[${getBoard.boardContent}]]
                 </div>
                 <div class="btns">
-
                     <a th:href="@{/support(page = ${page})}" class="list-btn" style="margin-top:20px;">LIST</a>
                         <a th:onclick="|location.href='@{/support/post(boardId=${getBoard.boardId},page=${page})}'|"
                            class="list-btn" style="margin-top:20px;">UPDATE</a>
@@ -77,11 +76,17 @@
 
                 <hr class="hr">
 
+                <div id="replyCont">
+                    <ul class="list-group" style="padding-left : 0px; margin-top: 0px;">
+                        <li style="list-style-type: none;" class="list-group-item" th:each="reply : ${comment}">
+                            <th:block th:include="/reply/comment"></th:block>
+                        </li>
+                    </ul>
+                </div>
 
-            
                 <div class="comment-form">
                     <h2>Comment</h2>
-                    <form>
+                    <form class="commentSubmitForm">
                         <textarea class="cmt_area" rows="4" placeholder="
                     Please enter your comment."></textarea>
                         <p>
@@ -116,6 +121,13 @@
     <script>
         let id = document.getElementById('boardId').textContent;
         const deleteBtn = document.getElementById('delete_btn');
+        const replySubmitBtn = document.querySelector('.cmt-btn');
+        const replyArea = document.querySelector('.cmt_area');
+
+        const replyCont = document.getElementById('replyCont');
+        const commentForm = document.forms["commentSubmitForm"];
+
+
         if (deleteBtn) {
             deleteBtn.addEventListener('click', event => {
                 if (confirm('삭제하시겠습니까?')) { // 확인/취소 버튼이 있는 confirm 대화상자
@@ -128,7 +140,47 @@
                     });
                 }
             });
+            
         }
+
+        async function getReplies(boardId){
+            let url = `/api/comment/{boardId}`
+            const resp = await fetch(url);
+            if(resp.status===200){
+                alert("댓글 리스트 호출 성공")
+                let text = await resp.text();
+                replyCont.innerHTML=text;
+            }
+        
+        }
+        if(replySubmitBtn){
+            replySubmitBtn.addEventListener('click', postReply)
+        }
+
+        async function postReply(e){
+            e.preventDefault();
+
+            let url = "/api/comment";
+            const resp = await fetch(url,
+            {method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+            },body: JSON.stringify({
+                commentContent: replyArea.value
+            })
+        });
+            if(resp.status===201){
+                const json = await resp.json();
+                if(json.register>0){
+                    alert("등록 성공")
+                    await getReplies(id);
+                }
+            }else{
+                alert("등록 실패")
+            }
+        }
+
+
     </script>
 </body>
 

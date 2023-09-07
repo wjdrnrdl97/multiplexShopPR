@@ -24,7 +24,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "memberId")
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name="boardId")
     private Board board;
 

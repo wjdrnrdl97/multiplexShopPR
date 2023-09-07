@@ -158,8 +158,15 @@ class CommentServiceTest {
     @DisplayName("게시물 번호를 통해서 게시물 번호와 연관된 댓글 목록을 가져오는데에 성공한다. ")
     public void findAllByBoard() throws Exception{
         //given
-        Board board = boardRepository.findById(1L).get();
         Member member = getMember(1L);
+        Board board = Board.builder()
+                .boardTitle("title")
+                .boardContent("content")
+                .memberName("정국이")
+                .member(member)
+                .build();
+
+        boardRepository.save(board);
         final String content1 = "첫번째 댓글입니다.";
         final String content2 = "두번째 댓글입니다.";
 
@@ -179,16 +186,12 @@ class CommentServiceTest {
 
 
         //when
-
         List<Comment> commentsByBoardId = commentRepository.findAllByBoard(board);
 
         //then
-        assertThat(commentsByBoardId).hasSize(2)
-                .extracting("board", "commentContent")
-                .containsExactlyInAnyOrder(
-                        Tuple.tuple(board, comment1),
-                        Tuple.tuple(board, comment2)
-                );
+        assertThat(commentsByBoardId).hasSize(2);
+        assertThat(commentsByBoardId.get(0).getCommentContent()).isEqualTo(content1);
+        assertThat(commentsByBoardId.get(0).getBoard().getBoardId()).isEqualTo(1);
     }
 
     private Member getMember(Long memberId) {

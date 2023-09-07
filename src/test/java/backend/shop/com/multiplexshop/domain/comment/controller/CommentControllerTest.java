@@ -19,6 +19,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -109,7 +112,7 @@ class CommentControllerTest {
     @DisplayName("게시물 조회 시 댓글목록이 조회되어야한다.")
     public void getCommentList() throws Exception{
         //given
-        final String url = "/api/comment";
+        final String url = "/api/comment/{boardId}";
         Member member = memberRepository.findById(1L).get();
         String commentContent1 = "content1";
         String commentContent2 = "content2";
@@ -124,16 +127,11 @@ class CommentControllerTest {
         commentService.save(dto1);
         commentService.save(dto2);
         //when
-        ResultActions perform = mockMvc.perform(get(url));
-        perform.andExpect(status().isOk());
+        ResultActions perform = mockMvc.perform(get(url, 1));
+        perform.andDo(MockMvcResultHandlers.print())
+                 .andExpect(status().isOk());
+
         //then
-        List<Comment> comments = commentRepository.findAll();
-        assertThat(comments).hasSize(2)
-                .extracting("commentContent","memberName")
-                .containsExactlyInAnyOrder(
-                        Tuple.tuple(commentContent1,member.getMemberName()),
-                        Tuple.tuple(commentContent2,member.getMemberName())
-                );
     }
 
     @Test

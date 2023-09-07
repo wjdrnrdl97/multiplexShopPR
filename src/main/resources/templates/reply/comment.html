@@ -1,17 +1,17 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="ko">
 <meta charset="utf-8">
-<link rel="stylesheet" href="/static/css/style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
 <div class="comment-view">
     <div class="comment_header">
-        <div class="commenter">writer : <span>kim</span></div>
-        <span class="comment-date">2023/09/04 10:00:00</span>
+        <div class="commenter">writer : <span th:text="${reply.memberName}">kim</span></div>
+        <span class="comment-date" th:text="${#temporals.format(reply.regDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
     </div>
     <div class="comment">
-        <div class="comment_inform">댓글내용입니다~~</div>
+        <div class="comment_inform" th:text="${reply.commentContent}">댓글내용입니다~~</div>
         <div class="comment-btns">
             <button class="comment-btn">수정</button>
             <button class="comment-btn">삭제</button>

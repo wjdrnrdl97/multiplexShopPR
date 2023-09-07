@@ -2,10 +2,7 @@ package backend.shop.com.multiplexshop.domain.comment.dto;
 
 
 import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 

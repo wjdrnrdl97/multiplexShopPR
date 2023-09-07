@@ -787,6 +787,9 @@ input[type=file]::file-selector-button {
     margin-bottom: 10px;
 }
 
+.list-group{
+    padding-left : 0px;
+}
 
 
 
