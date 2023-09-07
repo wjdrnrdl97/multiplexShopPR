@@ -86,8 +86,8 @@
 
                 <div class="comment-form">
                     <h2>Comment</h2>
-                    <label for="memberId">멤바 아이ㄷ;</label>
-                    <input type="text" id="memberId" class="memberId">
+                    <label for="memberId">UserId [임시]</label>
+                    <input type="text" id="memberId" class="memberId" style="width: 30px; font-size: 14px; text-align: center; height: 10px;">
                     <form class="commentSubmitForm">
                         <textarea class="cmt_area" rows="4" placeholder="
                     Please enter your comment."></textarea>
@@ -146,28 +146,15 @@
             });
             
         }
-
-        // function getReplies(boardId){
-        //     let url = `/api/comment/${boardId}`
-        //     fetch(url).then(function(resp){
-        //         resp.text().then(function(text){
-        //             replyCont.innerHTML = text;
-        //         })
-        //     })
-            // if(resp.status===200){
-            //     alert("댓글 리스트 호출 성공")
-            //     let text = resp.text();
-            //     replyCont.innerHTML=text;
-            // }
-
         async function getReplies(boardId) {
-            let url = `/api/comment/1`;
+            let url = `/api/comment/${boardId}`; 
             const resp = await fetch(url);
-            if(resp.status === 200){
-              let text = await resp.text();
-              replyCont.innerHTML = text;
+            if (resp.status === 200) {
+                let text = await resp.text();
+                replyCont.innerHTML = text;
             }
-        }
+}
+
          
         
             

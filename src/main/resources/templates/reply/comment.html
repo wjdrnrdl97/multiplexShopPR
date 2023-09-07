@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
-<div class="comment-view">
+<div class="comment-view" th:each="reply :${comment}">
     <div class="comment_header">
         <div class="commenter">writer : <span th:text="${reply.memberName}">kim</span></div>
         <span class="comment-date" th:text="${#temporals.format(reply.regDate, 'yyyy-MM-dd HH:mm:ss')}"></span>

@@ -32,7 +32,7 @@ public class CommentController {
         List<CommentResponseDTO> commentResponseDTOList
                 = commentService.findAllByBoard(boardId);
 
-        model.addAttribute("reply",commentResponseDTOList);
+        model.addAttribute("comment",commentResponseDTOList);
         return "reply/comment";
     }
 
