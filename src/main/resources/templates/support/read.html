@@ -144,8 +144,8 @@
                     });
                 }
             });
-            
         }
+
         async function getReplies(boardId) {
             let url = `/api/comment/${boardId}`; 
             const resp = await fetch(url);
@@ -153,11 +153,8 @@
                 let text = await resp.text();
                 replyCont.innerHTML = text;
             }
-}
-
-         
-        
-            
+        }
+    
         if(replySubmitBtn){
             replySubmitBtn.addEventListener('click', postReply)
         }
@@ -168,6 +165,7 @@
             let url = "/api/comment";
             const resp = fetch(url,
             {method:"POST",
+            
             headers: {
                 "Content-Type": "application/json",
             },body: JSON.stringify({
@@ -177,10 +175,10 @@
             })
         });
 
-            resp.then(function (result){
+            resp.then(result => {
                 if(result.status===201){
                     // alert("등록 성공")
-                    getReplies(1);
+                    getReplies([[${getBoard.boardId}]]);
             }else{
                 alert("등록 실패")
             }
