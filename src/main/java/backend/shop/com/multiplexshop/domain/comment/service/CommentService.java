@@ -60,11 +60,11 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment update(Long commentId, CommentRequestDTO commentRequestDTO) {
+    public CommentResponseDTO update(Long commentId, CommentRequestDTO commentRequestDTO) {
         Comment updateComment = searchById(commentId);
         updateComment.update(commentRequestDTO.getCommentContent());
-
-        return commentRepository.save(updateComment);
+        Comment savedComment = commentRepository.save(updateComment);
+        return CommentResponseDTO.of(savedComment);
     }
 
     private Board getBoardByBoardId(CommentRequestDTO commentRequestDTO) {

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class CommentDTOs {
 
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor
     public static class CommentResponseDTO{
         private Long id;
         private String memberName;
@@ -38,7 +38,7 @@ public class CommentDTOs {
     }
 
     @Getter
-    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @NoArgsConstructor
     public static class CommentRequestDTO{
         private String memberName;
         private String commentContent;

@@ -149,8 +149,12 @@ class CommentControllerTest {
         final String originalContent = "Content";
         final String newContent = "new Content~~~~";
 
+        Board board = boardRepository.findById(1L).get();
+
         Member member = getMember(1L);
         Comment originalComment = Comment.builder()
+                .board(board)
+                .member(member)
                 .commentContent(originalContent)
                 .memberName(member.getMemberName())
                 .build();

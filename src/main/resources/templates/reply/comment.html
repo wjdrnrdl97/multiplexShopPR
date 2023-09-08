@@ -7,7 +7,7 @@
     <div class="comment">
         <div class="comment_inform"  th:text="${reply.commentContent}">댓글내용입니다~~</div>
         <div class="comment-btns">
-            <button class="comment-btn" id="update-btn">수정</button>
+            <button class="comment-btn" th:value="${reply.id}" id="update-btn">수정</button>
             <button class="comment-btn">삭제</button>
         </div>
     </div>

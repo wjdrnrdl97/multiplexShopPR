@@ -10,7 +10,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment,Long> {
     //게시믈별 댓글목록 조회 메소드
 
-
     List<Comment> findAllByBoard(Board board);
 
 

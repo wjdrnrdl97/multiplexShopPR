@@ -21,11 +21,11 @@ public class Comment extends BaseEntity {
     private Long commentId;
 
     @ManyToOne
-    @JoinColumn(name = "memberId", nullable = false)
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @ManyToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name="boardId", nullable = false)
+    @JoinColumn(name="boardId")
     private Board board;
 
     @Column(length = 50,nullable = false)

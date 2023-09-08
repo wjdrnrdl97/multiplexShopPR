@@ -762,7 +762,7 @@ input[type=file]::file-selector-button {
 }
 
 .comment-btns{
-    margin-left: 500px;    
+    margin-left: 0px;
 }
 
 .comment-btn{
@@ -790,6 +790,28 @@ input[type=file]::file-selector-button {
 
 .list-group{
     padding-left : 0px;
+}
+
+
+#updateContent{
+    border: 1px solid #000;
+    height: 30px;
+    width: 600px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#realUpdate{
+    background: transparent;
+    border: 1px solid #000;
+    width: 40px;
+    height: 20px;
+}
+
+#realUpdate:hover{
+    background: black;
+    color: white;
+    transition: all 0.3s;
 }
 
 

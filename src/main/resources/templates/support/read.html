@@ -79,7 +79,7 @@
                 <div id="replyCont">
                     <ul class="list-group" style="padding-left : 0px; margin-top: 0px;">
                         <li style="list-style-type: none;" class="list-group-item">
-                            <th:block th:insert="/reply/comment"></th:block>
+                            <th:block th:insert="reply/comment"></th:block>
                         </li>
                     </ul>
                 </div>
@@ -132,14 +132,18 @@
 
         const commentElements = document.querySelectorAll(".comment-view");
 
-        // 각 댓글 요소에 대해 반복하며 동적으로 동작을 추가
         document.addEventListener('click', async e => {
             if (e.target && e.target.id === 'update-btn') {
-                let url = "/api/CommentUpdate/";
+                let commentId = e.target.value;
+                let url = `/api/CommentUpdate/${commentId}`;
                 const resp = await fetch(url,  {method:"GET"});
                 if(resp.status === 200){
                     let text = await resp.text();
-                    document.querySelector('.comment').innerHTML = text;
+                    let target = e.target;
+                    let inputComment = target.parentElement.parentElement;
+                    
+                    inputComment.innerHTML = text;
+                    
                 }
  
             }
@@ -147,11 +151,10 @@
 
         document.addEventListener('click', async e => {
             if(e.target && e.target.id === 'realUpdate'){
-                let commentId = document.querySelector('#reply-id');
-                let url1 = `/api/comment/1`;
-                const resp = await fetch(url1,
+                let commentId = e.target.value;
+                let url = `/api/comment/${commentId}`;
+                const resp = await fetch(url,
                     {method:"PUT",
-
                     headers: {
                         "Content-Type": "application/json",
                     },body: JSON.stringify({
@@ -208,7 +211,6 @@
             let url = "/api/comment";
             const resp = fetch(url,
             {method:"POST",
-
             headers: {
                 "Content-Type": "application/json",
             },body: JSON.stringify({
@@ -222,6 +224,7 @@
                 if(result.status===201){
                     // alert("등록 성공")
                     getReplies([[${getBoard.boardId}]]);
+                    document.querySelector('.cmt_area').value = "";
             }else{
                 alert("등록 실패")
             }

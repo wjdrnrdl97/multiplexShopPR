@@ -50,15 +50,19 @@ public class CommentController {
 
     @ResponseBody
     @PutMapping(value = "/api/comment/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Comment> updateComment(@PathVariable("id") Long commentId,
+    public ResponseEntity<CommentResponseDTO> updateComment(@PathVariable("id") Long commentId,
                                                  @RequestBody CommentRequestDTO commentRequestDTO){
-        Comment comment = commentService.update(commentId,commentRequestDTO);
-        return ResponseEntity.ok().body(comment);
+        CommentResponseDTO updatedComment = commentService.update(commentId, commentRequestDTO);
+        return ResponseEntity.ok().body(updatedComment);
     }
 
     //수정 요청 뷰 메서드
-    @GetMapping("/api/CommentUpdate/")
-    public String getUpdateTag(){
+    @GetMapping("/api/CommentUpdate/{commentId}")
+    public String getUpdateTag(Model model, @PathVariable("commentId")Long commentId){
+        Comment updatedComment = commentService.searchById(commentId);
+        CommentResponseDTO responseDTO = CommentResponseDTO.of(updatedComment);
+        model.addAttribute("reply",responseDTO);
+
         return "reply/commentUpdate";
     }
 
