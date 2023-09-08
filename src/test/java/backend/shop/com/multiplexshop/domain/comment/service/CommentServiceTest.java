@@ -111,10 +111,10 @@ class CommentServiceTest {
         List<Comment> comments = commentService.findAll();
         //then
         assertThat(comments).hasSize(2)
-                .extracting("commentContent","memberName")
+                .extracting("commentContent","memberName","commentId")
                 .containsExactlyInAnyOrder(
-                        Tuple.tuple(commentContent1,member.getMemberName()),
-                        Tuple.tuple(commentContent2, member.getMemberName())
+                        Tuple.tuple(commentContent1,member.getMemberName(),comment1.getCommentId()),
+                        Tuple.tuple(commentContent2, member.getMemberName(),comment2.getCommentId())
                 );
     }
 
@@ -182,12 +182,14 @@ class CommentServiceTest {
         final String content2 = "두번째 댓글입니다.";
 
         Comment comment1 = Comment.builder()
+                .member(member)
                 .board(board)
                 .memberName(member.getMemberName())
                 .commentContent(content1)
                 .build();
 
         Comment comment2 = Comment.builder()
+                .member(member)
                 .board(board)
                 .memberName(member.getMemberName())
                 .commentContent(content2)
@@ -203,6 +205,8 @@ class CommentServiceTest {
         assertThat(commentsByBoardId).hasSize(2);
         assertThat(commentsByBoardId.get(0).getCommentContent()).isEqualTo(content1);
         assertThat(commentsByBoardId.get(0).getBoard().getBoardId()).isEqualTo(1);
+        assertThat(commentsByBoardId.get(0).getCommentId()).isEqualTo(comment1.getCommentId());
+        assertThat(commentsByBoardId.get(1).getCommentId()).isEqualTo(comment2.getCommentId());
     }
 
     private Member getMember(Long memberId) {
