@@ -163,7 +163,7 @@
                     });
 
                         if(resp.status===200){
-                            alert("등록 성공")
+                            alert("댓글 수정이 완료되었습니다.")
                             getReplies([[${getBoard.boardId}]]);
 
                         }else{
@@ -174,6 +174,30 @@
             }    
         }    
     )
+
+        
+    document.addEventListener('click', async e => {
+
+        if(e.target && e.target.id === 'delete-btn'){
+            if (!confirm("댓글을 삭제하시겠습니까?")) {
+                             return;
+                        }
+            let commentId = e.target.value;
+            let url = `/api/comment/${commentId}`;
+            const resp = await fetch(url,
+                { 
+                    method:"DELETE"
+                },
+            )
+            if(resp.status === 200){
+
+                alert('댓글이 삭제되었습니다.');
+                getReplies([[${getBoard.boardId}]]);
+            }else{
+                alert('요청이 실패했습니다.')
+            }
+        }
+    })
         
         
     
@@ -221,7 +245,9 @@
         });
 
             resp.then( result => {
+                
                 if(result.status===201){
+                    
                     // alert("등록 성공")
                     getReplies([[${getBoard.boardId}]]);
                     document.querySelector('.cmt_area').value = "";
