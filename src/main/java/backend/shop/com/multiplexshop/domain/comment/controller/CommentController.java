@@ -27,7 +27,7 @@ public class CommentController {
      * @param model
      * @return
      */
-    @GetMapping("/api/comment/{boardId}")
+    @GetMapping(value = "/api/comment/{boardId}")
     public String getCommentList(@PathVariable Long boardId, Model model){
         List<CommentResponseDTO> commentResponseDTOList
                 = commentService.findAllByBoard(boardId);
@@ -35,6 +35,8 @@ public class CommentController {
         model.addAttribute("comment",commentResponseDTOList);
         return "reply/comment";
     }
+
+
 
 
     @ResponseBody
@@ -47,11 +49,17 @@ public class CommentController {
     }
 
     @ResponseBody
-    @PutMapping("/api/comment/{id}")
+    @PutMapping(value = "/api/comment/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Comment> updateComment(@PathVariable("id") Long commentId,
                                                  @RequestBody CommentRequestDTO commentRequestDTO){
         Comment comment = commentService.update(commentId,commentRequestDTO);
         return ResponseEntity.ok().body(comment);
+    }
+
+    //수정 요청 뷰 메서드
+    @GetMapping("/api/CommentUpdate/")
+    public String getUpdateTag(){
+        return "reply/commentUpdate";
     }
 
     @ResponseBody

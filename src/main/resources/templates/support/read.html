@@ -79,7 +79,7 @@
                 <div id="replyCont">
                     <ul class="list-group" style="padding-left : 0px; margin-top: 0px;">
                         <li style="list-style-type: none;" class="list-group-item">
-                            <th:block th:include="/reply/comment"></th:block>
+                            <th:block th:insert="/reply/comment"></th:block>
                         </li>
                     </ul>
                 </div>
@@ -129,8 +129,51 @@
         const replyBoardId = document.querySelector('#boardId');
 
         const replyCont = document.getElementById('replyCont');
-        const commentForm = document.forms["commentSubmitForm"];
 
+        const commentElements = document.querySelectorAll(".comment-view");
+
+        // 각 댓글 요소에 대해 반복하며 동적으로 동작을 추가
+        document.addEventListener('click', async e => {
+            if (e.target && e.target.id === 'update-btn') {
+                let url = "/api/CommentUpdate/";
+                const resp = await fetch(url,  {method:"GET"});
+                if(resp.status === 200){
+                    let text = await resp.text();
+                    document.querySelector('.comment').innerHTML = text;
+                }
+ 
+            }
+        });
+
+        document.addEventListener('click', async e => {
+            if(e.target && e.target.id === 'realUpdate'){
+                let commentId = document.querySelector('#reply-id');
+                let url1 = `/api/comment/1`;
+                const resp = await fetch(url1,
+                    {method:"PUT",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                    },body: JSON.stringify({
+                    commentContent : document.querySelector('#updateContent').value
+                })
+                    });
+
+                        if(resp.status===200){
+                            alert("등록 성공")
+                            getReplies([[${getBoard.boardId}]]);
+
+                        }else{
+                            alert("등록 실패")
+                        };
+
+                
+            }    
+        }    
+    )
+        
+        
+    
 
         if (deleteBtn) {
             deleteBtn.addEventListener('click', event => {
@@ -165,7 +208,7 @@
             let url = "/api/comment";
             const resp = fetch(url,
             {method:"POST",
-            
+
             headers: {
                 "Content-Type": "application/json",
             },body: JSON.stringify({
@@ -175,14 +218,14 @@
             })
         });
 
-            resp.then(result => {
+            resp.then( result => {
                 if(result.status===201){
                     // alert("등록 성공")
                     getReplies([[${getBoard.boardId}]]);
             }else{
                 alert("등록 실패")
             }
-            
+
         });
 
         }
