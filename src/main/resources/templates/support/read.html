@@ -162,12 +162,12 @@
                 })
                     });
 
-                        if(resp.status===200){
+                        if(resp.status===204){
                             alert("댓글 수정이 완료되었습니다.")
                             getReplies([[${getBoard.boardId}]]);
 
                         }else{
-                            alert("등록 실패")
+                            alert("댓글 등록 실패")
                         };
 
                 
@@ -189,7 +189,7 @@
                     method:"DELETE"
                 },
             )
-            if(resp.status === 200){
+            if(resp.status === 204){
 
                 alert('댓글이 삭제되었습니다.');
                 getReplies([[${getBoard.boardId}]]);
