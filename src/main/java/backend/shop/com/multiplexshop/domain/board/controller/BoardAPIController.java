@@ -56,28 +56,26 @@ public class BoardAPIController {
      * @return Http 201 created, body(postBoard(new Board))
      */
     @PostMapping("/api/support")
-    public ResponseEntity<Board> postUserBoard(@RequestBody BoardRequestDTO boardRequestDTO){
-        Board postBoard = boardService.save(boardRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(postBoard);
+    public ResponseEntity<BoardResponseDTO> postUserBoard(@RequestBody BoardRequestDTO boardRequestDTO){Board postBoard = boardService.save(boardRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new BoardResponseDTO(postBoard));
     }
 
     /**
      * 게시물 수정
      * @param boardId (수정할 게시물 번호)
      * @param boardRequestDTO (수정할 게시물 내용)
-     * @return Board(수정한 게시물)
      */
     @PutMapping("/api/support/{id}")
-    public ResponseEntity<Board> updateUserBoard(@PathVariable("id") Long boardId,
+    public ResponseEntity updateUserBoard(@PathVariable("id") Long boardId,
                                                  @RequestBody BoardRequestDTO boardRequestDTO){
         Board updateBoard = boardService.update(boardId, boardRequestDTO);
-        return ResponseEntity.ok().body(updateBoard);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/api/support/{id}")
     public ResponseEntity deleteBoard(@PathVariable("id") Long boardId){
         boardService.delete(boardId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/api/support/{id}")

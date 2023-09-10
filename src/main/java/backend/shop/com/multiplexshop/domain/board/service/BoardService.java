@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
@@ -110,7 +111,7 @@ public class BoardService {
      * @return List<BoardResponseDTO>
      */
     public List<BoardResponseDTO> findByNotice() {
-        List<Board> notice = boardRepository.findByNotie();
+        List<Board> notice = boardRepository.findByNotice();
         return notice.stream()
                 .map(BoardResponseDTO::new)
                 .toList();
@@ -135,8 +136,7 @@ public class BoardService {
      * @return Board
      */
     public Board save(BoardRequestDTO boardRequestDTO) {
-        Board board = dtoToBoardEntity(boardRequestDTO);
-        return boardRepository.save(board);
+        return boardRepository.save(dtoToBoardEntity(boardRequestDTO));
     }
 
     /**
