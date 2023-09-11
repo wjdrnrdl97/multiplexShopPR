@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.orders;
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import jakarta.persistence.*;

@@ -1,22 +1,22 @@
-package backend.shop.com.multiplexshop.domain.Products.service;
+package backend.shop.com.multiplexshop.domain.products.service;
 
 
-import backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs;
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
-import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class ProductsServiceImpl implements ProductService {
+public class ProductsService {
 
     private final ProductsRepository productsRepository;
-    @Override
+
     @Transactional
     public Products productSave(ProductsRequestDTO request) {
         Products products = request.toEntity(request);
