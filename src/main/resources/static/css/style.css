@@ -105,7 +105,7 @@ a{
 
 article{
     min-height: 600px;
-  height: 100%;
+
 }
 
 footer{
@@ -206,7 +206,8 @@ img{
     margin: auto;
     text-align:center;
     width: 800px;
-  }
+    /* 머지난곳 */
+ }
 
   table {
     margin: 100px auto;
@@ -215,8 +216,8 @@ img{
     width: 100%;
     border-bottom: 1px solid black;
     width: 800px;
-
     text-align:center;
+    /* 머지난곳 */
 }
 
 .notice th,.notice td,
@@ -225,6 +226,7 @@ img{
     padding: 8px;
     text-align: center;
     border-bottom: 1px solid #e9e6e6;
+    /* 머지난곳 */
 }
 
 th, td {
@@ -233,8 +235,10 @@ th, td {
     border-bottom: 1px solid #e9e6e6;
 }
 
+
 td a{
     cursor:pointer;
+    /* 머지난곳 */
 }
 
 th {
@@ -288,6 +292,7 @@ tr:hover {
     border-radius: 5px;
     margin-right: 10px;
     cursor:pointer;
+
     
 }
 
@@ -311,6 +316,7 @@ textarea {
     border: none;
     resize: none;
   }
+
 
   .pageActive{
     background-color: #000;
@@ -339,7 +345,9 @@ textarea {
     font-size: 18px;
     box-sizing: border-box;
     text-align: left;
+
     padding: 10px;
+
 
 }
 
@@ -352,7 +360,6 @@ textarea {
     height: 30px;
     font-size: 18px;
     padding: 5px;
-    
     padding-top: 0px;
 
 }
@@ -372,7 +379,9 @@ textarea {
 .btns{
     display: flex;
     justify-content: center;
+
     margin-bottom: 20px;
+
 }
 
 
@@ -473,6 +482,8 @@ input[type="text"]
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
+    margin-bottom: 30px
+
 }
 
 .join_btn:hover{
@@ -686,6 +697,7 @@ input[type="text"]
     height: 30px;
     font-weight: bold;
     text-align: center;
+
 }
 
 .minusBtn, .plusBtn{
@@ -740,6 +752,7 @@ input[type="text"]
     color: #000;
 }
 
+
 input[type=file]::file-selector-button {
     width: 150px;
     height: 30px;
@@ -778,10 +791,29 @@ input[type=file]::file-selector-button {
 }
 
 .comment-btn:hover{
+    background: black
+    color: white;
+    transition: all 0.3s;
+}
+.modify_btn{
+    background-color: transparent;
+    border: 1px solid #000;
+    width: 130px;
+    height: 50px;
+    margin-left: 350px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30px
+}
+
+.modify_btn:hover{
+
     background-color: black;
     color: white;
     transition: all 0.3s;
 }
+
 
 .hr{
     margin: 0px;
@@ -820,6 +852,26 @@ input[type=file]::file-selector-button {
     color: white;
     transition: all 0.3s;
 }
+
+
+  .addr_td{
+    border-bottom: none;
+  }
+
+  #address_kakao{
+      background-color: transparent;
+      width: 100px;
+      height: 40px;
+      border: 1px solid #000;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #address_kakao:hover{
+      background-color: black;
+      color: white;
+    }
 
 
 

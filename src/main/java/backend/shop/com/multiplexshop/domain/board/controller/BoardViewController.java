@@ -69,4 +69,5 @@ public class BoardViewController {
 
         return "support/createBoard";
     }
+
 }

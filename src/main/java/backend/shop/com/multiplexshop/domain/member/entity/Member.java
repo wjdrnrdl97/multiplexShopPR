@@ -5,8 +5,10 @@ package backend.shop.com.multiplexshop.domain.member.entity;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 @Entity

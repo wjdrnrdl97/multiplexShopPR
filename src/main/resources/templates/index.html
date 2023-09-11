@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiplexShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navBar">
+        <div class="navBar_logo">
+            <a href="index.html">
+                <i class="fa-brands fa-drupal"></i>
+                <span class="logo">S H O P</span>
+            </a>
+        </div>
+
+        <ul class="navBar_menu" >
+            <li style="color: black;"><a href="allProductView.html">A L L </a></li>
+            <li style="color: black;"><a href="foodProduct.html">F O O D</a></li>
+            <li style="color: black;"><a href="stuffProduct.html">S T U F F</a></li>
+        </ul>
+
+        <ul class="navBar_members">
+            <li>
+                <a href="cart.html" class="iconA">
+                    <i class="fa-solid fa-cart-shopping" style="display: block; text-align: center; line-height: 40px;" ></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/support}" class="iconA">
+                    <i class="fa-solid fa-handshake" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+            <li><a th:href="@{/join}">Join</a></li>
+            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/mypage/99}">MyPage</a></li>
+        </ul>
+    </nav>
+    <!-- Nav Bar -->
+
+
+    <article id="article">
+        <button class="bannerBtnL"><</button>
+        <div class="carousel-wrapper">
+            <div class="carousel">
+              <img class="cImg active" src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg"/>
+              <img class="cImg " src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg"/>
+              <img class="cImg " src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg"/>
+            </div>
+          </div>
+        <button class="bannerBtnR">></button>
+
+        <div class="thumbnail_img">
+            <div class="products">
+                <a href="">
+                <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 005.jpeg" alt="">
+                </a>
+                <p>상품 이름</p>
+                <p>가격 : <span> 3,9000원</span></p>
+            </div>
+            <div class="products">
+                <a href="">
+                    <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 010.jpeg" alt="">
+                </a>
+                <p>상품 이름</p>
+                <p>가격 : <span> 3,9000원</span></p>
+            </div>
+            <div class="products">
+                <a href="#">
+                    <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
+                </a>
+                <p>상품 이름</p>
+                <p>가격 : <span> 3,9000원</span></p>
+            </div>
+        </div>
+        
+    </article>
+    <!-- article -->
+
+
+    <footer id="footer">
+        <div>
+            <p>이곳은 footer 입니다.</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
+                Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
+                recusandae maiores quam suscipit consequatur.</p>
+        </div>
+    </footer>
+    <!-- footer -->
+
+    <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+    <script>
+
+        const cImgs = document.querySelectorAll('.cImg');
+        const prevButton = document.querySelector('.bannerBtnL');
+        const nextButton = document.querySelector('.bannerBtnR');
+       
+        
+        prevButton.addEventListener('click', () => {
+         const activeIndex = Array.from(cImgs).findIndex(item => item.classList.contains('active'));
+
+        cImgs.forEach(item => {
+             item.classList.remove('active');
+        });
+
+        const prevIndex = (activeIndex - 1 + cImgs.length) % cImgs.length;
+        cImgs[prevIndex].classList.add('active');
+        });
+
+        nextButton.addEventListener('click', () => {
+        const activeIndex = Array.from(cImgs).findIndex(item => item.classList.contains('active'));
+
+        cImgs.forEach(item => {
+             item.classList.remove('active');
+        });
+
+        const nextIndex = (activeIndex + 1) % cImgs.length;
+        cImgs[nextIndex].classList.add('active');
+        });
+
+
+
+    </script>
+      
+</body>
+</html>

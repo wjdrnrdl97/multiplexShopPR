@@ -1,8 +1,6 @@
 package backend.shop.com.multiplexshop.domain.board.controller;
 
 
-
-
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
@@ -15,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
@@ -97,4 +93,5 @@ public class BoardAPIController {
         Board board = boardService.viewCountValidation(boardId,request,response);
         return ResponseEntity.ok().body(new BoardResponseDTO(board));
     }
+
 }

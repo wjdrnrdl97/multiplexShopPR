@@ -1,7 +1,6 @@
 package backend.shop.com.multiplexshop.domain.board.entity;
 
 
-
 import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 
