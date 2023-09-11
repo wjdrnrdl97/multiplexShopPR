@@ -12,7 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     List<Comment> findAllByBoard(Board board);
 
-
+    void deleteAllByBoard(Board board);
 
 
 

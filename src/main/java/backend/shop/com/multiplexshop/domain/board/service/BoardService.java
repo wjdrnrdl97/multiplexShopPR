@@ -4,6 +4,8 @@ import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
+import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
+import backend.shop.com.multiplexshop.domain.comment.repository.CommentRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import jakarta.servlet.http.Cookie;
@@ -31,15 +33,16 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
 
     /**
      *  게시물 상세 조회
-     * @param boardId (조회할 게시물 번호)
+     * @param  (조회할 게시물 번호)
      * @return Board(조회 상세정보) + 조회수 증가
      */
-    public Board searchById(Long boardId) {
+    public Board searchById(Long boardId ) {
         return boardRepository.findById(boardId)
-                .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
+                .orElseThrow(()-> new IllegalArgumentException("Board not Found" +boardId));
     }
 
 
@@ -161,6 +164,7 @@ public class BoardService {
     public void delete(Long boardId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalStateException("Board not Found" + boardId));
+        commentRepository.deleteAllByBoard(board);
         boardRepository.deleteById(boardId);
     }
 

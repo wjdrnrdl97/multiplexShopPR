@@ -25,7 +25,7 @@ public class Comment extends BaseEntity {
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name="boardId")
+    @JoinColumn(name="board_id")
     private Board board;
 
     @Column(length = 50,nullable = false)
@@ -33,6 +33,7 @@ public class Comment extends BaseEntity {
 
     @Column(length = 20)
     private String memberName;
+
 
     @Builder
     public Comment(String commentContent,String memberName, Board board, Member member){
@@ -58,4 +59,10 @@ public class Comment extends BaseEntity {
     public void update(String commentContent) {
         this.commentContent=commentContent;
     }
+
+
+    public void setBoard(Board board){
+        this.board = board;
+    }
 }
+

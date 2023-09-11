@@ -25,15 +25,15 @@ public class CommentController {
     private final CommentService commentService;
 
     /**
-     * 게시물을 상세조회 했을때 api 방식으로  (@param boardId 해당 게시물)의 댓글 데이터를 조회하는 메서드
-     * @param boardId
+     * 게시물을 상세조회 했을때 api 방식으로  (@param  해당 게시물)의 댓글 데이터를 조회하는 메서드
+     * @param
      * @param model
      * @return
      */
-    @GetMapping(value = "/api/comment/{boardId}")
-    public String getCommentList(@PathVariable Long boardId, Model model){
+    @GetMapping(value = "/api/comment/{id}")
+    public String getCommentList(@PathVariable Long id, Model model){
         List<CommentResponseDTO> commentResponseDTOList
-                = commentService.findAllByBoard(boardId);
+                = commentService.findAllByBoard(id);
 
         model.addAttribute("comment",commentResponseDTOList);
         return "reply/comment";

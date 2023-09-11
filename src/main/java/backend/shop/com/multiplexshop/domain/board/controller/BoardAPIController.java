@@ -29,11 +29,11 @@ public class BoardAPIController {
 
     /**
      * 게시물 상세 조회
-     * @param id (@PathVariable, 게시물 번호)
+     * @paramboardId (@PathVariable, 게시물 번호)
      * @return : Http 200 OK, body(getBoard)
      */
 //    @GetMapping("/api/support/{id}")
-//    public ResponseEntity<BoardResponseDTO> getUserBoard(@PathVariable("id") Long id) {
+//    public ResponseEntity<BoardResponseDTO> getUserBoard(@PathVariable("id") LongboardId) {
 //        Board getBoard = boardService.findById(id);
 //        return ResponseEntity.ok().body(new BoardResponseDTO(getBoard));
 //    }
@@ -56,28 +56,39 @@ public class BoardAPIController {
      * @return Http 201 created, body(postBoard(new Board))
      */
     @PostMapping("/api/support")
-    public ResponseEntity<BoardResponseDTO> postUserBoard(@RequestBody BoardRequestDTO boardRequestDTO){Board postBoard = boardService.save(boardRequestDTO);
+    public ResponseEntity<BoardResponseDTO> postUserBoard(@RequestBody BoardRequestDTO boardRequestDTO){
+        Board postBoard = boardService.save(boardRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(new BoardResponseDTO(postBoard));
     }
 
     /**
      * 게시물 수정
-     * @param boardId (수정할 게시물 번호)
+     * @param
      * @param boardRequestDTO (수정할 게시물 내용)
      */
     @PutMapping("/api/support/{id}")
-    public ResponseEntity updateUserBoard(@PathVariable("id") Long boardId,
+    public ResponseEntity<BoardResponseDTO> updateUserBoard(@PathVariable("id") Long boardId,
                                                  @RequestBody BoardRequestDTO boardRequestDTO){
         Board updateBoard = boardService.update(boardId, boardRequestDTO);
-        return ResponseEntity.noContent().build();
+        BoardResponseDTO boardResponseDTO = new BoardResponseDTO(updateBoard);
+        return ResponseEntity.ok().body(boardResponseDTO);
     }
 
     @DeleteMapping("/api/support/{id}")
-    public ResponseEntity deleteBoard(@PathVariable("id") Long boardId){
+    public ResponseEntity deleteBoard(@PathVariable("id") Long boardId ){
         boardService.delete(boardId);
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     *
+     * 쿠키를 사용하여 게시물을 상세조회 하였을 때 조회수가 증가하고 중복방지를 위한 쿠키 생성 및 게시물 정보 반환.
+     * @param boardView
+     * @paramboardId
+     * @param response
+     * @param request
+     * @return http 200 ok, body : Board
+     */
     @GetMapping("/api/support/{id}")
     public ResponseEntity<BoardResponseDTO> upgradeViewCount(@CookieValue("boardView")String boardView,
                                                              @PathVariable("id") Long boardId,

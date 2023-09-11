@@ -13,12 +13,13 @@ public interface BoardRepository extends JpaRepository<Board,Long> {
 
     @Modifying
     @Query("UPDATE Board b SET b.boardViewCount = b.boardViewCount + 1 WHERE b.boardId = :id")
-    void updateCount(@Param("id") Long id);
+    void updateCount(@Param("id") Long boardId);
 
     @Query("select b from Board b where b.boardType = 'NOTICE'")
     List<Board> findByNotice();
 
     @Query("select b from Board b where b.boardType = 'POST'")
     Page<Board> findByPost(PageRequest pageable);
+
 
 }

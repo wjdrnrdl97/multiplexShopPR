@@ -233,6 +233,10 @@ th, td {
     border-bottom: 1px solid #e9e6e6;
 }
 
+td a{
+    cursor:pointer;
+}
+
 th {
     background-color: #f2f2f2;
 }
@@ -283,6 +287,7 @@ tr:hover {
     padding: 3px 10px 3px 10px;
     border-radius: 5px;
     margin-right: 10px;
+    cursor:pointer;
     
 }
 
@@ -804,8 +809,10 @@ input[type=file]::file-selector-button {
 #realUpdate{
     background: transparent;
     border: 1px solid #000;
+    display: inline-block;
+    height: 30px;
     width: 40px;
-    height: 20px;
+    font-size: 12px;
 }
 
 #realUpdate:hover{

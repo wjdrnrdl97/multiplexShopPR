@@ -2,10 +2,15 @@ package backend.shop.com.multiplexshop.domain.board.entity;
 
 
 
+import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Comments;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,6 +40,7 @@ public class Board extends BaseEntity {
         @Enumerated(EnumType.STRING)
         @Column(length = 10,columnDefinition = "varchar(10) default 'POST'")
         private BoardType boardType = BoardType.POST;
+
 
 
         /**

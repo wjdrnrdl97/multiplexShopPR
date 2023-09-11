@@ -57,7 +57,7 @@ public class BoardViewController {
                               @RequestParam(defaultValue = "0")int page,
                               Model model){
 
-        if(boardId==null){
+        if(boardId == null){
             model.addAttribute("Board", new BoardResponseDTO());
             model.addAttribute("page",page);
         }else {
