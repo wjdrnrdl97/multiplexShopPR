@@ -104,8 +104,13 @@ a{
 }
 
 article{
+<<<<<<< HEAD
     min-height: 600px;
   height: 100%;
+=======
+    min-height: 300px;
+    height: 100%;
+>>>>>>> edc2851 (feat: resources HTML page 추가)
 }
 
 footer{

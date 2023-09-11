@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+<article id="article">
+    <div class="table_box">
+
+        <table>
+            <thead>
+            <tr class="boardName">
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>WRITER</th>
+                <th>DATE</th>
+            </tr>
+            </thead>
+
+            <tbody>
+                <tr class="notice" th:each="dto : ${notice}"  >
+                    <td>[[${dtoStat.count}]]</td>
+                    <td>
+                        <a th:href="@{/support/board/{id}(id=${dto.boardId}, page=${page})}" style="font-weight: bold;">[[${dto.boardTitle}]]</a>
+                    </td>
+                    <td>[[${dto.memberName}]]</td>
+                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                </tr>
+                <tr class="post" th:each="dto : ${board}" >
+                    <td th:text="${dto.boardId}"></td>
+                    <td>
+                        <a th:href="@{/support/board/{id}(id=${dto.boardId}, page=${page})}">[[${dto.boardTitle}]]</a>
+                    </td>
+                    <td>[[${dto.memberName}]]</td>
+                    <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
+                </tr>
+            </tbody>
+            <!-- 여기에 더 많은 게시물 행 추가 가능 -->
+
+        </table>
+
+        <!--        <button th:onclick="|location.href='@{/support/post/}'|" class="post_btn">POST</button>-->
+        <button th:onclick="|location.href='@{/support/post}'|"
+                class="post_btn">POST
+        </button>
+
+    </div>
+
+
+    <div class="pagination">
+        <th:block th:each="page : ${#numbers.sequence(1, board.totalPages)}">
+                <a class="page-link" th:class="'page-link '+ ${(board.number + 1) == page? 'pageActive':''}"  th:href="@{/support(page = ${page})}">
+                    [[${page}]]
+                </a>
+        </th:block>
+    </div>
+</article>
+<!-- article -->
+    </th:block>
+</th:block>
+</html>
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+
+    <article id="article">
+        <div class="all_product_box">
+
+
+            <div class="stuff_coner">
+                <h2>S T U F F</h2>
+                <form class="all_search_box">
+                    <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>
+                    <select id="foodSelect" name="foodCategory">
+                        <option value="all">ALL</option>
+                        <option value="fruits">FOOD</option>
+                        <option value="vegetables">STUFF</option>
+                        <!-- 추가적인 옵션들을 여기에 추가할 수 있습니다. -->
+                    </select>
+                    <input type="text" class="search_input">
+                    <input type="submit" value="Search">
+                </form>
+                
+                <div class="thumbnail_img">
+                    <div class="products">
+                        <a href="">
+                        <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 005.jpeg" alt="">
+                        </a>
+                        <p>상품 이름</p>
+                        <p>가격 : <span> 3,9000원</span></p>
+                    </div>
+                    <div class="products">
+                        <a href="">
+                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 010.jpeg" alt="">
+                        </a>
+                        <p>상품 이름</p>
+                        <p>가격 : <span> 3,9000원</span></p>
+                    </div>
+                    <div class="products">
+                        <a href="#">
+                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
+                        </a>
+                        <p>상품 이름</p>
+                        <p>가격 : <span> 3,9000원</span></p>
+                    </div>
+                    <div class="products">
+                        <a href="#">
+                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
+                        </a>
+                        <p>상품 이름</p>
+                        <p>가격 : <span> 3,9000원</span></p>
+                    </div>
+                    <div class="products">
+                        <a href="#">
+                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
+                        </a>
+                        <p>상품 이름</p>
+                        <p>가격 : <span> 3,9000원</span></p>
+                    </div>
+                    <div class="products">
+                        <a href="#">
+                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
+                        </a>
+                        <p>상품 이름</p>
+                        <p>가격 : <span> 3,9000원</span></p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="pagination">
+            <span class="page-link">1</span>
+            <span class="page-link">2</span>
+            <span class="page-link">3</span>
+            <!-- 여기에 더 많은 페이지 링크 추가 -->
+        </div>
+
+    </article>
+
+    <!-- article -->
+
+    </th:block>
+</th:block>
+
+    <script>
+
+    </script>
+
+</body>
+
+</html>
