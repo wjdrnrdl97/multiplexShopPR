@@ -1,54 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiplexShop</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
-</head>
-
-
-<body>
-    <nav class="navBar">
-        <div class="navBar_logo">
-            <a href="main.html">
-                <i class="fa-brands fa-drupal"></i>
-                <span class="logo">S H O P</span>
-            </a>
-        </div>
-
-        <ul class="navBar_menu">
-            <li style="color: black;"><a href="">A L L </a></li>
-            <li style="color: black;"><a href="">F O O D</a></li>
-            <li style="color: black;"><a href="">S T U F F</a></li>
-        </ul>
-
-        <ul class="navBar_members">
-            <li>
-                <a href="#" class="iconA">
-                    <i class="fa-solid fa-cart-shopping"
-                        style="display: block; text-align: center; line-height: 40px;"></i>
-                    <span>Cart</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" class="iconA">
-                    <i class="fa-solid fa-handshake"
-                        style="color: black; display: block; text-align: center; line-height: 40px;"></i>
-                    <span>Support</span>
-                </a>
-            </li>
-            <li><a href="#">Join</a></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#">MyPage</a></li>
-        </ul>
-    </nav>
-    <!-- Nav Bar -->
-
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
 
     <article id="article">
         <div class="right_contents">
@@ -108,19 +62,9 @@
 
     <!-- article -->
 
-
-    <footer id="footer">
-        <div>
-            <p>이곳은 footer 입니다.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
-                Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
-                recusandae maiores quam suscipit consequatur.</p>
-        </div>
-    </footer>
-    <!-- footer -->
-
-    <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
-    <script>
+    </th:block>
+</th:block>
+<script>
         let id = document.getElementById('boardId').textContent;
         const deleteBtn = document.getElementById('delete_btn');
         const replySubmitBtn = document.querySelector('.cmt-btn');
@@ -258,10 +202,5 @@
         });
 
         }
-
-       
-
     </script>
-</body>
-
 </html>
