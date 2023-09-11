@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiplexShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+    <nav class="navBar">
+        <div class="navBar_logo">
+            <a href="main.html">
+                <i class="fa-brands fa-drupal"></i>
+                <span class="logo">S H O P</span>
+            </a>
+        </div>
+
+        <ul class="navBar_menu">
+            <li style="color: black;"><a href="">A L L </a></li>
+            <li style="color: black;"><a href="">F O O D</a></li>
+            <li style="color: black;"><a href="">S T U F F</a></li>
+        </ul>
+
+        <ul class="navBar_members">
+            <li>
+                <a href="#" class="iconA">
+                    <i class="fa-solid fa-cart-shopping"
+                        style="display: block; text-align: center; line-height: 40px;"></i>
+                    <span>Cart</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="iconA">
+                    <i class="fa-solid fa-handshake"
+                        style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                    <span>Support</span>
+                </a>
+            </li>
+            <li><a href="#">Join</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">MyPage</a></li>
+        </ul>
+    </nav>
+    <!-- Nav Bar -->
+
+
+    <article id="article">
+        <div class="right_contents">
+            <!-- 공지사항 본문 -->
+            <div class="notice_contents1">
+                <h2  class="txt_title_notice_read" style="text-align: center; font-size: 35px;">
+                    [[${getBoard.boardTitle}]]</h2>
+                <div class="read_info">
+<!--                    <span id="boardId"> [[${getBoard.boardId}]] </span>-->
+                    <span id="boardId" th:text="${getBoard.boardId}"></span>
+                    / <span> WRITER : </span> <span>[[${getBoard.memberName}]]</span>
+                    / <span>[[${#temporals.format(getBoard.regDate, 'yyyy-MM-dd')}]]</span>
+                    / <span>[[${getBoard.boardViewCount}]]</span>
+                </div>
+
+                <div class="box_content">
+                    [[${getBoard.boardContent}]]
+                </div>
+                <div class="btns">
+                    <a th:href="@{/support(page = ${page})}" class="list-btn" style="margin-top:20px;">LIST</a>
+                        <a th:onclick="|location.href='@{/support/post(boardId=${getBoard.boardId},page=${page})}'|"
+                           class="list-btn" style="margin-top:20px;">UPDATE</a>
+                    <a class="list-btn" style="margin-top:20px;" id="delete_btn">DELETE</a>
+                </div>
+
+                <hr class="hr">
+
+                <div id="replyCont">
+                    <ul class="list-group" style="padding-left : 0px; margin-top: 0px;">
+                        <li style="list-style-type: none;" class="list-group-item">
+                            <th:block th:insert="reply/comment"></th:block>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="comment-form">
+                    <h2>Comment</h2>
+                    <label for="memberId">UserId [임시]</label>
+                    <input type="text" id="memberId" class="memberId" style="width: 30px; font-size: 14px; text-align: center; height: 10px;">
+                    <form class="commentSubmitForm">
+                        <textarea class="cmt_area" rows="4" placeholder="
+                    Please enter your comment."></textarea>
+                        <p>
+                            <button class="cmt-btn" type="submit">COMMNET SUBMIT</button>
+                        </p>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- //공지사항 본문 -->
+
+        </div>
+
+
+    </article>
+
+    <!-- article -->
+
+
+    <footer id="footer">
+        <div>
+            <p>이곳은 footer 입니다.</p>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
+                Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
+                recusandae maiores quam suscipit consequatur.</p>
+        </div>
+    </footer>
+    <!-- footer -->
+
+    <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+    <script>
+        let id = document.getElementById('boardId').textContent;
+        const deleteBtn = document.getElementById('delete_btn');
+        const replySubmitBtn = document.querySelector('.cmt-btn');
+        const replyArea = document.querySelector('.cmt_area');
+        const replyMemberId = document.querySelector('.memberId');
+        const replyBoardId = document.querySelector('#boardId');
+
+        const replyCont = document.getElementById('replyCont');
+
+        const commentElements = document.querySelectorAll(".comment-view");
+
+        document.addEventListener('click', async e => {
+            if (e.target && e.target.id === 'update-btn') {
+                let commentId = e.target.value;
+                let url = `/api/CommentUpdate/${commentId}`;
+                const resp = await fetch(url,  {method:"GET"});
+                if(resp.status === 200){
+                    let text = await resp.text();
+                    let target = e.target;
+                    let inputComment = target.parentElement.parentElement;
+                    
+                    inputComment.innerHTML = text;
+                    
+                }
+ 
+            }
+        });
+
+        document.addEventListener('click', async e => {
+            if(e.target && e.target.id === 'realUpdate'){
+                let commentId = e.target.value;
+                let url = `/api/comment/${commentId}`;
+                const resp = await fetch(url,
+                    {method:"PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },body: JSON.stringify({
+                    commentContent : document.querySelector('#updateContent').value
+                })
+                    });
+
+                        if(resp.status===204){
+                            alert("댓글 수정이 완료되었습니다.")
+                            getReplies([[${getBoard.boardId}]]);
+
+                        }else{
+                            alert("댓글 등록 실패")
+                        };
+
+                
+            }    
+        }    
+    )
+
+        
+    document.addEventListener('click', async e => {
+
+        if(e.target && e.target.id === 'delete-btn'){
+            if (!confirm("댓글을 삭제하시겠습니까?")) {
+                             return;
+                        }
+            let commentId = e.target.value;
+            let url = `/api/comment/${commentId}`;
+            const resp = await fetch(url,
+                { 
+                    method:"DELETE"
+                },
+            )
+            if(resp.status === 204){
+
+                alert('댓글이 삭제되었습니다.');
+                getReplies([[${getBoard.boardId}]]);
+            }else{
+                alert('요청이 실패했습니다.')
+            }
+        }
+    })
+        
+        
+    
+
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', event => {
+                if (confirm('삭제하시겠습니까?')) { // 확인/취소 버튼이 있는 confirm 대화상자
+                    fetch(`/api/support/${id}`, {
+                        method: 'DELETE'
+                    })
+                    .then(() => {
+                        alert('삭제가 완료되었습니다.');
+                        location.replace('/support');
+                    });
+                }
+            });
+        }
+
+        async function getReplies(boardId) {
+            let url = `/api/comment/${boardId}`; 
+            const resp = await fetch(url);
+            if (resp.status === 200) {
+                let text = await resp.text();
+                replyCont.innerHTML = text;
+            }
+        }
+    
+        if(replySubmitBtn){
+            replySubmitBtn.addEventListener('click', postReply)
+        }
+
+         function postReply(e){
+            e.preventDefault();
+
+            let url = "/api/comment";
+            const resp = fetch(url,
+            {method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+            },body: JSON.stringify({
+                commentContent: replyArea.value,
+                boardId : [[${getBoard.boardId}]],
+                memberId : replyMemberId.value
+            })
+        });
+
+            resp.then( result => {
+                
+                if(result.status===201){
+                    
+                    // alert("등록 성공")
+                    getReplies([[${getBoard.boardId}]]);
+                    document.querySelector('.cmt_area').value = "";
+            }else{
+                alert("등록 실패")
+            }
+
+        });
+
+        }
+
+       
+
+    </script>
+</body>
+
+</html>

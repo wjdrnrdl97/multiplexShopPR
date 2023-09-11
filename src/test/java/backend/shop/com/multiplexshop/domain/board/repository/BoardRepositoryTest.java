@@ -1,17 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.repository;
 
-import backend.shop.com.multiplexshop.domain.board.entity.Board;
-import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.member.entity.Role;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.thymeleaf.engine.AttributeDefinition;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BoardRepositoryTest {

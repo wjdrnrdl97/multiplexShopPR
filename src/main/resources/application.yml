@@ -5,8 +5,14 @@ spring:
       hibernate:
         format_sql: true
         ddl-auto: update
+<<<<<<< HEAD
     defer-datasource-initialization: false
 
+=======
+    defer-datasource-initialization: true
+    thymeleaf:
+      cache: false
+>>>>>>> 5e1aa1420b15c3f759e13edb6e2d3924f855d7ee
 
   datasource:
     url: jdbc:h2:mem:h2db
@@ -20,3 +26,5 @@ spring:
     level:
       org.springframework: DEBUG
       org.hibernate: DEBUG
+
+
