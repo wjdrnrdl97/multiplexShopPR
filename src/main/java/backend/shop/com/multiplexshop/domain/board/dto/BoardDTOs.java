@@ -8,16 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+
 
 
 public class BoardDTOs {
 
-
     @Getter
-    @AllArgsConstructor
-    @Builder
-    public static class BoardResponseDTO {
+    @NoArgsConstructor
+    public static class BoardResponseDTO{
         private Long boardId;
         private Long boardViewCount;
         private LocalDateTime modDate;
@@ -25,28 +23,36 @@ public class BoardDTOs {
         private String memberName;
         private String boardTitle;
         private String boardContent;
+        private String boardType;
         private Long memberId;
 
-        public BoardResponseDTO(Board board) {
+        public BoardResponseDTO(Board board){
             this.boardId = board.getBoardId();
             this.boardViewCount = board.getBoardViewCount();
-            this.modDate = board.getModDate();
-            this.regDate = board.getRegDate();
-            this.memberName = board.getMember().getMemberName();
             this.boardTitle = board.getBoardTitle();
             this.boardContent = board.getBoardContent();
+            this.memberName = board.getMemberName();
+            this.regDate = board.getRegDate();
+            this.modDate = board.getModDate();
+            this.boardType = board.getBoardType().label();
             this.memberId = board.getMember().getId();
         }
     }
 
     @Getter
-    @Builder
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class BoardRequestDTO {
-        private Long boardId;
         private Long memberId;
         private String boardTitle;
         private String boardContent;
-    }
-}
 
+        @Builder
+        public  BoardRequestDTO(Long memberId,String boardTitle,String boardContent, String boardType){
+            this.memberId = memberId;
+            this.boardTitle = boardTitle;
+            this.boardContent = boardContent;
+        }
+    }
+
+}
 

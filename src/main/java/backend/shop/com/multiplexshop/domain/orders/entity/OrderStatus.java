@@ -4,5 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum OrderStatus {
-    ORDER,CANCEL
+    ORDER("ORDER"),
+    CANCEL("CANCLE");
+
+    private final String label;
+
+    OrderStatus(String label){
+        this.label = label;
+    }
+    public String label(){
+        return label;
+    }
 }

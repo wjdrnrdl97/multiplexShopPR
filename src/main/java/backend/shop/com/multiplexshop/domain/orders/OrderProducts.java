@@ -36,14 +36,21 @@ public class OrderProducts {
     private Integer orderPrice;
 
     @Column(nullable = false)
-    private Integer order_count;
+    private Integer orderCount;
 
     @Builder
-    public OrderProducts(Orders orders, Products products, Member member, Integer orderPrice, Integer order_count) {
+    public OrderProducts(Orders orders, Products products, Member member, Integer orderPrice, Integer orderCount) {
         this.orders = orders;
         this.products = products;
         this.member = member;
         this.orderPrice = orderPrice;
-        this.order_count = order_count;
+        this.orderCount = orderCount;
+    }
+    @Builder
+    public static OrderProducts createOrderProducts(Products products,Integer orderCount){
+        return OrderProducts.builder()
+                .products(products)
+                .orderCount(orderCount)
+                .build();
     }
 }

@@ -43,7 +43,6 @@ public class BoardServiceImpl implements BoardService{
         Member member = memberRepository.findById(boardRequestDTO.getMemberId())
                                             .orElseThrow(()->new IllegalArgumentException("Member not found"));
         return Board.builder()
-                    .boardId(boardRequestDTO.getBoardId())
                     .boardTitle(boardRequestDTO.getBoardTitle())
                     .boardContent(boardRequestDTO.getBoardContent())
                     .member(member)
