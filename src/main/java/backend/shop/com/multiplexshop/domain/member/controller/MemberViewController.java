@@ -28,12 +28,12 @@ public class MemberViewController {
             Member member = memberService.findById(id);
             model.addAttribute("member", new MemberResponseDTO(member));
         }
-        return "join";
+        return "member/join";
     }
 
     @GetMapping("/login")
     public String getLoginView(){
-        return "login";
+        return "login/login";
     }
 
     @GetMapping("/mypage/{id}")
@@ -42,7 +42,7 @@ public class MemberViewController {
                 .orElseThrow(() -> new IllegalStateException("등록 되지않은 회원입니다."));
         MemberResponseDTO responseDTO = new MemberResponseDTO(member);
         model.addAttribute("member", responseDTO);
-        return "mypage";
+        return "member/mypage";
     }
 
 

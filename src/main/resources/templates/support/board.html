@@ -1,6 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
     <th:block th:fragment="contentFrag">
-
 
 <article id="article">
     <div class="table_box">
@@ -35,7 +37,6 @@
             </tbody>
             <!-- 여기에 더 많은 게시물 행 추가 가능 -->
 
-
         </table>
 
         <!--        <button th:onclick="|location.href='@{/support/post/}'|" class="post_btn">POST</button>-->
@@ -57,3 +58,5 @@
 <!-- article -->
     </th:block>
 </th:block>
+</html>
+
