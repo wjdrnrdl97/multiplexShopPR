@@ -37,14 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-<<<<<<< HEAD
-class BoardAPIControllerTest{
-    @Autowired
-    BoardService boardService;
-=======
 class BoardAPIControllerTest {
 
->>>>>>> 5e1aa1420b15c3f759e13edb6e2d3924f855d7ee
     @Autowired
     BoardRepository boardRepository;
     @Autowired
