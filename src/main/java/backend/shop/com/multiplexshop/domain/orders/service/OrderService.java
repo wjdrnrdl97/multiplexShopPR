@@ -25,16 +25,4 @@ public class OrderService {
     private final MemberRepository memberRepository;
     private final ProductsRepository productsRepository;
 
-// 주문 생성하기
-    public Orders save(OrderProductsRequestDTO dto){
-        Member member = memberRepository.findById(dto.getMemberId())
-                .orElseThrow(()->new IllegalArgumentException("Member not found"));
-        Products products = productsRepository.findById(dto.getProductId())
-                .orElseThrow(()->new IllegalArgumentException("Products not found"));
-        List<OrderProducts> orderProducts = new ArrayList<>();
-        OrderProducts orderProduct = OrderProducts.createOrderProducts(products, dto.getOrderCount());
-        orderProducts.add(orderProduct);
-        Orders order = Orders.createOrders(member, orderProducts);
-        return ordersRepository.save(order);
-    }
 }

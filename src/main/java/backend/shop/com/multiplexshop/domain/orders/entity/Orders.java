@@ -39,18 +39,39 @@ public class Orders extends BaseEntity {
     @Column(length = 10,columnDefinition = "varchar(10) default 'ORDER'")
     private OrderStatus orderStatus = OrderStatus.ORDER;
 
+    /**
+     *  주문상품과 주문과의 양방향 관계 메서드
+     * @param products
+     */
+    public void addOrdersProducts(OrderProducts products){
+        orderProducts.add(products);
+        products.changeOrders(this);
+    }
 
     /**
-     * 새로운 주문을 생성하는 로직
-     * @param member (주문하는 회원)
-     * @param orderProducts (주문상품)
-     * @return
+     *  배송과 주문과의 양방향 관계 메서드
+     * @param delivery
      */
-    @Builder
-    public static Orders createOrders(Member member, List<OrderProducts> orderProducts){
-    return Orders.builder()
-            .member(member)
-            .orderProducts(orderProducts)
-            .build();
+    public void addDelivery(Delivery delivery){
+        this.delivery = delivery;
+        delivery.changeOrder(this);
+    }
+
+    /**
+     *  주문을 생성하는 메소드
+     * @param member
+     * @param delivery
+     * @param products
+     * @return new Orders
+     */
+    public Orders createOrders(Member member,Delivery delivery, OrderProducts products){
+            Orders newOrder = new Orders();
+            newOrder.member = member;
+            newOrder.delivery = delivery;
+            for (OrderProducts product: newOrder.orderProducts){
+               newOrder.addOrdersProducts(products);
+            }
+            newOrder.orderStatus = OrderStatus.ORDER;
+            return newOrder;
     }
 }

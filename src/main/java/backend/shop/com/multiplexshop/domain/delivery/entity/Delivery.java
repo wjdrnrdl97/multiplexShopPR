@@ -32,4 +32,8 @@ public class Delivery {
         this.address = address;
         this.deliveryStatus = deliveryStatus;
     }
+    public void changeOrder(Orders order){
+            this.order = order;
+            order.addDelivery(this);
+    }
 }

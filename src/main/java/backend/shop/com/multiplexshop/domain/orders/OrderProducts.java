@@ -46,11 +46,10 @@ public class OrderProducts {
         this.orderPrice = orderPrice;
         this.orderCount = orderCount;
     }
-    @Builder
-    public static OrderProducts createOrderProducts(Products products,Integer orderCount){
-        return OrderProducts.builder()
-                .products(products)
-                .orderCount(orderCount)
-                .build();
+    public void changeOrders(Orders order){
+        if (this.orders!=null){
+            this.orders.getOrderProducts().remove(this);
+        }
+        this.orders = order;
     }
 }
