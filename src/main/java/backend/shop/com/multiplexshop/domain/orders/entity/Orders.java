@@ -27,30 +27,17 @@ public class Orders extends BaseEntity {
     @JoinColumn(name = "member_id")
     Member member;
 
-    @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL)
-    private List<OrderProducts> orderProducts = new ArrayList<>();
+//    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    private List<OrderProducts> orderProducts = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10,columnDefinition = "varchar(10) default 'ORDER'")
+    @Column(length = 10, columnDefinition = "varchar(10) default 'ORDER'")
     private OrderStatus orderStatus = OrderStatus.ORDER;
 
-
-    /**
-     * 새로운 주문을 생성하는 로직
-     * @param member (주문하는 회원)
-     * @param orderProducts (주문상품)
-     * @return
-     */
-    @Builder
-    public static Orders createOrders(Member member, List<OrderProducts> orderProducts){
-    return Orders.builder()
-            .member(member)
-            .orderProducts(orderProducts)
-            .build();
-    }
 }
+

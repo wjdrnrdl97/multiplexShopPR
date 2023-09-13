@@ -20,17 +20,12 @@ public class OrderProducts {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Orders orders;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id", nullable = false)
     private Products products;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
 
     @Column(nullable = false)
     private Integer orderPrice;
@@ -39,10 +34,9 @@ public class OrderProducts {
     private Integer orderCount;
 
     @Builder
-    public OrderProducts(Orders orders, Products products, Member member, Integer orderPrice, Integer orderCount) {
+    public OrderProducts(Orders orders, Products products, Integer orderPrice, Integer orderCount) {
         this.orders = orders;
         this.products = products;
-        this.member = member;
         this.orderPrice = orderPrice;
         this.orderCount = orderCount;
     }
@@ -51,6 +45,7 @@ public class OrderProducts {
         return OrderProducts.builder()
                 .products(products)
                 .orderCount(orderCount)
+                .orderPrice(products.getProductPrice() *  orderCount)
                 .build();
     }
 }

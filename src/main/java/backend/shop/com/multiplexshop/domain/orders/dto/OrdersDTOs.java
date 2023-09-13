@@ -30,7 +30,6 @@ public class OrdersDTOs {
             this.orderStatus = orders.getOrderStatus().label();
             this.regDate = orders.getRegDate();
             this.modDate = orders.getModDate();
-            this.orderProducts = orders.getOrderProducts().stream().toList();
             this.DeliveryStatus = orders.getDelivery().getDeliveryStatus().label();
         }
     }
