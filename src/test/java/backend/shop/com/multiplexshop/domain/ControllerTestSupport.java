@@ -16,7 +16,5 @@ public abstract class ControllerTestSupport {
     protected MockMvc mockMvc;
     @Autowired
     protected ObjectMapper objectMapper;
-    @MockBean
-    protected ProductsService productsService;
 
 }
