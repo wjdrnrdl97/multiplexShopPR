@@ -15,6 +15,7 @@ public class ProductsDTOs {
     @Getter
     @NoArgsConstructor
     public static class ProductsRequestDTO{
+        private Long id;
         private String productName;
         private Integer productPrice;
         private Integer stockQuantity;
@@ -24,11 +25,14 @@ public class ProductsDTOs {
         private String imagePath;
         private String detailImagePath;
         private String productScript;
+        private Integer orderQuantity;
 
         @Builder
         public ProductsRequestDTO(String productName, Integer productPrice, Integer stockQuantity,
                                   String selectTag1, String selectTag2, Categories categories,
-                                  String imagePath, String detailImagePath, String productScript) {
+                                  String imagePath, String detailImagePath, String productScript,
+                                  Integer orderQuantity, Long id) {
+            this.id = id;
             this.productName = productName;
             this.productPrice = productPrice;
             this.stockQuantity = stockQuantity;
@@ -38,6 +42,7 @@ public class ProductsDTOs {
             this.imagePath = imagePath;
             this.detailImagePath = detailImagePath;
             this.productScript = productScript;
+            this.orderQuantity = orderQuantity;
         }
 
 
@@ -56,6 +61,7 @@ public class ProductsDTOs {
     @Getter
     @NoArgsConstructor
     public static class ProductsResponseDTO{
+        private Long id;
         private String productName;
         private Integer productPrice;
         private Integer stockQuantity;

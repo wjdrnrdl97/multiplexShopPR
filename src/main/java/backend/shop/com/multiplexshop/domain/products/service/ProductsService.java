@@ -18,8 +18,18 @@ public class ProductsService {
     private final ProductsRepository productsRepository;
 
     @Transactional
-    public Products productSave(ProductsRequestDTO request) {
+    public ProductsResponseDTO productSave(ProductsRequestDTO request) {
         Products products = request.toEntity(request);
-        return productsRepository.save(products);
+        Products savedProduct = productsRepository.save(products);
+
+        return ProductsResponseDTO.of(savedProduct);
+    }
+
+    @Transactional
+    public void productUpdate(ProductsRequestDTO requestDTO) {
+        Products products = productsRepository.findById(requestDTO.getId())
+                .orElseThrow(()-> new IllegalArgumentException("잘못된 상품 번호입니다."));
+        products.updateByRequest(requestDTO);
+        productsRepository.save(products);
     }
 }
