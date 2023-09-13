@@ -7,8 +7,10 @@ import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.entity.Role;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
+import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
+import org.antlr.v4.runtime.atn.SemanticContext;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+@SpringBootTest
 class OrderServiceTest {
 
     @Autowired
@@ -34,37 +37,30 @@ class OrderServiceTest {
     @Autowired
     OrdersRepository ordersRepository;
 
-//    @Test
-//    @DisplayName("OrderService의 save()로 주문 생성에 성공 해야한다.")
-//    public void test1() throws Exception{
-//        //given
-//        Member member = Member.builder()
-//                .memberEmailId("Admin")
-//                .password("1234")
-//                .memberName("관리자")
-//                .role(Role.ADMIN)
-//                .build();
-//        Member newMember = memberRepository.save(member);
-//        Products product = Products.builder()
-//                .productName("상품1")
-//                .productPrice(10000)
-//                .stockQuantity(1000)
-//                .categories(Categories.STUFF)
-//                .build();
-//        Products newProduct = productsRepository.save(product);
-//        OrderProductsRequestDTO dto = OrderProductsRequestDTO.builder()
-//                .memberId(newMember.getId())
-//                .productId(newProduct.getId())
-//                .orderCount(2)
-//                .build();
-//        //when
-//        Orders order = orderService.save(dto);
-//        //then
-//        Orders result = ordersRepository.findById(order.getId())
-//                .orElseThrow(()-> new IllegalArgumentException("Order not found"));
-//        assertThat(result).isNotNull();
-//        assertThat(result.getMember().getId()).isEqualTo(newMember.getId());
-//        assertThat(result.getOrderProducts().get(0).getProducts().getId()).isEqualTo(newProduct.getId());
-//
-//    }
+
+    @Test
+    @DisplayName("주문 요청을 받아 주문을 생성한다.")
+    public void save(){
+        //given
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        productsRepository.save(products1);
+
+        OrderRequestDTO requestDTO = OrderRequestDTO.builder()
+                .productId(List.of(1L,2L))
+                .memberId(1L)
+                .build();
+
+        //when
+        OrderResponseDTO save = orderService.save(requestDTO);
+
+        //then
+        List<Orders> orders = ordersRepository.findAll();
+        assertThat(orders).hasSize(1);
+    }
 }

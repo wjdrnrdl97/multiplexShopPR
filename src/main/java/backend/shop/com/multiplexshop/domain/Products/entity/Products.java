@@ -49,10 +49,12 @@ public class Products{
     @Column(length = 200)
     private String productScript;
 
+    private Integer orderQuantity;
+
     @Builder
     public Products(String productName, Integer productPrice, Integer stockQuantity, String selectTag1,
                     String selectTag2, Categories categories, String imagePath, String detailImagePath,
-                    String productScript) {
+                    String productScript, Integer orderQuantity) {
 
         this.productName = productName;
         this.productPrice = productPrice;
@@ -63,5 +65,6 @@ public class Products{
         this.imagePath = imagePath;
         this.detailImagePath = detailImagePath;
         this.productScript = productScript;
+        this.orderQuantity = orderQuantity;
     }
 }

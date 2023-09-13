@@ -1,7 +1,14 @@
 package backend.shop.com.multiplexshop.domain.orders.dto;
 
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
+import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,26 +18,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrdersDTOs {
-    /**
-     * 주문의 기록 정보를 응답하는 DTO
-     */
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    public static class OrderRequestDTO {
+        private Long memberId;
+        private List<Long> productId;
+
+        @Builder
+        public OrderRequestDTO(Long memberId, List<Long> productId) {
+            this.memberId = memberId;
+            this.productId = productId;
+        }
+
+//        public Orders toEntity(OrderRequestDTO request, Member member){
+//            return Orders.builder()
+//                    .member(member)
+//                    .build();
+//        }
+    }
+
     @Getter
     @NoArgsConstructor
     public static class OrderResponseDTO{
-        private Long id;
-        private String orderStatus;
-        private LocalDateTime regDate;
-        private LocalDateTime modDate;
-        private List<OrderProducts> orderProducts = new ArrayList<>();
-        private String DeliveryStatus;
+        private Member member;
+        private OrderStatus orderStatus;
+        private Integer orderPrice;
 
         @Builder
-        public OrderResponseDTO(Orders orders) {
-            this.id = orders.getId();
-            this.orderStatus = orders.getOrderStatus().label();
-            this.regDate = orders.getRegDate();
-            this.modDate = orders.getModDate();
-            this.DeliveryStatus = orders.getDelivery().getDeliveryStatus().label();
+        public OrderResponseDTO(Member member, OrderStatus orderStatus,
+                                Integer orderPrice) {
+            this.member = member;
+            this.orderStatus = orderStatus;
+            this.orderPrice = orderPrice;
+        }
+
+        public static OrderResponseDTO of(Orders orders){
+            return OrderResponseDTO.builder()
+                    .member(orders.getMember())
+                    .orderPrice(orders.getOrderPrice())
+                    .orderStatus(orders.getOrderStatus())
+                    .build();
         }
     }
 

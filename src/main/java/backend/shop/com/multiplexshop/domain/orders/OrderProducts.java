@@ -27,25 +27,4 @@ public class OrderProducts {
     @JoinColumn(name = "products_id", nullable = false)
     private Products products;
 
-    @Column(nullable = false)
-    private Integer orderPrice;
-
-    @Column(nullable = false)
-    private Integer orderCount;
-
-    @Builder
-    public OrderProducts(Orders orders, Products products, Integer orderPrice, Integer orderCount) {
-        this.orders = orders;
-        this.products = products;
-        this.orderPrice = orderPrice;
-        this.orderCount = orderCount;
-    }
-    @Builder
-    public static OrderProducts createOrderProducts(Products products,Integer orderCount){
-        return OrderProducts.builder()
-                .products(products)
-                .orderCount(orderCount)
-                .orderPrice(products.getProductPrice() *  orderCount)
-                .build();
-    }
 }

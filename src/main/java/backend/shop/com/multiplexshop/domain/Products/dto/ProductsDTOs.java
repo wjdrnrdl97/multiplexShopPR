@@ -19,6 +19,7 @@ public class ProductsDTOs {
     @Getter
     @NoArgsConstructor
     public static class ProductsRequestDTO{
+        private Long id;
         private String productName;
         private Integer productPrice;
         private Integer stockQuantity;
@@ -28,9 +29,13 @@ public class ProductsDTOs {
         private String imagePath;
         private String detailImagePath;
         private String productScript;
+        private Integer orderQuantity;
 
         @Builder
-        public ProductsRequestDTO(String productName, Integer productPrice, Integer stockQuantity, String selectTag1, String selectTag2, Categories categories, String imagePath, String detailImagePath, String productScript) {
+        public ProductsRequestDTO(Long id, String productName, Integer productPrice, Integer stockQuantity,
+                                  String selectTag1, String selectTag2, Categories categories, String imagePath,
+                                  String detailImagePath, String productScript,Integer orderQuantity) {
+            this.id = id;
             this.productName = productName;
             this.productPrice = productPrice;
             this.stockQuantity = stockQuantity;
@@ -40,6 +45,7 @@ public class ProductsDTOs {
             this.imagePath = imagePath;
             this.detailImagePath = detailImagePath;
             this.productScript = productScript;
+            this.orderQuantity = orderQuantity;
         }
 
         public Products toEntity(ProductsRequestDTO requestDTO){
