@@ -38,7 +38,7 @@ public class ProductsDTOs {
             this.productScript = productScript;
         }
 
-        public Products toEntity(ProductsRequestDTO requestDTO){
+        public static Products toEntity(ProductsRequestDTO requestDTO){
             return Products.builder()
                     .productName(requestDTO.getProductName())
                     .productPrice(requestDTO.getProductPrice())

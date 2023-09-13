@@ -7,15 +7,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+
 class ProductsAPIControllerTest extends ControllerTestSupport {
-
-
-
 
 
     @Test
@@ -23,7 +24,8 @@ class ProductsAPIControllerTest extends ControllerTestSupport {
     void postProducts() throws Exception {
         //given
         String url = "/api/products";
-        ProductsRequestDTO request = ProductsRequestDTO.builder()
+        ProductsRequestDTO requestDTO
+                = ProductsRequestDTO.builder()
                 .stockQuantity(1)
                 .productName("향수")
                 .productPrice(10000)
@@ -33,13 +35,11 @@ class ProductsAPIControllerTest extends ControllerTestSupport {
         // when//then
         mockMvc.perform(
                 post(url)
-                        .content(objectMapper.writeValueAsString(request))
+                        .content(objectMapper.writeValueAsString(requestDTO))
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andDo(print())
                 .andExpect(status().isCreated());
-
-
 
     }
 

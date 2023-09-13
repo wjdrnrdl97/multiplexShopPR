@@ -18,8 +18,6 @@ import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 public class ProductsAPIController {
 
     private final ProductsService productsService;
-
-
     @PostMapping(value = "/api/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductsResponseDTO> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
         Products products = productsService.productSave(productsRequestDTO);
