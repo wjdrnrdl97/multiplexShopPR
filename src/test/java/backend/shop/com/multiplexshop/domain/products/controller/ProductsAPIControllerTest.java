@@ -32,7 +32,7 @@ class ProductsAPIControllerTest extends ControllerTestSupport {
                 .categories(Categories.STUFF)
                 .build();
 
-        // when//then
+        // when //then
         mockMvc.perform(
                 post(url)
                         .content(objectMapper.writeValueAsString(requestDTO))

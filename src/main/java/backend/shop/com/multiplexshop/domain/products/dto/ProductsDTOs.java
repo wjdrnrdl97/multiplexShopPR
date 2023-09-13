@@ -26,7 +26,9 @@ public class ProductsDTOs {
         private String productScript;
 
         @Builder
-        public ProductsRequestDTO(String productName, Integer productPrice, Integer stockQuantity, String selectTag1, String selectTag2, Categories categories, String imagePath, String detailImagePath, String productScript) {
+        public ProductsRequestDTO(String productName, Integer productPrice, Integer stockQuantity,
+                                  String selectTag1, String selectTag2, Categories categories,
+                                  String imagePath, String detailImagePath, String productScript) {
             this.productName = productName;
             this.productPrice = productPrice;
             this.stockQuantity = stockQuantity;

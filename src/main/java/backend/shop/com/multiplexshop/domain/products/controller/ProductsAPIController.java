@@ -22,7 +22,6 @@ public class ProductsAPIController {
     public ResponseEntity<ProductsResponseDTO> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
         Products products = productsService.productSave(productsRequestDTO);
         ProductsResponseDTO responseDTO = ProductsResponseDTO.of(products);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 

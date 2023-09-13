@@ -19,7 +19,7 @@ public class ProductsService {
 
     @Transactional
     public Products productSave(ProductsRequestDTO request) {
-        Products products = ProductsRequestDTO.toEntity(request);
+        Products products = request.toEntity(request);
         return productsRepository.save(products);
     }
 }
