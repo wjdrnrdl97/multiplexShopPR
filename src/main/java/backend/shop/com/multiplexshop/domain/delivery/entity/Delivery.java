@@ -1,11 +1,15 @@
 package backend.shop.com.multiplexshop.domain.delivery.entity;
 
 
+import backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import static backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs.*;
 
 @Getter
 @Entity
@@ -25,12 +29,23 @@ public class Delivery {
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private DeliveryStatus deliveryStatus;
+    @Column(columnDefinition = "varchar(10) default 'READY'")
+    private DeliveryStatus deliveryStatus = DeliveryStatus.READY;
 
+    @Builder
     public Delivery(Long id, Orders order, Address address, DeliveryStatus deliveryStatus) {
         this.id = id;
         this.order = order;
         this.address = address;
         this.deliveryStatus = deliveryStatus;
     }
+
+    public static Delivery createDelivery(Orders order, Address address){
+        return Delivery.builder()
+                .order(order)
+                .address(address)
+                .deliveryStatus(DeliveryStatus.READY)
+                .build();
+    }
+
 }
