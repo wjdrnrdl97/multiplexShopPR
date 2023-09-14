@@ -29,12 +29,6 @@ public class OrdersDTOs {
             this.memberId = memberId;
             this.productId = productId;
         }
-
-//        public Orders toEntity(OrderRequestDTO request, Member member){
-//            return Orders.builder()
-//                    .member(member)
-//                    .build();
-//        }
     }
 
     @Getter

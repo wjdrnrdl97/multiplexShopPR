@@ -20,11 +20,21 @@ public class OrderProducts {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id",nullable = false)
     private Orders orders;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id", nullable = false)
     private Products products;
 
+    @Builder
+    public OrderProducts(Orders orders, Products products) {
+        this.orders = orders;
+        this.products = products;
+    }
+    public static void addOrderProducts(Orders orders, Products products){
+        OrderProducts orderProducts = new OrderProducts();
+        orderProducts.orders = orders;
+        orderProducts.products = products;
+    }
 }

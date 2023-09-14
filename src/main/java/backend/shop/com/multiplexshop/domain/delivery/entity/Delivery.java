@@ -33,8 +33,7 @@ public class Delivery {
     private DeliveryStatus deliveryStatus = DeliveryStatus.READY;
 
     @Builder
-    public Delivery(Long id, Orders order, Address address, DeliveryStatus deliveryStatus) {
-        this.id = id;
+    public Delivery(Orders order, Address address, DeliveryStatus deliveryStatus) {
         this.order = order;
         this.address = address;
         this.deliveryStatus = deliveryStatus;

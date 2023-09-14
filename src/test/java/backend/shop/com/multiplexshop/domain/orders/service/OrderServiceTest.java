@@ -38,19 +38,16 @@ class OrderServiceTest {
     @Autowired
     OrdersRepository ordersRepository;
 
-
-    @Test
-    @DisplayName("주문 요청을 받아 주문을 생성한다.")
-    public void save(){
-        //given
-        Products products1 = Products.builder()
-                .productName("향수")
-                .productPrice(10000)
-                .stockQuantity(100)
-                .categories(Categories.STUFF)
-                .orderQuantity(3)
+    private void createMember() {
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
                 .build();
-        productsRepository.save(products1);
+        memberRepository.save(member);
+    }
+
+    private void createProductFood() {
         Products products2 = Products.builder()
                 .productName("밀키트")
                 .productPrice(5000)
@@ -59,12 +56,25 @@ class OrderServiceTest {
                 .orderQuantity(4)
                 .build();
         productsRepository.save(products2);
-        Member member = Member.builder()
-                .memberEmailId("test")
-                .password("1234")
-                .memberName("테스트")
+    }
+
+    private void createProductStuff() {
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
                 .build();
-        memberRepository.save(member);
+        productsRepository.save(products1);
+    }
+    @Test
+    @DisplayName("주문 요청을 받아 주문을 생성한다.")
+    public void save(){
+        //given
+        createProductStuff();
+        createProductFood();
+        createMember();
         OrderRequestDTO requestDTO = OrderRequestDTO.builder()
                 .productId(List.of(1L,2L))
                 .memberId(1L)
@@ -107,6 +117,8 @@ class OrderServiceTest {
         orderService.deleteByOrdersIds(1L);
         //then
         Orders orders = ordersRepository.findById(1L).get();
+
         assertThat(orders.getOrderStatus()).isEqualTo(OrderStatus.CANCEL);
+
     }
 }
