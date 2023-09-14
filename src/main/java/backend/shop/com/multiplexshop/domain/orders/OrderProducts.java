@@ -1,7 +1,6 @@
 package backend.shop.com.multiplexshop.domain.orders;
 
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
-import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -32,9 +31,10 @@ public class OrderProducts {
         this.orders = orders;
         this.products = products;
     }
-    public static void addOrderProducts(Orders orders, Products products){
-        OrderProducts orderProducts = new OrderProducts();
-        orderProducts.orders = orders;
-        orderProducts.products = products;
+    public static OrderProducts createOrderProducts(Orders orders, Products products){
+        return OrderProducts.builder()
+                .orders(orders)
+                .products(products)
+                .build();
     }
 }
