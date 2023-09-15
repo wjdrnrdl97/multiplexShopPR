@@ -54,10 +54,14 @@ public class Products{
 
     private Integer orderQuantity;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "upload_file_id")
+    private UploadFile imageFile;
+
     @Builder
     public Products(String productName, Integer productPrice, Integer stockQuantity, String selectTag1,
                     String selectTag2, Categories categories, String imagePath, String detailImagePath,
-                    String productScript, Long id, Integer orderQuantity) {
+                    String productScript, Long id, Integer orderQuantity, UploadFile imageFile) {
         this.id = id;
         this.productName = productName;
         this.productPrice = productPrice;
@@ -69,6 +73,7 @@ public class Products{
         this.detailImagePath = detailImagePath;
         this.productScript = productScript;
         this.orderQuantity = orderQuantity;
+        this.imageFile = imageFile;
     }
 
     public void updateByRequest(ProductsRequestDTO requestDTO){
