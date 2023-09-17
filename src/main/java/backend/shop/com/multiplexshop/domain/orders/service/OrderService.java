@@ -34,19 +34,28 @@ public class OrderService {
     // 멤버번호, 상품번호리스트을 입력받아 주문생성 및 주문상품 생성
     public OrderResponseDTO save(OrderRequestDTO request){
 
+        // 회원번호를 이용하여 회원 조회
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
+        // 상품번호 리스트를 받아 여러 상품 조회하여 리스트
         List<Long> productId = request.getProductId();
         List<Products> productsList = productsRepository.findAllById(productId);
 
+        // 상품리스트와 회원을 받아 주문 생성
         Orders createOrder = Orders.createOrder(member, productsList);
         Orders saveOrders = ordersRepository.save(createOrder);
 
+        // 주문과 상품리스트를 받아 상품리스트 수 만큼 주문상품 생성
         for (Products products : productsList){
             OrderProducts createOrderProducts = OrderProducts.createOrderProducts(saveOrders, products);
             orderProductsRepository.save(createOrderProducts);
         }
+
+        // 주문를 받아 배송 생성
+        Delivery delivery = Delivery.createDelivery(saveOrders);
+        deliveryRepository.save(delivery);
+
         return OrderResponseDTO.of(saveOrders);
     }
 
@@ -55,16 +64,18 @@ public class OrderService {
         List<OrderProducts> findOrderProducts = ordersRepository.findByOrdersIdAll(id)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         List<OrderProductsResponseDTO> responseDTOList = findOrderProducts.stream()
-                .map(o -> OrderProductsResponseDTO.of(o)).toList();
+                .map(OrderProductsResponseDTO::of).toList();
         return responseDTOList;
     }
-    // 주문번호를 입력받아 논리적 삭제하기.
+
+    // 주문번호를 입력받아 해당 주문의 상태 변경하기 (주문 취소하기, 논리적 삭제).
     @Transactional
     public void deleteByOrdersIds(Long id){
-        Delivery delivery = deliveryRepository.findByOrdersId(id)
+        Delivery delivery = deliveryRepository.findByOrderId(id)
                 .orElseThrow(() -> new IllegalArgumentException("Delivery not found"));
+
         if(delivery.getDeliveryStatus() == DeliveryStatus.COMPLETE){
-            throw new IllegalArgumentException("이미 배송이 완료된 주문입니다.");
+            throw new IllegalArgumentException("This order has already been completed.");
         }
         ordersRepository.changeOrderStatus(id);
     }

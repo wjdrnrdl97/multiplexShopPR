@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.*;
 class OrdersRepositoryTest {
 
     @Autowired
-    private OrdersRepository ordersRepository;
+    OrdersRepository ordersRepository;
     @Autowired
     MemberRepository memberRepository;
     @Autowired

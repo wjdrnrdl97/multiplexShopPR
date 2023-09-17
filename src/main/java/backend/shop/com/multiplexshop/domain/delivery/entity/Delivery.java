@@ -39,12 +39,11 @@ public class Delivery {
         this.deliveryStatus = deliveryStatus;
     }
 
-    public static Delivery createDelivery(Orders order, Address address){
+    public static Delivery createDelivery(Orders order){
         return Delivery.builder()
                 .order(order)
-                .address(address)
+                .address(Address.createAddress())
                 .deliveryStatus(DeliveryStatus.READY)
                 .build();
     }
-
 }

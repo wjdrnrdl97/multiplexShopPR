@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface DeliveryRepository extends JpaRepository<Delivery,Long> {
 
-    @Query("SELECT d from Delivery d where d.order = :order")
-    Optional<Delivery> findByOrdersId(@Param("order") Long id);
+    @Query("SELECT d FROM Delivery d WHERE d.order.id = :orderId")
+    Optional<Delivery> findByOrderId(@Param("orderId") Long orderId);
+
 }
