@@ -20,7 +20,6 @@
             <span class="logo">S H O P</span>
         </a>
     </div>
-
     <ul class="navBar_menu" >
         <li style="color: black;"><a href="allProductView.html">A L L </a></li>
         <li style="color: black;"><a href="foodProduct.html">F O O D</a></li>
@@ -40,9 +39,16 @@
                 <span>Support</span>
             </a>
         </li>
-        <li><a th:href="@{/join}">Join</a></li>
-        <li><a th:href="@{/login}">Login</a></li>
-        <li><a th:href="@{/mypage/1}">MyPage</a></li>
+        <li th:if="${session.loginUser == null}">
+            <a th:href="@{/join}">Join</a>
+        </li>
+        <li>
+            <a th:if="${session.loginUser == null}" th:href="@{/login}">Login</a>
+            <a th:if="${session.loginUser != null}" style="cursor: pointer;" id="logoutBtn">Logout</a>
+        </li>
+        <li th:if="${session.loginUser != null}">
+            <a th:href="@{/mypage/{id}(id=${session.loginUser.memberId})}">MyPage</a>
+        </li>
     </ul>
 </nav>
 <!-- Nav Bar -->
@@ -61,6 +67,21 @@
 
 </body>
 <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+     <script>
+        const logoutBtn = document.querySelector('#logoutBtn');
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                console.log('hi');
+                fetch('/logout', {method: 'POST'})
+                .then(() => {
+                    alert('로그아웃되었습니다.');
+                    location.replace('/');
+                });
+            });
+        }
+
+     </script>
  </th:block>
 </html>
 

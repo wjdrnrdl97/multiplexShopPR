@@ -16,7 +16,7 @@
                                       th:value="${Board.boardTitle}">
             </p>
             <p>
-            <h3> USER ID : </h3> <input class="txt_tit_notice" th:field="*{memberId}">
+            <input type="hidden" id="memberId" th:value="${session.loginUser.memberId}">
             </p>
             <h3> CONTENT : </h3>
             <textarea class="box_contents" name="boardContent" id="boardContent" th:text="${Board.boardContent}">

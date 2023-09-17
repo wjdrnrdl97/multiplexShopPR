@@ -402,7 +402,9 @@ textarea {
 }
 
 input[type="text"] , .borderBox   input[type="password"] {
-    
+
+    font-family: 'Ubuntu', sans-serif;
+    font-weight : normal;
     font-size: 18px;
     margin-bottom: 30px;
     background: none;
@@ -417,6 +419,7 @@ button[type="submit"]{
     padding: 10px;
     font-size: 18px;
     border: 1px solid black;
+    border-radius: 2px;
     background-color: transparent;
     cursor: pointer;
     font-weight: bold;
@@ -873,6 +876,9 @@ input[type=file]::file-selector-button {
       color: white;
     }
 
+#logoutBtn{
+    cursor: pointer;
+}
 
 
 

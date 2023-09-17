@@ -8,15 +8,23 @@
 </head>
 <body>
     <div class="login_box">
-        <form action="#" method="get" class="borderBox">
+        <form action="/login" method="post" class="borderBox">
             <h1 style="font-size: 55px;">W E L C O M E</h1>
-            <input type="text" placeholder="E MAIL">
-            <input type="password" placeholder="password" style="font-size: 18px; text-indent: 3px;">
+            <input type="text" placeholder="E MAIL" name="memberEmailId">
+            <input type="password" placeholder="PASSWORD" name="password" style="font-size: 18px; text-indent: 3px;">
             <p>
                 <button type="submit">L O G I N</button>
-                <button type="submit">&nbsp; J O I N &nbsp;</button>
+                <a th:href="@{/join}" style="
+                padding: 10px;
+                width: 100px;
+                height: 40px;
+                font-weight: bold;
+                font-size: 20px;
+                transform: scale(1.2);
+                ">&nbsp; J O I N &nbsp;</a>
             </p>
         </form>
+
     </div>
 </body>
 </html>

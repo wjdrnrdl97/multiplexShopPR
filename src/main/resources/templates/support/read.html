@@ -40,8 +40,7 @@
 
                 <div class="comment-form">
                     <h2>Comment</h2>
-                    <label for="memberId">UserId [임시]</label>
-                    <input type="text" id="memberId" class="memberId" style="width: 30px; font-size: 14px; text-align: center; height: 10px;">
+                    <input type="hidden" id="memberId" class="memberId" th:value="${session.loginUser.memberId}">
                     <form class="commentSubmitForm">
                         <textarea class="cmt_area" rows="4" placeholder="
                     Please enter your comment."></textarea>

@@ -4,8 +4,11 @@ import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
 import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
+import backend.shop.com.multiplexshop.domain.config.interceptor.SessionConst;
+import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -26,10 +29,12 @@ public class BoardViewController {
     private final BoardService boardService;
     private final CommentService commentService;
     @GetMapping()
-    public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model){
+    public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model, HttpSession session){
         List<BoardResponseDTO> noticePages = boardService.findByNotice();
         Page<BoardResponseDTO> postPages = boardService.findByPost(page);
+        Member loginUser = (Member) session.getAttribute("loginUser");
 
+        model.addAttribute("login",loginUser);
         model.addAttribute("notice",noticePages);
         model.addAttribute("board",postPages);
         model.addAttribute("page",page);
@@ -56,9 +61,11 @@ public class BoardViewController {
     @GetMapping("/post")
     public String updateBoard(@RequestParam(required = false) Long boardId,
                               @RequestParam(defaultValue = "0")int page,
-                              Model model){
+                              Model model, HttpSession session){
 
+        Member loginUser = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if(boardId == null){
+            model.addAttribute("login",loginUser);
             model.addAttribute("Board", new BoardResponseDTO());
             model.addAttribute("page",page);
         }else {

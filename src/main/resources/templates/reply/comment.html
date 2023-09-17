@@ -1,7 +1,7 @@
 <div class="comment-view" th:each="reply :${comment}">
     <input type="hidden" id="reply-id" th:value="${reply.id}">
     <div class="comment_header">
-        <div class="commenter">writer : <span th:text="${reply.memberName}">kim</span></div>
+        <div class="commenter">writer : <span th:text="${session.loginUser.memberName}">kim</span></div>
         <span class="comment-date" th:text="${#temporals.format(reply.regDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
     </div>
     <div class="comment">
