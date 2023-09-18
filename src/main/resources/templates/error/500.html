@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+    <article>
+        <div class="errorPageBox" style="text-align:center;">
+            <h1>500 Server Error..</h1>
+            <p>죄송합니다. 금방 문제를 해결하겠습니다!</p>
+            <br/>
+            <img src="/img/500.png" style="height:300px; width:300px;">
+        </div>
+    </article>
+
+</th:block>
+</th:block>
+</body>
+</html>

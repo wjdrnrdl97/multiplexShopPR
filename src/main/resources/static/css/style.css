@@ -881,6 +881,11 @@ input[type=file]::file-selector-button {
 }
 
 
+.errorPageBox{
+    margin:auto;
+}
+
+
 
 
 
