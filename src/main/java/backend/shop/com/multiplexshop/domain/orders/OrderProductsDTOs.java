@@ -19,6 +19,7 @@ public class OrderProductsDTOs {
             this.orders = orders;
             this.products = products;
         }
+        @Builder
         public static OrderProductsResponseDTO of(OrderProducts orderProducts){
             return OrderProductsResponseDTO.builder()
                     .orders(orderProducts.getOrders())

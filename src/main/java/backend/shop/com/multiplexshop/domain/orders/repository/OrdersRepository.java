@@ -18,4 +18,6 @@ public interface OrdersRepository extends JpaRepository <Orders,Long> {
 
     @Query("SELECT op FROM OrderProducts op JOIN FETCH op.products WHERE op.orders.id = :orderId")
     Optional<List<OrderProducts>> findByOrdersIdAll(@Param("orderId") Long orderId);
+
+
 }

@@ -31,6 +31,13 @@ public class OrderProducts {
         this.orders = orders;
         this.products = products;
     }
+
+    /**
+     * 주문과 상품을 입력받아 주문상품을 생성하는 로직
+     * @param orders
+     * @param products
+     * @return
+     */
     public static OrderProducts createOrderProducts(Orders orders, Products products){
         return OrderProducts.builder()
                 .orders(orders)
