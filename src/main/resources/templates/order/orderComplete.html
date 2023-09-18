@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+    <article id="article">
+        <div class="join_box">
+            <h2><span>USER</span>님의 주문이 완료 되었습니다!</h2>
+            <div class="order_info">
+                <h3 style="text-align: left; margin-left: 20px;">O R D E R S</h3>
+                <div class="orders">
+                    <p>주문 번호 : <span>2</span></p>
+                    <p>상품 명: <span>Product1</span></p>
+                    <p>가격 : <span>3,9000 원</span></p>
+                </div>
+                <span></span>
+                <a href="#">
+                </a>
+            </div>
+        </div>
+
+
+    </article>
+
+    <!-- article -->
+
+    </th:block>
+</th:block>
+<script>
+
+</script>
+</body>
+</html>

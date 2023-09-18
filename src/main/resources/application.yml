@@ -17,6 +17,7 @@ spring:
     activate:
       on-profile: local
 
+
   jpa:
     hibernate:
       ddl-auto: create
@@ -29,6 +30,10 @@ spring:
   h2:
     console:
       enabled: true
+
+file:
+  dir: C:/서정국/multiplexShopPR/src/main/resources/static/img/
+
 
 ---
 spring:
@@ -47,3 +52,6 @@ spring:
   sql:
     init:
       mode: never
+
+file:
+  dir: C:/서정국/multiplexShopPR/src/main/resources/static/img/

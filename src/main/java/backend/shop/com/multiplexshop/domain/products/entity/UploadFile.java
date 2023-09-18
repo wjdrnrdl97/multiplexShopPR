@@ -2,8 +2,11 @@ package backend.shop.com.multiplexshop.domain.products.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -14,11 +17,24 @@ public class UploadFile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "upload_file_id")
     private Long id;
-    private String uploadFileName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "productId")
+    private Products products;
+
+    private String originalFileName;
     private String storeFileName;
 
-    public UploadFile(String uploadFileName, String storeFileName) {
-        this.uploadFileName = uploadFileName;
+    @Builder
+    public UploadFile(Long id, Products products, String originalFileName, String storeFileName) {
+        this.id = id;
+        this.products = products;
+        this.originalFileName = originalFileName;
+        this.storeFileName = storeFileName;
+    }
+
+    public UploadFile(String originalFileName, String storeFileName) {
+        this.originalFileName = originalFileName;
         this.storeFileName = storeFileName;
     }
 }
