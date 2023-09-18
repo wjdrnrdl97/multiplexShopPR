@@ -51,13 +51,15 @@ public class OrderService {
     }
 
     // 주문번호를 입력받아 주문상품 상세 조회
+    @Transactional
     public List<OrderProductsResponseDTO> findByOrdersIdAll(Long id){
         List<OrderProducts> findOrderProducts = ordersRepository.findByOrdersIdAll(id)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         List<OrderProductsResponseDTO> responseDTOList = findOrderProducts.stream()
-                .map(o -> OrderProductsResponseDTO.of(o)).toList();
+                .map(OrderProductsResponseDTO::of).toList();
         return responseDTOList;
     }
+
     // 주문번호를 입력받아 논리적 삭제하기.
     @Transactional
     public void deleteByOrdersIds(Long id){

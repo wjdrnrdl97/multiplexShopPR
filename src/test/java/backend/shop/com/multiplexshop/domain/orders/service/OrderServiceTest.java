@@ -15,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -68,9 +69,28 @@ class OrderServiceTest {
     @DisplayName("주문번호를 받아 주문을 상세조회 한다.")
     public void findbyOrdersIdAll(){
         //given
-        createStuff();
-        createFood();
-        createMember();
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        memberRepository.save(member);
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        productsRepository.save(products1);
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .orderQuantity(4)
+                .build();
+        productsRepository.save(products2);
         OrderRequestDTO requestDTO = OrderRequestDTO.builder()
                 .productId(List.of(1L,2L))
                 .memberId(1L)

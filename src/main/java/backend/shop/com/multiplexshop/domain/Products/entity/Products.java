@@ -38,7 +38,7 @@ public class Products{
 
     @Enumerated(EnumType.STRING)
     @Column(length = 10, nullable = false)
-    private Categories categories;
+    private backend.shop.com.multiplexshop.domain.Products.entity.Categories categories;
 
     @Column(length = 100)
     private String imagePath;
