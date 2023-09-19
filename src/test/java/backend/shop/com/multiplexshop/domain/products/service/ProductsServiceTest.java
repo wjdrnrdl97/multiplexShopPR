@@ -2,6 +2,7 @@ package backend.shop.com.multiplexshop.domain.products.service;
 
 import backend.shop.com.multiplexshop.domain.IntegrationTestSupport;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.springframework.test.context.jdbc.Sql;
@@ -94,15 +95,49 @@ class ProductsServiceTest extends IntegrationTestSupport {
 
     }
 
-    private ProductsResponseDTO createProductForTest(String productName, int productPrice, int quantity) {
-        ProductsRequestDTO request = ProductsRequestDTO.builder()
-                .id(1L)
+//    private ProductsResponseDTO createProductForTest(String productName, int productPrice, int quantity) {
+//        ProductsRequestDTO request = ProductsRequestDTO.builder()
+//                .id(1L)
+//                .productName(productName)
+//                .productPrice(productPrice)
+//                .categories(STUFF)
+//                .stockQuantity(quantity)
+//                .build();
+//        return productService.productSaveByRequest(request);
+//    }
+
+
+    @Test
+    @DisplayName("요청에의해 상품이 등록되고 등록된 상품의 번호가 업로드파일 DB에 저장되야한다")
+    public void productSaveByRequestWithUploadFile(){
+        //given
+        String productName = "향수";
+
+        UploadFile uploadFile = UploadFile.builder()
                 .productName(productName)
-                .productPrice(productPrice)
-                .categories(STUFF)
-                .stockQuantity(quantity)
                 .build();
-        return productService.productSaveByRequest(request);
+        UploadFile uploadFile2 = UploadFile.builder()
+                .productName(productName)
+                .build();
+        uploadFileRepository.saveAll(List.of(uploadFile, uploadFile2));
+
+        ProductsRequestDTO request = ProductsRequestDTO.builder()
+                .productName("향수")
+                .productPrice(20000)
+                .categories(STUFF)
+                .stockQuantity(1)
+                .build();
+
+
+        //when
+        productService.productSaveByRequest(request);
+
+        //then
+        List<UploadFile> uploadFiles = uploadFileRepository.findAll();
+        Products products = productsRepository.findById(1L).get();
+        assertThat(uploadFiles).extracting("products")
+                .contains(products);
+
     }
 
 }

@@ -1,49 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MultiplexShop</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
-</head>
-<body>
-    <nav class="navBar">
-        <div class="navBar_logo">
-            <a href="index.html">
-                <i class="fa-brands fa-drupal"></i>
-                <span class="logo">S H O P</span>
-            </a>
-        </div>
-
-        <ul class="navBar_menu" >
-            <li style="color: black;"><a href="allProductView.html">A L L </a></li>
-            <li style="color: black;"><a href="foodProduct.html">F O O D</a></li>
-            <li style="color: black;"><a href="stuffProduct.html">S T U F F</a></li>
-        </ul>
-
-        <ul class="navBar_members">
-            <li>
-                <a href="cart.html" class="iconA">
-                    <i class="fa-solid fa-cart-shopping" style="display: block; text-align: center; line-height: 40px;" ></i>
-                    <span>Cart</span>
-                </a>
-            </li>
-            <li>
-                <a href="board.html" class="iconA">    
-                    <i class="fa-solid fa-handshake" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
-                    <span>Support</span>
-                </a>
-            </li>
-            <li><a href="join.html">Join</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="mypage.html">MyPage</a></li>
-        </ul>
-    </nav>
-    <!-- Nav Bar -->
-
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
 
     <article id="article">
         <button class="bannerBtnL"><</button>
@@ -82,17 +41,8 @@
         
     </article>
     <!-- article -->
-
-
-    <footer id="footer">
-        <div>
-            <p>이곳은 footer 입니다.</p>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
-                Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
-                recusandae maiores quam suscipit consequatur.</p>
-        </div>
-    </footer>
-    <!-- footer -->
+    </th:block>
+</th:block>
 
     <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
     <script>
@@ -127,6 +77,5 @@
 
 
     </script>
-      
 </body>
 </html>

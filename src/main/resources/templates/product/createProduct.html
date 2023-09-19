@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+        <article id="article">
+            <div class="right_contents">
+                <!-- 공지사항 본문 -->
+                <div class="notice_contents">
+                    <select name="product_category" id="" class="product_select">
+                        <option value="FOOD">FOOD</option>
+                        <option value="STUFF">STUFF</option>
+                    </select>
+                    <p>
+                    <h3> 상품명 : </h3> <input class="txt_tit_notice" style="width: 400px;">
+                    </p>
+                    <p>
+                    <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;">
+                    </p>
+                    <p>
+                    <h3> 가 격 : </h3> <input class="txt_tit_notice" style="width: 400px;">
+                    </p>
+                    <p>
+                    <h3> 이미지 등록하기 : </h3> <input type="button" onclick="getModal()" value="Image Upload" class="txt_tit_notice">
+                    </p>
+                    <h3> 제품에대한 상세 설명을 해주세요. </h3>
+                    <textarea class="box_contents">
+                </textarea>
+
+                </div>
+            </div>
+            <div class="btns">
+                <a href="board.html" class="list-btn" style="margin-top:20px;">LIST</a>
+                <a href="board.html" class="list-btn" style="margin-top:20px;">POST</a>
+                <a href="board.html" class="list-btn" style="margin-top:20px;">UPDATE</a>
+                <a href="board.html" class="list-btn" style="margin-top:20px;">DELETE</a>
+            </div>
+
+            </div>
+        </article>
+
+        <!-- article -->
+    </th:block>
+</th:block>
+<script>
+    function getModal() {
+        window.open('uploadModal.html', 'Modal', 'width=500,height=400,left=50%,top=50%,resizable=no');
+
+    }
+
+</script>
+
+</body>
+
+</html>

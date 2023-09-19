@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+ <th:block th:fragment="setContent(contentFrag)">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MultiplexShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+<nav class="navBar">
+    <div class="navBar_logo">
+        <a th:href="@{/}">
+            <i class="fa-brands fa-drupal"></i>
+            <span class="logo">S H O P</span>
+        </a>
+    </div>
+    <ul class="navBar_menu" >
+        <li style="color: black;"><a href="allProductView.html">A L L </a></li>
+        <li style="color: black;"><a href="foodProduct.html">F O O D</a></li>
+        <li style="color: black;"><a href="stuffProduct.html">S T U F F</a></li>
+    </ul>
+
+    <ul class="navBar_members">
+        <li>
+            <a href="cart.html" class="iconA">
+                <i class="fa-solid fa-cart-shopping" style="display: block; text-align: center; line-height: 40px;" ></i>
+                <span>Cart</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/support}" class="iconA">
+                <i class="fa-solid fa-handshake" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                <span>Support</span>
+            </a>
+        </li>
+        <li th:if="${session.loginUser == null}">
+            <a th:href="@{/join}">Join</a>
+        </li>
+        <li>
+            <a th:if="${session.loginUser == null}" th:href="@{/login}">Login</a>
+            <a th:if="${session.loginUser != null}" style="cursor: pointer;" id="logoutBtn">Logout</a>
+        </li>
+        <li th:if="${session.loginUser != null}">
+            <a th:href="@{/mypage/{id}(id=${session.loginUser.memberId})}">MyPage</a>
+        </li>
+    </ul>
+</nav>
+<!-- Nav Bar -->
+
+    <th:block th:replace="${contentFrag}"></th:block>
+
+<footer id="footer">
+    <div>
+        <p>이곳은 footer 입니다.</p>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. <br>
+            Temporibus, explicabo provident. Explicabo incidunt nesciunt perferendis optio, <br>
+            recusandae maiores quam suscipit consequatur.</p>
+    </div>
+</footer>
+<!-- footer -->
+
+</body>
+<script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+     <script>
+        const logoutBtn = document.querySelector('#logoutBtn');
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                console.log('hi');
+                fetch('/logout', {method: 'POST'})
+                .then(() => {
+                    alert('로그아웃되었습니다.');
+                    location.replace('/');
+                });
+            });
+        }
+
+     </script>
+ </th:block>
+</html>
+
+
+
+

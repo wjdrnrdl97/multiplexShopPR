@@ -2,11 +2,15 @@ package backend.shop.com.multiplexshop.domain.products.service;
 
 
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
@@ -17,11 +21,28 @@ import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 public class ProductsService {
 
     private final ProductsRepository productsRepository;
+    private final UploadFileRepository uploadFileRepository;
 
     @Transactional
-    public ProductsResponseDTO productSaveByRequest(ProductsRequestDTO request) {
-        Products products = request.toEntity(request);
-        return ProductsResponseDTO.of(productsRepository.save(products));
+    public Products productSaveByRequest(ProductsRequestDTO request) {
+
+        Products products = request.toEntity(request); //V
+        Products savedProduct = productsRepository.save(products); //V
+        List<UploadFile> uploadFiles = addProductNumberToUploadfile(savedProduct);
+        log.info("uploadFiles : {}",uploadFiles.get(0).toString());
+
+        return savedProduct;
+
+    }
+
+    @Transactional
+    private List<UploadFile> addProductNumberToUploadfile(Products savedProduct) {
+        List<UploadFile> uploadFilesByProductName
+                = uploadFileRepository.findAllByProductName(savedProduct.getProductName());
+        List<UploadFile> uploadfileWithUpdatedProductId = uploadFilesByProductName.stream()
+                .map(uploadFile -> uploadFile.updateProductId(savedProduct))
+                .toList();
+        return uploadFileRepository.saveAll(uploadfileWithUpdatedProductId);
     }
 
     @Transactional

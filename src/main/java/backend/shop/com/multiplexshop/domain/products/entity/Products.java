@@ -17,6 +17,7 @@ import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class Products{
 
     @Id
