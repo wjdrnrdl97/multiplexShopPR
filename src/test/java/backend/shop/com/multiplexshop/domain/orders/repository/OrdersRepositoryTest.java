@@ -37,7 +37,7 @@ class OrdersRepositoryTest {
     }
 
     @Test
-    @DisplayName("findByOrdersIdAll()를 사용하여 주문번호를 입력하였을 때 해당되는 주문상품을 조회한다.")
+    @DisplayName("findAllByOrderId()를 사용하여 주문번호를 입력하였을 때 해당되는 주문상품을 조회한다.")
     public void test() throws Exception{
         //given
         createStuff();

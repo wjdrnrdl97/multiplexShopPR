@@ -13,14 +13,11 @@ import backend.shop.com.multiplexshop.domain.orders.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
-import org.aspectj.weaver.ast.Or;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -128,7 +125,7 @@ class OrderServiceTest {
         OrderProducts orderProducts1 = OrderProducts.createOrderProducts(order, products2);
         orderProductsRepository.saveAll(List.of(orderProducts,orderProducts1));
         // when
-        List<OrderProductsResponseDTO> list = orderService.findByOrdersIdAll(1L);
+        List<OrderProductsResponseDTO> list = orderService.findAllByOrderId(1L);
         //then
         assertThat(list.size()).isEqualTo(2);
         assertThat(list.get(0).getProducts().getProductName()).isEqualTo("향수");

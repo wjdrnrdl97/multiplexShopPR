@@ -60,8 +60,7 @@ public class OrderService {
     }
 
     // 주문번호를 입력받아 주문상품 상세 조회
-    @Transactional
-    public List<OrderProductsResponseDTO> findByOrdersIdAll(Long id){
+    public List<OrderProductsResponseDTO> findAllByOrderId(Long id){
         List<OrderProducts> findOrderProducts = ordersRepository.findByOrdersIdAll(id)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         List<OrderProductsResponseDTO> responseDTOList = findOrderProducts.stream()
