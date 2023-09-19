@@ -1,6 +1,7 @@
 package backend.shop.com.multiplexshop.domain.products.controller;
 
 
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,8 @@ public class ProductsAPIController {
     private final ProductsService productsService;
     @PostMapping(value = "/api/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductsResponseDTO> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
-        ProductsResponseDTO responseDTO = productsService.productSaveByRequest(productsRequestDTO);
+        Products products = productsService.productSaveByRequest(productsRequestDTO);
+        ProductsResponseDTO responseDTO = ProductsResponseDTO.of(products);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 

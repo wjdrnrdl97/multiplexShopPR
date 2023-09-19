@@ -22,19 +22,28 @@ public class UploadFile {
     @JoinColumn(name = "productId")
     private Products products;
 
+    private String productName;
     private String originalFileName;
     private String storeFileName;
 
     @Builder
-    public UploadFile(Long id, Products products, String originalFileName, String storeFileName) {
+    public UploadFile(Long id, Products products, String productName, String originalFileName, String storeFileName) {
         this.id = id;
         this.products = products;
+        this.productName = productName;
         this.originalFileName = originalFileName;
         this.storeFileName = storeFileName;
     }
 
-    public UploadFile(String originalFileName, String storeFileName) {
+    public UploadFile updateProductId(Products products){
+        return UploadFile.builder()
+                .products(products)
+                .build();
+    }
+
+    public UploadFile(String originalFileName, String storeFileName, String productName) {
         this.originalFileName = originalFileName;
         this.storeFileName = storeFileName;
+        this.productName = productName;
     }
 }

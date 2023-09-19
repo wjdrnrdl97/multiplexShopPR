@@ -27,7 +27,7 @@ class UploadServiceTest extends IntegrationTestSupport {
         byte[] testByte = null;
         MultipartFile mockMultipartFile = new MockMultipartFile("테스트","test.png",null,testByte);
         UploadFileDTOs request = UploadFileDTOs.builder()
-                .itemName("향수")
+                .productName("향수")
                 .multipartFile(mockMultipartFile)
                 .build();
         //when
@@ -37,5 +37,6 @@ class UploadServiceTest extends IntegrationTestSupport {
 
         assertThat(result).isNotNull();
         assertThat(result.getStoreFileName().contains("png")).isEqualTo(true);
+        assertThat(result.getProductName()).isEqualTo("향수");
     }
 }

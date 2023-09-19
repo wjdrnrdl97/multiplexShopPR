@@ -28,7 +28,6 @@ public class UploadService {
     }
 
     public void uploadImageByRequest(UploadFileDTOs request) throws IOException {
-
         UploadFile storedImageFile = storeImageFileByRequest(request)
                 .orElseThrow(() -> new BadImageException("잘못된 이미지입니다."));
         uploadFileRepository.save(storedImageFile);
@@ -39,9 +38,10 @@ public class UploadService {
 
         String originalFilename = multipartFile.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
+        String productName = request.getProductName();
 
         multipartFile.transferTo(new File(getFullPath(storeFileName)));
-        return Optional.of(new UploadFile(originalFilename,storeFileName));
+        return Optional.of(new UploadFile(originalFilename,storeFileName,productName));
     }
 
     private String createStoreFileName(String originalFilename) {
