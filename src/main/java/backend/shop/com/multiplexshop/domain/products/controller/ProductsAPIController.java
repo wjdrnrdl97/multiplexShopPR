@@ -18,8 +18,7 @@ public class ProductsAPIController {
     private final ProductsService productsService;
     @PostMapping(value = "/api/products", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ProductsResponseDTO> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
-        Products products = productsService.productSaveByRequest(productsRequestDTO);
-        ProductsResponseDTO responseDTO = ProductsResponseDTO.of(products);
+        ProductsResponseDTO responseDTO = productsService.productSaveByRequest(productsRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
