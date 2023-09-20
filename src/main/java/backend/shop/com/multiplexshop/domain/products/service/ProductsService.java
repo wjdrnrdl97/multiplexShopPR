@@ -10,12 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Service
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class ProductsService {
@@ -23,27 +24,28 @@ public class ProductsService {
     private final ProductsRepository productsRepository;
     private final UploadFileRepository uploadFileRepository;
 
-    @Transactional
-    public Products productSaveByRequest(ProductsRequestDTO request) {
 
-        Products products = request.toEntity(request); //V
-        Products savedProduct = productsRepository.save(products); //V
-        List<UploadFile> uploadFiles = addProductNumberToUploadfile(savedProduct);
-        log.info("uploadFiles : {}",uploadFiles.get(0).toString());
+    public ProductsResponseDTO productSaveByRequest(ProductsRequestDTO request) {
+        Products products = request.toEntity(request);
+        Products savedProduct = productsRepository.save(products);
+        ProductsResponseDTO productsResponseDTO = ProductsResponseDTO.of(products);
 
-        return savedProduct;
+        addProductNumberToUploadfile(savedProduct);
 
+        return productsResponseDTO;
     }
 
-    @Transactional
-    private List<UploadFile> addProductNumberToUploadfile(Products savedProduct) {
+    private void addProductNumberToUploadfile(Products productsEntity) {
         List<UploadFile> uploadFilesByProductName
-                = uploadFileRepository.findAllByProductName(savedProduct.getProductName());
-        List<UploadFile> uploadfileWithUpdatedProductId = uploadFilesByProductName.stream()
-                .map(uploadFile -> uploadFile.updateProductId(savedProduct))
+                = uploadFileRepository.findAllByProductName(productsEntity.getProductName());
+
+        List<UploadFile> uploadFileAddedProduct = uploadFilesByProductName.stream()
+                .map(uploadFile -> uploadFile.updateProductId(productsEntity))
                 .toList();
-        return uploadFileRepository.saveAll(uploadfileWithUpdatedProductId);
+
+        uploadFileRepository.saveAll(uploadFileAddedProduct);
     }
+
 
     @Transactional
     public void productUpdateByRequestAndId(ProductsRequestDTO requestDTO, Long productId) {

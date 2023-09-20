@@ -107,6 +107,7 @@ class ProductsServiceTest extends IntegrationTestSupport {
 //    }
 
 
+    @Transactional
     @Test
     @DisplayName("요청에의해 상품이 등록되고 등록된 상품의 번호가 업로드파일 DB에 저장되야한다")
     public void productSaveByRequestWithUploadFile(){
@@ -134,10 +135,10 @@ class ProductsServiceTest extends IntegrationTestSupport {
 
         //then
         List<UploadFile> uploadFiles = uploadFileRepository.findAll();
-        Products products = productsRepository.findById(1L).get();
-        assertThat(uploadFiles).extracting("products")
-                .contains(products);
 
+        Products products = productsRepository.findById(1L).get();
+
+        assertThat(uploadFiles.get(0).getProducts()).isEqualTo(products);
     }
 
 }

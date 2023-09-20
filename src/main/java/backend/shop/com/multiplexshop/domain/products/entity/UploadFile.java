@@ -36,9 +36,8 @@ public class UploadFile {
     }
 
     public UploadFile updateProductId(Products products){
-        return UploadFile.builder()
-                .products(products)
-                .build();
+        this.products = products;
+        return this;
     }
 
     public UploadFile(String originalFileName, String storeFileName, String productName) {
