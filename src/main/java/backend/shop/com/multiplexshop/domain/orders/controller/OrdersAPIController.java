@@ -28,4 +28,10 @@ public class OrdersAPIController {
         return ResponseEntity.ok().body(findAllByOrderId);
     }
 
+    @DeleteMapping("api/order/{id}")
+    public ResponseEntity deleteOrderByOrderId(@PathVariable("id") Long id){
+        orderService.deleteByOrdersIds(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -3,6 +3,8 @@ package backend.shop.com.multiplexshop.domain.orders.controller;
 import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
+import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
@@ -14,6 +16,7 @@ import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
@@ -25,11 +28,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +55,9 @@ class OrdersAPIControllerTest {
     OrdersRepository ordersRepository;
     @Autowired
     OrderProductsRepository orderProductsRepository;
+    @Autowired
+    DeliveryRepository deliveryRepository;
+
     @Autowired
     MockMvc mockMvc;
     @Autowired
@@ -105,6 +111,7 @@ class OrdersAPIControllerTest {
 
 @Test
 @DisplayName("주문의 번호를 통해 해당  주문과 주문한 상품을 조회하여 HTTP 200와 조회 목록을 응답에 성공해야 한다.")
+@Transactional
 public void getOrderWithProductByOrderId() throws Exception{
     //given
     String url = "/api/order/{id}";
@@ -151,4 +158,23 @@ public void getOrderWithProductByOrderId() throws Exception{
             .andExpect(status().isOk());
 
 }
+    @Test
+    @DisplayName("주문의 번호를 통해 해당 주문이 배송되었는지 확인 후에 주문의 상태를 CANCEL로 변경 후 HTTP 204 응답에 성공한다.")
+    public void deleteOrderByOrderId() throws Exception{
+        //given
+        String url = "/api/order/{id}";
+
+        Orders order = Orders.builder()
+                .orderStatus(OrderStatus.ORDER)
+                .orderPrice(50000)
+                .build();
+        ordersRepository.save(order);
+        Delivery delivery = Delivery.createDelivery(order);
+        deliveryRepository.save(delivery);
+
+        //when
+        ResultActions perform = mockMvc.perform(delete(url, 1))
+        //then
+                .andExpect(status().isNoContent());
+    }
 }

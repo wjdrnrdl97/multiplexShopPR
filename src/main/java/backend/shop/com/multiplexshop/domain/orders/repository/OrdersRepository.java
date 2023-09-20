@@ -12,10 +12,6 @@ import java.util.Optional;
 
 public interface OrdersRepository extends JpaRepository <Orders,Long> {
 
-    @Modifying
-    @Query("UPDATE Orders o SET o.orderStatus = 'CANCEL' WHERE o.id = :id")
-    void changeOrderStatus(@Param("id") Long id);
-
     @Query("SELECT op FROM OrderProducts op JOIN FETCH op.products JOIN FETCH op.orders WHERE op.orders.id = :orderId")
     Optional<List<OrderProducts>> findByOrdersIdAll(@Param("orderId") Long orderId);
 
