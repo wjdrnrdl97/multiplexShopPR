@@ -18,7 +18,8 @@ public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    @Column(name = "member_id")
+    private Long id;
 
     @Column(length = 30, nullable = false)
     private String memberEmailId;
@@ -41,8 +42,8 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(Long memberId, String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
-        this.memberId = memberId;
+    public Member(Long id, String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
+        this.id = id;
         this.memberEmailId = memberEmailId;
         this.password = password;
         this.memberName = memberName;

@@ -4,5 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum DeliveryStatus {
-    READY,COMPLETE
+    READY("READY"),
+    COMPLETE("COMPLETE");
+
+    private final String label;
+
+    DeliveryStatus(String label){
+        this.label = label;
+    }
+    public String label(){
+        return label;
+    }
 }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+    <article id="article">
+        <div class="join_box">
+            <form action="#" method="POST">
+                <input type="hidden" id="member_id" th:value="${member.memberId}">
+                <table class="join_table" style="margin-top: 50px;">
+                    <tr class="join_tr">
+                        <td class="join_td" style="width: 250px;;">E - M A I L [&nbsp;I D&nbsp;] :</td>
+                        <td class="myPage_td">[[${member.memberEmailId}]]</td>
+                    </tr>
+                    <tr class="join_tr">
+                        <td class="join_td">N A M E :</td>
+                        <td class="myPage_td">[[${member.memberName}]]</td>
+                    </tr>
+                    <tr class="join_tr">
+                        <td class="join_td">A D D R E S S :</td>
+                        <td class="myPage_td" id="memberAddress">[[${member.memberAddress}]]</td>
+                    </tr>
+                    <tr class="join_tr">
+                        <td class="join_td">P H O N E :</td>
+                        <td class="myPage_td" id="phoneNumber">[[${member.phoneNumber}]]</td>
+                    </tr>
+                </table>
+                <br>
+                <a th:href="@{/join?(id=${member.memberId})}" class="cancle-btn" style="margin-left: 600px; border: none; font-size: 20px; padding: 5px;">
+                    modify
+                </a>
+                <a class="cancle-btn" id="delete-btn" style="margin-left: 20px; border: none; font-size: 20px; padding: 5px;">
+                    sign out
+                </a>
+            </form>
+
+            <div class="order_info">
+                <h3 style="text-align: left; margin-left: 20px;">O R D E R S (주문 내역이 있을시에만 보이는 박스 )</h3>
+                <div class="orders">
+                    <p>주문 번호 : <span>1</span></p>
+                    <p>상품 명: <span>Product1</span></p>
+                    <p>가격 : <span>3,9000 원</span></p>
+                </div>
+                <a href="#">
+                    <button class="cancle-btn">C A N C L E</button>
+                </a>
+            </div>
+
+            <div class="order_info">
+                <h3>주문 내역이 없습니다.</h3>
+                <h2>주문하러 가기</h2>
+                <div class="btns moreOrder">
+                    <a href=""> 
+                        <button>A L L</button>
+                    </a>
+                    <a href=""> 
+                        <button>F O O D</button>
+                    </a>
+                    <a href=""> 
+                        <button>S T U F F</button>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+
+    </article>
+
+    <!-- article -->
+
+    </th:block>
+</th:block>
+<script>
+        const deleteButton = document.getElementById('delete-btn');
+
+        if (deleteButton) {
+            deleteButton.addEventListener('click', event => {
+                let id = document.getElementById('member_id').value;
+                if (!confirm("정말 탈퇴 하시겠습니까?")) {
+                         return;
+                } else if (!confirm("진짜 정말정말 탈퇴 하시겠습니까?")) {
+                        return;
+                }
+                fetch(`/api/mypage/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(() => {
+                        alert('회원 탈퇴가 완료되었습니다.');
+                        location.replace('/');
+                    });
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

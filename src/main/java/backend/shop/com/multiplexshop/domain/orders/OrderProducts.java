@@ -1,6 +1,48 @@
 package backend.shop.com.multiplexshop.domain.orders;
 
-import jakarta.persistence.Entity;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderProducts {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_product_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id",nullable = false)
+    private Orders orders;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "products_id", nullable = false)
+    private Products products;
+
+    @Builder
+    public OrderProducts(Orders orders, Products products) {
+        this.orders = orders;
+        this.products = products;
+    }
+
+    /**
+     * 주문과 상품을 입력받아 주문상품을 생성하는 로직
+     * @param orders
+     * @param products
+     * @return
+     */
+    public static OrderProducts createOrderProducts(Orders orders, Products products){
+        return OrderProducts.builder()
+                .orders(orders)
+                .products(products)
+                .build();
+    }
 }

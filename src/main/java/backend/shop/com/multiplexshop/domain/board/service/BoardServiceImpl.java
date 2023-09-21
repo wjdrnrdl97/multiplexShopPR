@@ -43,7 +43,6 @@ public class BoardServiceImpl implements BoardService{
         Member member = memberRepository.findById(boardRequestDTO.getMemberId())
                                             .orElseThrow(()->new IllegalArgumentException("Member not found"));
         return Board.builder()
-                    .boardId(boardRequestDTO.getBoardId())
                     .boardTitle(boardRequestDTO.getBoardTitle())
                     .boardContent(boardRequestDTO.getBoardContent())
                     .member(member)
@@ -57,7 +56,7 @@ public class BoardServiceImpl implements BoardService{
         Board getBoard = boardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
         Board updateBoard = toBoard(boardRequestDTO);
-        if(!getBoard.getMember().getMemberId().equals(updateBoard.getMember().getMemberId())){
+        if(!getBoard.getMember().getId().equals(updateBoard.getMember().getId())){
             throw new DifferentMemberIdException("Not Match MemberID");
         }
 

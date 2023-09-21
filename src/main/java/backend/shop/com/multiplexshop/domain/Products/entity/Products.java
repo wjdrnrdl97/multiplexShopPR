@@ -1,4 +1,70 @@
 package backend.shop.com.multiplexshop.domain.Products.entity;
 
-public class Products {
+
+/*
+ * 셀렉트 태그 최종 컬럼명은 추후에 반영 예정.
+ * notNull : 가격 수량 이름 카테고리
+ */
+
+
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Products{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "products_id")
+    private Long id;
+
+    @Column(length = 30, nullable = false)
+    private String productName;
+
+    @Column(nullable = false)
+    private Integer productPrice;
+
+    @Column(nullable = false)
+    private Integer stockQuantity;
+
+    @Column(length = 20)
+    private String selectTag1;
+
+    @Column(length = 20)
+    private String selectTag2;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10, nullable = false)
+    private backend.shop.com.multiplexshop.domain.Products.entity.Categories categories;
+
+    @Column(length = 100)
+    private String imagePath;
+
+    @Column(length = 100)
+    private String detailImagePath;
+
+    @Column(length = 200)
+    private String productScript;
+
+    private Integer orderQuantity;
+
+    @Builder
+    public Products(String productName, Integer productPrice, Integer stockQuantity, String selectTag1,
+                    String selectTag2, Categories categories, String imagePath, String detailImagePath,
+                    String productScript, Integer orderQuantity) {
+
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.stockQuantity = stockQuantity;
+        this.selectTag1 = selectTag1;
+        this.selectTag2 = selectTag2;
+        this.categories = categories;
+        this.imagePath = imagePath;
+        this.detailImagePath = detailImagePath;
+        this.productScript = productScript;
+        this.orderQuantity = orderQuantity;
+    }
 }

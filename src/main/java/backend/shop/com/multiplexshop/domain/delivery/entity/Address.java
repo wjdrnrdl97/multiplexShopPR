@@ -12,11 +12,17 @@ public class Address {
     private Integer zipcode;
 
     protected Address(){
-
     }
     @Builder
     public Address(String shippingAddress,Integer zipcode){
         this.shippingAddress = shippingAddress;
         this.zipcode = zipcode;
+    }
+    @Builder
+    public static Address createAddress(){
+        return Address.builder()
+                .shippingAddress("임시주소")
+                .zipcode(0000)
+                .build();
     }
 }

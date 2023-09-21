@@ -1,4 +1,9 @@
 package backend.shop.com.multiplexshop.domain.delivery.service;
 
-public interface DeliveryService {
+
+
+import static backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs.*;
+
+
+public class DeliveryService{
 }

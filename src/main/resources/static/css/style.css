@@ -1,0 +1,779 @@
+* {
+    box-sizing: border-box;
+  }
+
+body{
+    margin: 0;
+    font-family: 'Ubuntu', sans-serif;
+    width: 100%;
+}
+
+.txt_title_notice_read::after{
+    content: "";
+    display: inline-block;
+    background-color: black;
+    width: 800px;
+    height: 1px;
+    margin-bottom: 0px;
+
+}
+.txt_title_notice_read{
+    margin-bottom: 0px;
+}
+
+.notice_contents1{
+    margin-top: 30px;
+    width: 800px;
+
+}
+
+.support{
+    margin-left: 20px;
+    list-style: none;
+    color: black;
+}
+.navBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid gray;
+    height: 110px;
+    margin-bottom: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.logo{
+    margin-left: 20px;
+}
+.navBar_logo{
+    margin-left: 25px;
+    color: black;
+    display: flex;
+    font-size: 40px;
+}
+
+.navBar_menu{
+    color: black;
+    display: flex;
+    list-style: none;
+    padding-left: 0px;
+    margin-left: 100px;
+}
+
+.navBar_menu li {
+    color: black;
+    padding: 8px 12px;
+    font-size: 35px;
+    margin: 0 15px 0 15px;
+    
+}
+
+.fa-truck-fast{
+    margin-left: 10px;
+}
+
+.fa-cart-shopping,.fa-handshake{
+    display: flex;
+    font-size: 30px;
+}
+
+.navBar_members{
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+    margin-right: 30px;
+}
+
+
+.navBar_members li:first-child::after{
+    content: "";
+    display: inline;
+    position: absolute;
+    top: 0px;
+}
+
+.navBar_members li{
+    color: black;
+    margin: 10px;
+}
+
+article{
+<<<<<<< HEAD
+    min-height: 600px;
+  height: 100%;
+=======
+    min-height: 300px;
+    height: 100%;
+>>>>>>> edc2851 (feat: resources HTML page 추가)
+}
+
+footer{
+    height: 150px;
+    border-top: 1px solid gray;
+}
+
+
+.img_article ul{
+    list-style: none;
+}
+
+img{
+    height: 500px;
+    width: 550px;
+}
+
+.bannerBtnL, .bannerBtnR{
+    display: inline;
+    position: absolute;
+    background: none;
+    border: 1px solid #333232;
+    color: rgb(24, 24, 24);
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 50px;
+    cursor: pointer;
+    
+}
+
+
+.bannerBtnL{
+    top: 400px;
+    margin-left: 100px;
+}
+
+.bannerBtnR{
+    top: 400px;
+    right: 100px;
+}
+
+.carousel-wrapper {
+    width: 700px;
+    height: 600px;
+    margin: 100px auto;
+  }
+  
+  .carousel-wrapper > .carousel {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    
+  }
+  
+  .carousel-wrapper > .carousel > img {
+    width: 900px;
+    height: 550px;
+  }
+
+  footer{
+    margin-top: 50px;
+    text-align: center;
+  }
+
+  .cImg{
+    display: none;
+    transition: all 0.5s ease-out;
+
+  }
+
+  .active{
+    display: block;
+
+  }
+
+  .thumbnail_img{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .products{
+    width: 300px;
+    margin-right: 100px;
+    margin-bottom: 100px;
+  }
+
+  .products img{
+    width: 300px;
+    height: 300px;
+  }
+
+  .table_box{
+    margin: auto;
+    text-align:center;
+    width: 800px;
+  }
+
+  table {
+    margin: 100px auto;
+    margin-bottom: 15px;
+    border-collapse: collapse;
+    width: 100%;
+    border-bottom: 1px solid black;
+    width: 800px;
+
+    text-align:center;
+}
+
+.notice th,.notice td,
+.post th, .post td,
+.boardName th{
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid #e9e6e6;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #e9e6e6;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #f2f2f2;
+}
+
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-link {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    margin: 0 3px;
+    cursor: pointer;
+}
+
+.page-link:hover {
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+
+}
+
+.right_contents, .comment-form{
+    width: 800px;
+    margin: auto;
+   
+}
+
+.list-btn{
+    border: 1px solid #000;
+    padding: 3px 10px 3px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+    
+}
+
+.list-btn:hover{
+
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+}
+
+.read_info{
+    font-size: 18px;
+    color: black;
+    text-align: right;
+    margin-bottom: 30px;
+}
+
+textarea {
+    width: 800px;
+    height: 6.25em;
+    border: none;
+    resize: none;
+  }
+
+  .pageActive{
+    background-color: #000;
+    color: white;
+  }
+
+
+
+  .cmt-btn{
+    border: 1px solid #000;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    background-color: transparent;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cmt-btn:hover{
+    background-color: #f2f2f2;
+}
+
+.cmt_area{
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 18px;
+    box-sizing: border-box;
+    text-align: left;
+
+}
+
+.right_contents{
+    display: flex;
+    justify-content: center;
+}
+.txt_tit_notice{
+    width: 850px;
+    height: 30px;
+    font-size: 18px;
+    padding: 5px;
+    
+    padding-top: 0px;
+
+}
+
+.notice_contents{
+    
+}
+
+.box_contents{
+    border: 1px solid #000;
+    width: 850px;
+    height: 500px;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.btns{
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.login_box{
+    margin-top: 100px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.borderbox{
+    width: 300px;
+    padding: 50px;
+    background-color: black;
+    text-align: center;
+}
+
+input[type="text"] , .borderBox   input[type="password"] {
+    
+    font-size: 18px;
+    margin-bottom: 30px;
+    background: none;
+    border: 2px solid black;
+    width: 300px;
+    height: 40px;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+button[type="submit"]{
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid black;
+    background-color: transparent;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+    
+}
+button[type="submit"]:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+}
+
+.join_box{
+    border: 1px solid #000;
+    margin: 50px auto;
+    width: 1200px;
+    padding-left: 200px;
+    
+}
+
+.join_th{
+    background-color: transparent;
+}
+.join_table{
+    margin: 0px;
+    border-bottom: none;
+    
+}
+
+.join_table 
+input[type="text"]
+,input[type="password"]
+,input[type="email"]
+,input[type="tel"]{
+    border: 1px solid #000;
+    margin: 25px;
+    margin-left: 5px;
+    height: 40px;
+    width: 400px;
+    font-size: 26px;
+    font-weight: bold;
+    text-indent: 15px;
+}
+
+.join_td{
+    font-size: 28px;
+    font-weight: bold;
+    margin-left: 100px;
+    border-bottom: none;
+}
+
+.join_tr:hover{
+    background-color: transparent;
+    border-bottom: none;
+}
+
+.join_btn{
+    background-color: transparent;
+    border: 1px solid #000;
+    width: 130px;
+    height: 50px;
+    margin-left: 350px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.join_btn:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+}
+
+.post_btn{
+    margin-left: 700px;
+    font-weight: bold;
+    background-color: transparent;
+    border: 1px solid #000;
+    text-align: right;
+    width: 80px;
+    height: 35px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    
+}
+
+.post_btn:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+
+}
+
+.myPage_td{
+    margin-top: 30px;
+}
+
+.order_info{
+    margin-top: 40px;
+    margin-bottom: 50px;
+    text-align: center;
+    width: 800px;
+    height: 250px;
+    border: 1px solid #000;
+}
+
+.orders{
+    text-align: left;
+    margin-left: 30px;
+}
+
+.cancle-btn{
+    margin-top: 10px;
+    background-color: transparent;
+    border: 1px solid #000;
+    width: 130px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancle-btn:hover{
+    background-color: #000;
+    color: white;
+    transition: all 0.3s;
+}
+
+.moreOrder{
+    margin: auto;
+    margin-top: 50px;
+    width: 500px;
+    justify-content: space-around;
+}
+
+.moreOrder button{
+    width: 150px;
+    height: 40px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid transparent;
+    font-size: 30px;
+
+}
+
+.moreOrder button:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+}
+
+.all_product_box{
+
+    margin-top: 120px;
+    width: 1200px;
+    margin: auto;
+
+}
+
+.all_product_box h2{
+    font-size: 45px;
+}
+
+.all_search_box{
+    text-align: center;
+    margin-bottom: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.all_search_box select{
+    border: 2px solid #000;
+    background-color: transparent;
+    height: 40px;
+    font-size: 20px;
+    text-align: center;
+    margin-right: 20px;
+    margin-left: 20px;    
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.all_product_box input[type="submit"]{
+
+    background: transparent;
+    border: 2px solid #000;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+
+}
+
+
+.all_product_box input[type="submit"]:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+}
+
+.food_coner{
+    margin-bottom: 100px;
+    
+    
+}
+
+.stuff_coner{
+    margin-top: 100px;
+}
+
+.products img:hover{
+}
+
+
+.detail_box{
+    display: flex;
+    margin: auto;
+    border: 1px solid #b5b4b4;
+    width: 900px;
+}
+
+.product_img img{
+    width: 450px;
+}
+
+.product_info{
+    padding: 20px;
+}
+
+.product_btns{
+    width: 900px;
+    display: flex;
+    justify-content: right;
+    margin: auto;
+    background-color: transparent;
+}
+
+.product_btns button{
+
+    background-color: transparent;
+    border: 1px solid #000;
+    margin-left: 10px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+    height: 40px;
+    padding: 0 10px 0 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.product_btns button:hover{
+    background: #000;
+    color: white;
+    transition: all 0.3s;
+}
+
+.product_info_img{
+    margin-top: 100px;
+    text-align: center;
+
+}
+
+.product_info_img img{
+    height: 100%;
+}
+
+.product_name{
+    font-size: 24px;
+}
+
+.product_select{
+    width: 400px;
+    height: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.minusBtn, .plusBtn{
+    background: transparent;
+    border: 1px solid #000;
+    width: 40px;
+    height: 40px;
+    margin: 10px 10px 0 10px;
+    cursor: pointer;
+}
+
+.minusBtn:hover, .plusBtn:hover{
+    background-color: #efefef;
+}
+
+.product_info select{
+    border: 1px solid #000;
+    background: transparent;
+    width: 400px;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+
+}
+
+.product_info select:last-child{
+    margin-bottom: 300px;
+}
+
+.price{
+    margin-top: 180px;
+    margin-left: 240px;
+    font-size: 30px;
+}
+
+.orderBtn{
+    font-size: 20px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    border: 1px solid #000;
+    width: 160px;
+    height: 50px;
+    cursor: pointer;
+    position: relative;
+    margin-left: 640px;
+}
+
+.orderBtn:hover{
+    background-color: white;
+    color: #000;
+}
+
+input[type=file]::file-selector-button {
+    width: 150px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid black;
+    padding: 0px;
+    cursor: pointer;
+    border-bottom: 1px solid black;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+
+
+
+
+
+@media (max-width: 1000px) {ti
+    .navBar_logo {
+        margin-left: 10px;
+        font-size: 24px;
+    }
+
+    .navBar_menu {
+        display: none;
+    }
+
+    .navBar_menu.active {
+        display: flex;
+    }
+
+    .navBar_members {
+        margin-right: 10px;
+    }
+
+    .carousel img {
+        max-width: 100%;
+    }
+
+    .thumbnail_img {
+        justify-content: center;
+    }
+
+    .products {
+        width: 90%;
+    }
+
+    
+}
