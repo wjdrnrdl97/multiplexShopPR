@@ -20,10 +20,17 @@ public class CartProductsDTOs {
         private Integer count;
 
         @Builder
-        public CartProductsResponseDTO(CartProducts cartProducts){
-            this.cart = cartProducts.getCart();
-            this.products = cartProducts.getProducts();
-            this.count = cartProducts.getCount();
+        public CartProductsResponseDTO(Products products, Cart cart, Integer count) {
+            this.products = products;
+            this.cart = cart;
+            this.count = count;
+        }
+        public static CartProductsResponseDTO of(CartProducts cartProducts){
+            return CartProductsResponseDTO.builder()
+                    .products(cartProducts.getProducts())
+                    .cart(cartProducts.getCart())
+                    .count(cartProducts.getCount())
+                    .build();
         }
     }
 }

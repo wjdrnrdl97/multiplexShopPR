@@ -2,7 +2,6 @@ package backend.shop.com.multiplexshop.domain.cart.service;
 
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
-import backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs;
 import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
 import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
@@ -47,15 +46,15 @@ public class CartService {
         cartProductsRepository.save(createCartProducts);
         return CartResponseDTO.of(getCart);
     }
-    public CartProductsResponseDTO getCartWithProductByMemberId(Long id){
+    public List<CartProductsResponseDTO> getCartWithProductsByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
         Cart getCart = cartRepository.findByMember(findMember)
                 .orElseGet(() -> cartRepository.save(Cart.createCart(findMember)));
 
-        List<Products> findProductsByCart = cartProductsRepository.findAllByCart(getCart)
-                .orElse(null);
+        List<CartProductsResponseDTO> findCartProdutsOfDTO = cartProductsRepository.findAllByCart(getCart)
+                                                .stream().map(CartProductsResponseDTO::of).toList();
+        return findCartProdutsOfDTO;
     }
-
 }

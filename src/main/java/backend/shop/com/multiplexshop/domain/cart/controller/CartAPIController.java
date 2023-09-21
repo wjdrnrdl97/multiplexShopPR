@@ -24,5 +24,5 @@ public class CartAPIController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/api/cart/")
+//    @GetMapping("/api/cart/")
 }
