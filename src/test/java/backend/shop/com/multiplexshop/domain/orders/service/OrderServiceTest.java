@@ -42,15 +42,6 @@ class OrderServiceTest {
     @Autowired
     DeliveryRepository deliveryRepository;
 
-    @BeforeEach
-    public void delete(){
-        memberRepository.deleteAll();
-        productsRepository.deleteAll();
-        orderProductsRepository.deleteAll();
-        ordersRepository.deleteAll();
-        deliveryRepository.deleteAll();
-    }
-
     @Test
     @DisplayName("주문 요청을 받아 주문을 생성에 성공한다.")
     public void save(){
@@ -104,7 +95,7 @@ class OrderServiceTest {
                 .categories(Categories.STUFF)
                 .orderQuantity(3)
                 .build();
-        productsRepository.save(products1);
+    productsRepository.save(products1);
         Products products2 = Products.builder()
                 .productName("밀키트")
                 .productPrice(5000)

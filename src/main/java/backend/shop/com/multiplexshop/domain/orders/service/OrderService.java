@@ -68,17 +68,6 @@ public class OrderService {
         return responseDTOList;
     }
 
-    // 주문번호를 입력받아 해당 주문의 상태 변경하기 (주문 취소하기, 논리적 삭제).
-//    @Transactional
-//    public void deleteByOrdersIds(Long id){
-//        Delivery delivery = deliveryRepository.findByOrderId(id)
-//                .orElseThrow(() -> new IllegalArgumentException("Delivery not found"));
-//
-//        if(delivery.getDeliveryStatus() == DeliveryStatus.COMPLETE){
-//            throw new IllegalArgumentException("This order has already been completed.");
-//        }
-//        ordersRepository.changeOrderStatus(id);
-//    }
     @Transactional
     public void deleteByOrdersIds(Long id){
         Delivery delivery = deliveryRepository.findByOrderId(id)
@@ -87,8 +76,10 @@ public class OrderService {
         if(delivery.getDeliveryStatus() == DeliveryStatus.COMPLETE){
             throw new IllegalArgumentException("This order has already been completed.");
         }
+
         Orders findChangeOrderByOrderId = ordersRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+
         findChangeOrderByOrderId.changeOrderStatus();
         ordersRepository.save(findChangeOrderByOrderId);
     }

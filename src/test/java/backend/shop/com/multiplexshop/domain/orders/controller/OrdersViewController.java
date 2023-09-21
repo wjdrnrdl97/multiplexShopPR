@@ -8,5 +8,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/order")
 public class OrdersViewController {
 
-    @GetMapping("/")
 }
