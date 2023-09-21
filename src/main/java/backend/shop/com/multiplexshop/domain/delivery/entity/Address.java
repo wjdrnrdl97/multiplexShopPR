@@ -3,6 +3,7 @@ package backend.shop.com.multiplexshop.domain.delivery.entity;
 import jakarta.persistence.Embeddable;
 import lombok.Builder;
 import lombok.Getter;
+
 @Embeddable
 @Getter
 public class Address {

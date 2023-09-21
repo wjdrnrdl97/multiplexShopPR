@@ -1,6 +1,4 @@
 package backend.shop.com.multiplexshop.domain.delivery.entity;
-
-
 import backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import jakarta.persistence.*;
@@ -23,6 +21,7 @@ public class Delivery {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
+
     private Orders order;
 
     @Embedded
