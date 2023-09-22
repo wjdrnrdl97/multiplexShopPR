@@ -80,4 +80,51 @@ class CartProductsRepositoryTest {
         assertThat(result).hasSize(2);
         assertThat(result.get(0).getCart()).isEqualTo(savedCart);
     }
+    @Test
+    @DisplayName("장바구니를 입력받아 관련된 장바구니-상품을 전부 삭제한다.")
+    public void deleteAllByCart(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        Cart cart = Cart.createCart(savedMember);
+        Cart savedCart = cartRepository.save(cart);
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        Products savedStuff = productsRepository.save(products1);
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .orderQuantity(4)
+                .build();
+        Products savedFood = productsRepository.save(products2);
+
+        CartProducts createCartByStuff = CartProducts.builder()
+                .products(savedStuff)
+                .cart(savedCart)
+                .count(3)
+                .build();
+        CartProducts createCartByFood = CartProducts.builder()
+                .products(savedFood)
+                .cart(savedCart)
+                .count(3)
+                .build();
+        cartProductsRepository.saveAll(List.of(createCartByStuff,createCartByFood));
+        //when
+        cartProductsRepository.deleteAllByCart(savedCart);
+        //then
+        List<CartProducts> result = cartProductsRepository.findAll();
+        assertThat(result).isEmpty();
+    }
 }

@@ -94,11 +94,13 @@ class CartServiceTest {
                 .build();
         Products food = productsRepository.save(products2);
 
-        CartProducts cartWithStuff = CartProducts.builder().products(stuff)
+        CartProducts cartWithStuff = CartProducts.builder()
+                .products(stuff)
                 .cart(createCart)
                 .count(3)
                 .build();
-        CartProducts cartWithFood = CartProducts.builder().products(food)
+        CartProducts cartWithFood = CartProducts.builder()
+                .products(food)
                 .cart(createCart)
                 .count(4)
                 .build();
@@ -107,5 +109,107 @@ class CartServiceTest {
         List<CartProductsResponseDTO> cartWithProducts = cartService.getCartWithProductsByMemberId(1L);
         //then
         assertThat(cartWithProducts).hasSize(2);
+    }
+    @Test
+    @DisplayName("장바구니상품의 id를 입력 받아 해당 장바구니상품을 삭제한다.")
+    public void deleteCartProductsById(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        Cart createCart = Cart.createCart(savedMember);
+        Cart savedCart = cartRepository.save(createCart);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        Products stuff = productsRepository.save(products1);
+        CartProducts cartWithStuff = CartProducts.builder()
+                .products(stuff)
+                .cart(createCart)
+                .count(3)
+                .build();
+        cartProductsRepository.save(cartWithStuff);
+        //when
+        cartService.deleteCartProductsById(1L);
+        //then
+        List<CartProducts> result = cartProductsRepository.findAll();
+        assertThat(result).isEmpty();
+    }
+    @Test
+    @DisplayName("회원을 조회하여 해당 회원의 장바구니와 관련된 장바구니상품을 전부 삭제한다.")
+    public void deleteCartProductsAllByMemberId(){
+        //given
+        Member member1 = Member.builder()
+                .memberEmailId("사용자1")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember1 = memberRepository.save(member1);
+        Cart member1Cart = Cart.createCart(savedMember1);
+        cartRepository.save(member1Cart);
+
+        Member member2 = Member.builder()
+                .memberEmailId("사용자2")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember2 = memberRepository.save(member2);
+        Cart member2Cart = Cart.createCart(savedMember2);
+        cartRepository.save(member2Cart);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        Products stuff = productsRepository.save(products1);
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .orderQuantity(4)
+                .build();
+        Products food = productsRepository.save(products2);
+
+        CartProducts member1CartWithStuff = CartProducts.builder()
+                .products(stuff)
+                .cart(member1Cart)
+                .count(3)
+                .build();
+        CartProducts member1CartWithFood = CartProducts.builder()
+                .products(food)
+                .cart(member1Cart)
+                .count(4)
+                .build();
+
+        CartProducts member2CartWithStuff = CartProducts.builder()
+                .products(stuff)
+                .cart(member2Cart)
+                .count(3)
+                .build();
+        CartProducts member2CartWithFood = CartProducts.builder()
+                .products(food)
+                .cart(member2Cart)
+                .count(4)
+                .build();
+        cartProductsRepository.saveAll(List.of(member1CartWithStuff,member1CartWithFood
+                                                                        ,member2CartWithStuff,member2CartWithFood));
+        //when
+        cartService.deleteCartProductsAllByMemberId(1L);
+        //then
+        List<CartProducts> result = cartProductsRepository.findAll();
+        assertThat(result).hasSize(2);
     }
 }
