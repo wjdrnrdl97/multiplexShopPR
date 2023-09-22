@@ -15,18 +15,21 @@ public class CartProductsDTOs {
     @Getter
     @NoArgsConstructor
     public static class CartProductsResponseDTO{
+        private Long id;
         private Products products;
         private Cart cart;
         private Integer count;
 
         @Builder
-        public CartProductsResponseDTO(Products products, Cart cart, Integer count) {
+        public CartProductsResponseDTO(Long id, Products products, Cart cart, Integer count) {
+            this.id = id;
             this.products = products;
             this.cart = cart;
             this.count = count;
         }
         public static CartProductsResponseDTO of(CartProducts cartProducts){
             return CartProductsResponseDTO.builder()
+                    .id(cartProducts.getId())
                     .products(cartProducts.getProducts())
                     .cart(cartProducts.getCart())
                     .count(cartProducts.getCount())

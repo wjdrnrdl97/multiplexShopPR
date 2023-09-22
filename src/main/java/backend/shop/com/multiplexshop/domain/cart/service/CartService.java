@@ -43,6 +43,7 @@ public class CartService {
                 .products(findProducts)
                 .count(request.getCount())
                 .build();
+
         cartProductsRepository.save(createCartProducts);
         return CartResponseDTO.of(getCart);
     }
@@ -55,6 +56,22 @@ public class CartService {
 
         List<CartProductsResponseDTO> findCartProdutsOfDTO = cartProductsRepository.findAllByCart(getCart)
                                                 .stream().map(CartProductsResponseDTO::of).toList();
+
         return findCartProdutsOfDTO;
     }
+    @Transactional
+    public void deleteCartProductsById(Long id){
+        cartProductsRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteCartProductsAllByMemberId(Long id){
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        Cart findCart = cartRepository.findByMember(findMember)
+                        .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
+        cartProductsRepository.deleteAllByCart(findCart);
+    }
+
 }
