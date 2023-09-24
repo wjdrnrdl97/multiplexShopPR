@@ -47,6 +47,7 @@ public class CartService {
         cartProductsRepository.save(createCartProducts);
         return CartResponseDTO.of(getCart);
     }
+
     public List<CartProductsResponseDTO> getCartWithProductsByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));

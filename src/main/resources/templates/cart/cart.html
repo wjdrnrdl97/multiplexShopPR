@@ -5,51 +5,49 @@
     <th:block th:fragment="contentFrag">
 
 
-    <article id="article">
-        <div class="join_box">
-            <h2><span>USER</span>님의 장바구니입니다.</h2>
-            <div class="order_info"s>
-                <h3 style="text-align: left; margin-left: 20px;">O R D E R S (주문 내역이 있을시에만 보이는 박스 )</h3>
-                <div class="orders">
-                    <p>주문 번호 : <span>1</span></p>
-                    <p>상품 명: <span>Product1</span></p>
-                    <p>가격 : <span>3,9000 원</span></p>
-                </div>
-                <a href="#">
-                    <button class="cancle-btn">C A N C L E</button>
-                </a>
-            </div>
-            <button class="orderBtn">O R D E R</button>
-
-            <div class="order_info">
-                <h3>장바구니가 비어있습니다.</h3>
-                <h2>주문하러 가기</h2>
-                <div class="btns moreOrder">
-                    <a href=""> 
-                        <button>A L L</button>
+        <article id="article">
+            <div class="join_box">
+                <h2><span>USER</span>님의 장바구니입니다.</h2>
+                <h3 style="text-align: left; margin-left: 20px;" th:if="${not #lists.isEmpty(dto)}">
+                    O R D E R S (주문 내역이 있을시에만 보이는 박스 )
+                </h3>
+                <div class="order_info" th:if="${not #lists.isEmpty(dto)}" th:each="cartProduct:${dto}">
+                    <div class="orders">
+                        <p>주문 번호 : <span>1</span></p>
+                        <p>상품 명: <span>[[${cartProduct.products.productName}]]</span></p>
+                        <p>가격 : <span>[[${cartProduct.products.productPrice}]]</span></p>
+                    </div>
+                    <a href="#">
+                        <button class="cancle-btn">C A N C L E</button>
                     </a>
-                    <a href=""> 
-                        <button>F O O D</button>
-                    </a>
-                    <a href=""> 
-                        <button>S T U F F</button>
+                    <a href="#">
+                    <button class="orderBtn">O R D E R</button>
                     </a>
                 </div>
+
+                <div class="order_info" th:if="${#lists.isEmpty(dto)}">
+                    <h3>장바구니가 비어있습니다.</h3>
+                    <h2>주문하러 가기</h2>
+                    <div class="btns moreOrder">
+                        <a href="">
+                            <button>A L L</button>
+                        </a>
+                        <a href="">
+                            <button>F O O D</button>
+                        </a>
+                        <a href="">
+                            <button>S T U F F</button>
+                        </a>
+                    </div>
+                </div>
             </div>
-
-        </div>
-
-
-    </article>
-
-    <!-- article -->
+        </article>
+        <!-- article -->
 
     </th:block>
 </th:block>
 <script>
 
 </script>
-
-</body>
 
 </html>
