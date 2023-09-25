@@ -6,10 +6,7 @@ import backend.shop.com.multiplexshop.domain.cart.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,10 +26,12 @@ public class CartViewController {
         return "cart/cart";
     }
     @GetMapping("/order")
-    public String getOrderOfMyCart(@RequestParam(required = false) List<Long> ids, Model model){
-        List<CartProductsResponseDTO> result = cartService.list(ids);
+    @ResponseBody
+    public String getOrderOfMyCart(@RequestParam List<Long> ids, Model model){
+        List<CartProductsResponseDTO> result = cartService.findOrderProductsOfListByCartProductsId(ids);
         model.addAttribute("cartProduct",result);
         return "order/order";
     }
+
 
 }

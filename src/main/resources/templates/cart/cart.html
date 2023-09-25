@@ -12,8 +12,8 @@
                     O R D E R S (주문 내역이 있을시에만 보이는 박스 )
                 </h3>
                 <div class="order_info" th:if="${not #lists.isEmpty(dto)}" th:each="cartProduct:${dto}">
-                <input type="checkbox" class="cartProductId" th:value="${cartProduct.id}">
-                <div class="orders">
+                    <input type="checkbox" class="cartProductId" th:value="${cartProduct.id}">
+                    <div class="orders">
                         <p>주문 번호 : <span>1</span></p>
                         <p>상품 명: <span>[[${cartProduct.products.productName}]]</span></p>
                         <p>가격 : <span>[[${cartProduct.products.productPrice}]]</span></p>
@@ -23,7 +23,8 @@
                     </a>
                 </div>
                 <a th:if="${not #lists.isEmpty(dto)}">
-                    <button class="orderBtn" id="orderBtn" style="margin-bottom: 50px; margin-left: 750px;">O R D E R</button>
+                    <button class="orderBtn" id="orderBtn" style="margin-bottom: 50px; margin-left: 750px;">O R D E R
+                    </button>
                 </a>
                 <div class="order_info" th:if="${#lists.isEmpty(dto)}">
                     <h3>장바구니가 비어있습니다.</h3>
@@ -47,7 +48,7 @@
     </th:block>
 </th:block>
 <script>
-    let id = document.querySelector('.cartProductId').value;    
+    let id = document.querySelector('.cartProductId').value;
     const deleteBtn = document.getElementById('delete_btn');
 
     const orderBtn = document.getElementById('orderBtn');
@@ -58,28 +59,24 @@
             });
 
             if (selectedIds.length === 0) {
-                alert('Please select at least one item.');                    
+                alert('Please select at least one item.');
             } else {
-                // Construct the URI with selected IDs
+                // 선택한 아이템의 ID를 사용하여 URL에 쿼리 문자열로 추가
                 const uri = '/cart/order?' + selectedIds.map(id => 'ids=' + id).join('&');
 
-                // Use fetch to send a request
-                fetch(uri, {
-                    method: 'GET',
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text(); // You can change this to response.json() if the response is JSON
-                })
-                .then(data => {
-                    // Handle the response data here
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Fetch error:', error);
-                });
+                fetch(uri)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json(); // 서버에서의 응답을 JSON 형식으로 파싱
+                    })
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                    });
             }
         });
     }

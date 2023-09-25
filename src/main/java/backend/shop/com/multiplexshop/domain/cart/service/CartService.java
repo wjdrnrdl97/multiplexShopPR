@@ -75,10 +75,10 @@ public class CartService {
                         .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
         cartProductsRepository.deleteAllByCart(findCart);
     }
-    public List<CartProductsResponseDTO> list (List<Long> ids){
+        public List<CartProductsResponseDTO> findOrderProductsOfListByCartProductsId (List<Long> ids){
         List<CartProducts> cartProducts = new ArrayList<>();
         for (Long id : ids){
-            cartProducts.add(cartProductsRepository.findById(id)
+            cartProducts.add(cartProductsRepository.findWithCartAndProductById(id)
                                     .orElseThrow(()->new IllegalArgumentException("CartProduct not found")));
         }
         List<CartProductsResponseDTO> dto = cartProducts.stream().map(CartProductsResponseDTO::of).toList();

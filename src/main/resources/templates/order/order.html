@@ -9,9 +9,9 @@
             <h2><span>USER</span>님의 주문내역입니다.</h2>
             <div class="order_info">
                 <h3 style="text-align: left; margin-left: 20px;">O R D E R S (주문 내역이 있을시에만 보이는 박스 )</h3>
-                <div class="orders">
-                    <p>상품 명: <span>Product1</span></p>
-                    <p>가격 : <span>3,9000 원</span></p>
+                <div class="order_info" th:if="${not #lists.isEmpty(cartProduct)}" th:each="dto:${cartProduct}">
+                    <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
+                    <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
                 </div>
                 <a href="#">
                     <button class="cancle-btn">C A N C L E</button>
