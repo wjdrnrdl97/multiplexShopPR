@@ -27,10 +27,14 @@ public class OrderProducts {
     @JoinColumn(name = "products_id", nullable = false)
     private Products products;
 
+    @Column
+    private Integer count;
+
     @Builder
-    public OrderProducts(Orders orders, Products products) {
+    public OrderProducts(Orders orders, Products products, Integer count) {
         this.orders = orders;
         this.products = products;
+        this.count = count;
     }
 
     /**

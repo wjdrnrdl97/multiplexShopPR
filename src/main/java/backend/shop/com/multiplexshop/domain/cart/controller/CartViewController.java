@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,6 +27,12 @@ public class CartViewController {
         List<CartProductsResponseDTO> cartWithProductsByMemberId = cartService.getCartWithProductsByMemberId(id);
         model.addAttribute("dto",cartWithProductsByMemberId);
         return "cart/cart";
+    }
+    @GetMapping("/order")
+    public String getOrderOfMyCart(@RequestParam(required = false) List<Long> ids, Model model){
+        List<CartProductsResponseDTO> result = cartService.list(ids);
+        model.addAttribute("cartProduct",result);
+        return "order/order";
     }
 
 }

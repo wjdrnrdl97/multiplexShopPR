@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.cart.dto.CartDTOs.*;
@@ -74,5 +75,13 @@ public class CartService {
                         .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
         cartProductsRepository.deleteAllByCart(findCart);
     }
-
+    public List<CartProductsResponseDTO> list (List<Long> ids){
+        List<CartProducts> cartProducts = new ArrayList<>();
+        for (Long id : ids){
+            cartProducts.add(cartProductsRepository.findById(id)
+                                    .orElseThrow(()->new IllegalArgumentException("CartProduct not found")));
+        }
+        List<CartProductsResponseDTO> dto = cartProducts.stream().map(CartProductsResponseDTO::of).toList();
+        return dto;
+    }
 }

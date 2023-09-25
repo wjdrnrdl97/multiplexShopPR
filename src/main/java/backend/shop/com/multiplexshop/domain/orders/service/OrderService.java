@@ -2,6 +2,10 @@ package backend.shop.com.multiplexshop.domain.orders.service;
 
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs;
+import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
+import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
+import backend.shop.com.multiplexshop.domain.cart.repository.CartRepository;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
@@ -15,9 +19,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
+import static backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 
@@ -30,6 +36,7 @@ public class OrderService {
     private final ProductsRepository productsRepository;
     private final DeliveryRepository deliveryRepository;
     private final OrderProductsRepository orderProductsRepository;
+    private final CartProductsRepository cartProductsRepository;
 
     // 멤버번호, 상품번호리스트을 입력받아 주문생성 및 주문상품 생성
     public OrderResponseDTO save(OrderRequestDTO request){
@@ -83,7 +90,17 @@ public class OrderService {
         findChangeOrderByOrderId.changeOrderStatus();
         ordersRepository.save(findChangeOrderByOrderId);
     }
-
+//    @Transactional
+//    public List<CartProductsResponseDTO> getOrderListByCart(List<Long> ids){
+//        List<CartProducts> list = new ArrayList<>();
+//        for(Long id : ids){
+//            CartProducts cart = cartProductsRepository.findById(id)
+//                                        .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
+//            list.add(cart);
+//        }
+//        List<CartProductsResponseDTO> dto = list.stream().map(CartProductsResponseDTO::of).toList();
+//        return dto;
+//    }
 }
 
 

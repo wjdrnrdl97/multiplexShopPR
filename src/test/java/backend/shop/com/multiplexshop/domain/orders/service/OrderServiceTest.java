@@ -3,6 +3,11 @@ package backend.shop.com.multiplexshop.domain.orders.service;
 import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs;
+import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
+import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
+import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
+import backend.shop.com.multiplexshop.domain.cart.repository.CartRepository;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
@@ -19,8 +24,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 import static org.assertj.core.api.Assertions.*;
@@ -41,6 +48,10 @@ class OrderServiceTest {
     OrderProductsRepository orderProductsRepository;
     @Autowired
     DeliveryRepository deliveryRepository;
+    @Autowired
+    CartRepository cartRepository;
+    @Autowired
+    CartProductsRepository cartProductsRepository;
 
     @Test
     @DisplayName("주문 요청을 받아 주문을 생성에 성공한다.")
@@ -165,4 +176,62 @@ class OrderServiceTest {
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
+//    @Test
+//    @DisplayName("주문하고자하는 장바구니상품의 번호를 리스트로 가져와 해당 장바구니상품을 가져오는데 성공한다.")
+//    public void getOrderListByCart(){
+//        //given
+//        Member member = Member.builder()
+//                .memberEmailId("test")
+//                .password("1234")
+//                .memberName("테스트")
+//                .build();
+//        Member savedMember = memberRepository.save(member);
+//
+//        Cart createCart = Cart.createCart(savedMember);
+//        Cart savedCart = cartRepository.save(createCart);
+//
+//        Products products1 = Products.builder()
+//                .productName("향수")
+//                .productPrice(10000)
+//                .stockQuantity(100)
+//                .categories(Categories.STUFF)
+//                .orderQuantity(3)
+//                .build();
+//        Products stuff = productsRepository.save(products1);
+//        Products products2 = Products.builder()
+//                .productName("밀키트")
+//                .productPrice(5000)
+//                .stockQuantity(100)
+//                .categories(Categories.FOOD)
+//                .orderQuantity(4)
+//                .build();
+//        Products food = productsRepository.save(products2);
+//
+//        CartProducts cartWithStuff1 = CartProducts.builder()
+//                .products(stuff)
+//                .cart(createCart)
+//                .count(3)
+//                .build();
+//        CartProducts cartWithStuff2 = CartProducts.builder()
+//                .products(stuff)
+//                .cart(createCart)
+//                .count(6)
+//                .build();
+//        CartProducts cartWithFood1 = CartProducts.builder()
+//                .products(food)
+//                .cart(createCart)
+//                .count(4)
+//                .build();
+//        CartProducts cartWithFood2 = CartProducts.builder()
+//                .products(food)
+//                .cart(createCart)
+//                .count(8)
+//                .build();
+//        cartProductsRepository.saveAll(List.of(cartWithFood1,cartWithFood2,cartWithStuff1,cartWithStuff2));
+//        List<Long> ids = List.of(1L, 4L);
+//        //when
+//        List<CartProductsResponseDTO> result = orderService.getOrderListByCart(ids);
+//        //then
+//        assertThat(result).hasSize(2);
+//    }
 }
