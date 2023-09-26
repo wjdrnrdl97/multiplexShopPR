@@ -38,7 +38,7 @@
 
     var arr = []; 
     for (var i = 0; i < productIds.length; i++) {
-        arr.push(document.querySelectorAll('.productId').values);
+        arr.push(productIds[i].value);
     }
   
 
@@ -57,7 +57,7 @@
                     "Content-Type" : "application/json",
                 },
                 body: JSON.stringify({
-                    memberId : 1,
+                    memberId : document.querySelector('.memberId').value,
                     productId : productIds
                 })
             })
