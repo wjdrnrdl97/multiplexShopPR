@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface CartRepository extends JpaRepository<Cart,Long> {
 
-    @Query("SELECT DISTINCT c FROM Cart c JOIN FETCH c.member WHERE c.member = :member")
     Optional<Cart> findByMember(Member member);
 }

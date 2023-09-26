@@ -4,6 +4,7 @@ package backend.shop.com.multiplexshop.domain.cart.controller;
 import backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs;
 import backend.shop.com.multiplexshop.domain.cart.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +27,16 @@ public class CartViewController {
         return "cart/cart";
     }
     @GetMapping("/order")
-    @ResponseBody
     public String getOrderOfMyCart(@RequestParam List<Long> ids, Model model){
         List<CartProductsResponseDTO> result = cartService.findOrderProductsOfListByCartProductsId(ids);
         model.addAttribute("cartProduct",result);
         return "order/order";
     }
-
+//    @GetMapping("/order")
+//    @ResponseBody
+//    public ResponseEntity<List<CartProductsResponseDTO>> getOrderOfMyCart(@RequestParam List<Long> ids){
+//        List<CartProductsResponseDTO> result = cartService.findOrderProductsOfListByCartProductsId(ids);
+//        return ResponseEntity.ok().body(result);
+//    }
 
 }

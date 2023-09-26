@@ -34,13 +34,15 @@ public class OrdersDTOs {
     @Getter
     @NoArgsConstructor
     public static class OrderResponseDTO{
+        private Long id;
         private Member member;
         private OrderStatus orderStatus;
         private Integer orderPrice;
 
         @Builder
-        public OrderResponseDTO(Member member, OrderStatus orderStatus,
+        public OrderResponseDTO(Long id, Member member, OrderStatus orderStatus,
                                 Integer orderPrice) {
+            this.id = id;
             this.member = member;
             this.orderStatus = orderStatus;
             this.orderPrice = orderPrice;
@@ -48,6 +50,7 @@ public class OrdersDTOs {
 
         public static OrderResponseDTO of(Orders orders){
             return OrderResponseDTO.builder()
+                    .id(orders.getId())
                     .member(orders.getMember())
                     .orderPrice(orders.getOrderPrice())
                     .orderStatus(orders.getOrderStatus())
