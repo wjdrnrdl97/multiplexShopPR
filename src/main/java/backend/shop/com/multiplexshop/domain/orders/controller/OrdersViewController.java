@@ -1,4 +1,4 @@
-package backend.shop.com.multiplexshop.domain.orders.controller;
+    package backend.shop.com.multiplexshop.domain.orders.controller;
 
 import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
@@ -22,8 +22,8 @@ public class OrdersViewController {
 
     @GetMapping("/complete/{id}")
     public String getCompleteOrderByOrderId(@PathVariable("id")Long id, Model model){
-        List<OrderProductsResponseDTO> completeOrder = orderService.findAllByOrderId(id);
-        model.addAttribute("order", completeOrder);
+                List<OrderProductsResponseDTO> completeOrder = orderService.findAllByOrderId(id);
+        model.addAttribute("orderProduct", completeOrder);
         return "order/orderComplete";
     }
 

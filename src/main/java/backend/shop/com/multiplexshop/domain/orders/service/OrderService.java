@@ -90,17 +90,6 @@ public class OrderService {
         findChangeOrderByOrderId.changeOrderStatus();
         ordersRepository.save(findChangeOrderByOrderId);
     }
-//    @Transactional
-//    public List<CartProductsResponseDTO> getOrderListByCart(List<Long> ids){
-//        List<CartProducts> list = new ArrayList<>();
-//        for(Long id : ids){
-//            CartProducts cart = cartProductsRepository.findById(id)
-//                                        .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
-//            list.add(cart);
-//        }
-//        List<CartProductsResponseDTO> dto = list.stream().map(CartProductsResponseDTO::of).toList();
-//        return dto;
-//    }
 }
 
 

@@ -6,7 +6,7 @@
 
     <article id="article">
         <div class="join_box">
-            <h2><span>USER</span>님의 주문내역입니다.</h2>
+            <h2><span>USER</span>님의 결제하실 내역입니다.</h2>
             <div class="order_info" th:if="${not #lists.isEmpty(cartProduct)}" th:each="dto:${cartProduct}">
                 <div class="orders">
                    <input type="hidden" class="memberId" th:value="${dto.cart.member.id}">
@@ -34,11 +34,12 @@
 <script>
     const cancleBtn = document.querySelector('.cancle-btn');
     const orderBtn = document.querySelector('.orderBtn');
-    let productIds = Array.from(document.querySelectorAll('.productId'));
 
-    var arr = []; 
-    for (var i = 0; i < productIds.length; i++) {
-        arr.push(productIds[i].value);
+    let getMemberId = document.querySelector('.memberId').value;
+    let productIdArray = Array.from(document.querySelectorAll('.productId'));
+    var productIds = [];
+    for (var i = 0; i < productIdArray.length; i++) {
+        productIds.push(productIdArray[i].value);
     }
   
 
@@ -57,14 +58,29 @@
                     "Content-Type" : "application/json",
                 },
                 body: JSON.stringify({
-                    memberId : document.querySelector('.memberId').value,
+                    memberId : getMemberId,
                     productId : productIds
                 })
             })
-            .then(()=>{
+            .then(response => {
+                if (response.status === 201){
+                    return response.json();
+                }else{
+                    alert('네트워크가 올바르지 않습니다. 다시 시도해주세요.')
+                    location.replace('/');
+                }
+             }
+        )            
+            .then(data => {
+                let orderId = data.id;
                 alert('결제가 완료되었습니다.');
-                location.replace('/order/complete/1');
-            });
+                location.replace(`/order/complete/${orderId}`);
+            })
+            .catch(error =>{
+                console.error(error);
+                alert('결제에 실패했습니다 다시 시도해주세요.')
+                location.replace('/');
+            })
         })
     }
  </script>
