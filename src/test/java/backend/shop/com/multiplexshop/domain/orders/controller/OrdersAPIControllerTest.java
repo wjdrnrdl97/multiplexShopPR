@@ -8,6 +8,7 @@ import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryReposit
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
+import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
 import backend.shop.com.multiplexshop.domain.orders.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs;
 import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.OrderRequestDTO;
@@ -97,9 +98,19 @@ class OrdersAPIControllerTest {
                 .memberName("테스트")
                 .build();
         memberRepository.save(member);
+
+        OrderProductsDTOs.OrderProductsRequestDTO dto1 = OrderProductsDTOs.OrderProductsRequestDTO.builder()
+                .productId(1L)
+                .count(4)
+                .build();
+        OrderProductsDTOs.OrderProductsRequestDTO dto2 = OrderProductsDTOs.OrderProductsRequestDTO.builder()
+                .productId(2L)
+                .count(4)
+                .build();
+        List<OrderProductsDTOs.OrderProductsRequestDTO> productAndCount = List.of(dto1, dto2);
         OrderRequestDTO request = OrderRequestDTO.builder()
-                .productId(List.of(1L,2L))
                 .memberId(1L)
+                .productWithCount(productAndCount)
                 .build();
         //when
         String requestBody = objectMapper.writeValueAsString(request);
@@ -139,7 +150,6 @@ public void getOrderWithProductByOrderId() throws Exception{
     Member savedMember = memberRepository.save(member);
     Orders orders = Orders.builder()
             .member(savedMember)
-            .orderPrice(50000)
             .orderStatus(OrderStatus.ORDER)
             .build();
     Orders savedOrder = ordersRepository.save(orders);
@@ -166,7 +176,6 @@ public void getOrderWithProductByOrderId() throws Exception{
 
         Orders order = Orders.builder()
                 .orderStatus(OrderStatus.ORDER)
-                .orderPrice(50000)
                 .build();
         ordersRepository.save(order);
         Delivery delivery = Delivery.createDelivery(order);

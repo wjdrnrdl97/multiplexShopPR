@@ -61,7 +61,7 @@ class CartServiceTest {
         //when
         CartResponseDTO response = cartService.createCartWithProductsByRequest(request);
         //then
-        assertThat(response.getMember().getId()).isEqualTo(1L);
+        assertThat(response.getMember().getMemberId()).isEqualTo(1L);
     }
     @Test
     @DisplayName("회원 아이디를 입력하였을 때 해당 회원의 장바구니를 조회한 후 조회한 장바구니에 담겨진 장바구니상품을 조회한다.")

@@ -30,23 +30,23 @@ public class OrderProducts {
     @Column
     private Integer count;
 
+    @Column
+    private Integer orderPrice;
+
     @Builder
-    public OrderProducts(Orders orders, Products products, Integer count) {
+    public OrderProducts(Orders orders, Products products, Integer count, Integer orderPrice) {
         this.orders = orders;
         this.products = products;
         this.count = count;
+        this.orderPrice = orderPrice;
     }
 
-    /**
-     * 주문과 상품을 입력받아 주문상품을 생성하는 로직
-     * @param orders
-     * @param products
-     * @return
-     */
-    public static OrderProducts createOrderProducts(Orders orders, Products products){
+    public static OrderProducts createOrderProducts(Orders orders, Products products,Integer count){
         return OrderProducts.builder()
                 .orders(orders)
                 .products(products)
+                .count(count)
+                .orderPrice(products.getProductPrice() * count)
                 .build();
     }
 }

@@ -23,6 +23,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +49,7 @@ class OrderServiceTest {
     OrderProductsRepository orderProductsRepository;
     @Autowired
     DeliveryRepository deliveryRepository;
-    @Autowired
-    CartRepository cartRepository;
-    @Autowired
-    CartProductsRepository cartProductsRepository;
+
 
     @Test
     @DisplayName("주문 요청을 받아 주문을 생성에 성공한다.")
@@ -65,6 +63,7 @@ class OrderServiceTest {
                 .orderQuantity(3)
                 .build();
         productsRepository.save(products1);
+
         Products products2 = Products.builder()
                 .productName("밀키트")
                 .productPrice(5000)
@@ -73,26 +72,34 @@ class OrderServiceTest {
                 .orderQuantity(4)
                 .build();
         productsRepository.save(products2);
+
         Member member = Member.builder()
                 .memberEmailId("test")
                 .password("1234")
                 .memberName("테스트")
                 .build();
         memberRepository.save(member);
-        OrderRequestDTO requestDTO = OrderRequestDTO.builder()
-                .productId(List.of(1L,2L))
-                .memberId(1L)
+
+        OrderProductsRequestDTO dto1 = OrderProductsRequestDTO.builder()
+                .productId(1L)
+                .count(4)
                 .build();
-
+        OrderProductsRequestDTO dto2 = OrderProductsRequestDTO.builder()
+                .productId(2L)
+                .count(4)
+                .build();
+        List<OrderProductsRequestDTO> productAndCount = List.of(dto1, dto2);
+        OrderRequestDTO request = OrderRequestDTO.builder()
+                .memberId(1L)
+                .productWithCount(productAndCount)
+                .build();
         //when
-        OrderResponseDTO save = orderService.save(requestDTO);
+        OrderResponseDTO result = orderService.save(request);
         //then
-        List<Orders> orders = ordersRepository.findAll();
-        Delivery delivery = deliveryRepository.findByOrderId(1L)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-
-        assertThat(orders.get(0).getOrderPrice()).isEqualTo(50000);
-        assertThat(delivery.getDeliveryStatus()).isEqualTo(DeliveryStatus.READY);
+        List<OrderProducts> orderProducts = orderProductsRepository.findAll();
+        Orders order = ordersRepository.findById(1L).orElse(null);
+        assertThat(order).isNotNull();
+        assertThat(orderProducts).hasSize(2);
     }
 
     @Test
@@ -106,7 +113,7 @@ class OrderServiceTest {
                 .categories(Categories.STUFF)
                 .orderQuantity(3)
                 .build();
-    productsRepository.save(products1);
+        Products savedStuff = productsRepository.save(products1);
         Products products2 = Products.builder()
                 .productName("밀키트")
                 .productPrice(5000)
@@ -114,30 +121,30 @@ class OrderServiceTest {
                 .categories(Categories.FOOD)
                 .orderQuantity(4)
                 .build();
-        productsRepository.save(products2);
+        Products savedFood = productsRepository.save(products2);
         Member member = Member.builder()
                 .memberEmailId("test")
                 .password("1234")
                 .memberName("테스트")
                 .build();
-        memberRepository.save(member);
-        Orders order = Orders.createOrder(member, List.of(products1, products2));
-        ordersRepository.save(order);
-        OrderProducts orderProducts = OrderProducts.createOrderProducts(order, products1);
-        OrderProducts orderProducts1 = OrderProducts.createOrderProducts(order, products2);
+        Member savedMember = memberRepository.save(member);
+
+        Orders order = Orders.createOrder(savedMember);
+        Orders savedOrder = ordersRepository.save(order);
+
+        OrderProducts orderProducts = OrderProducts.createOrderProducts(savedOrder, savedStuff,3);
+        OrderProducts orderProducts1 = OrderProducts.createOrderProducts(savedOrder, savedFood,4);
         orderProductsRepository.saveAll(List.of(orderProducts,orderProducts1));
         // when
-        List<OrderProductsResponseDTO> list = orderService.findAllByOrderId(1L);
+        List<OrderProductsResponseDTO> result = orderService.findAllByOrderId(1L);
         //then
-        assertThat(list.size()).isEqualTo(2);
-        assertThat(list.get(0).getProducts().getProductName()).isEqualTo("향수");
+        assertThat(result.size()).isEqualTo(2);
     }
     @Test
     @DisplayName("주문번호를 입력하여 해당 주문의 상태를 취소로 변경에 성공한다.")
     public void deleteByOrdersId() throws Exception{
         //given
         Orders order = Orders.builder()
-                .orderPrice(10000)
                 .orderStatus(OrderStatus.ORDER)
                 .build();
         Orders savedOrder = ordersRepository.save(order);
@@ -158,7 +165,6 @@ class OrderServiceTest {
     public void deleteByOrdersIdThrows() throws Exception{
         //given
         Orders order = Orders.builder()
-                .orderPrice(10000)
                 .orderStatus(OrderStatus.ORDER)
                 .build();
         Orders savedOrder = ordersRepository.save(order);
@@ -176,62 +182,44 @@ class OrderServiceTest {
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
-//    @Test
-//    @DisplayName("주문하고자하는 장바구니상품의 번호를 리스트로 가져와 해당 장바구니상품을 가져오는데 성공한다.")
-//    public void getOrderListByCart(){
-//        //given
-//        Member member = Member.builder()
-//                .memberEmailId("test")
-//                .password("1234")
-//                .memberName("테스트")
-//                .build();
-//        Member savedMember = memberRepository.save(member);
-//
-//        Cart createCart = Cart.createCart(savedMember);
-//        Cart savedCart = cartRepository.save(createCart);
-//
-//        Products products1 = Products.builder()
-//                .productName("향수")
-//                .productPrice(10000)
-//                .stockQuantity(100)
-//                .categories(Categories.STUFF)
-//                .orderQuantity(3)
-//                .build();
-//        Products stuff = productsRepository.save(products1);
-//        Products products2 = Products.builder()
-//                .productName("밀키트")
-//                .productPrice(5000)
-//                .stockQuantity(100)
-//                .categories(Categories.FOOD)
-//                .orderQuantity(4)
-//                .build();
-//        Products food = productsRepository.save(products2);
-//
-//        CartProducts cartWithStuff1 = CartProducts.builder()
-//                .products(stuff)
-//                .cart(createCart)
-//                .count(3)
-//                .build();
-//        CartProducts cartWithStuff2 = CartProducts.builder()
-//                .products(stuff)
-//                .cart(createCart)
-//                .count(6)
-//                .build();
-//        CartProducts cartWithFood1 = CartProducts.builder()
-//                .products(food)
-//                .cart(createCart)
-//                .count(4)
-//                .build();
-//        CartProducts cartWithFood2 = CartProducts.builder()
-//                .products(food)
-//                .cart(createCart)
-//                .count(8)
-//                .build();
-//        cartProductsRepository.saveAll(List.of(cartWithFood1,cartWithFood2,cartWithStuff1,cartWithStuff2));
-//        List<Long> ids = List.of(1L, 4L);
-//        //when
-//        List<CartProductsResponseDTO> result = orderService.getOrderListByCart(ids);
-//        //then
-//        assertThat(result).hasSize(2);
-//    }
+    @Test
+    @DisplayName("회원의 번호를 입력받아 회원을 조회한후 해당 회원을 입력하여 회원의 모든 주문을 조회한다.")
+    public void findOrderWithProductsByMemberID(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        Products savedStuff = productsRepository.save(products1);
+
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .orderQuantity(4)
+                .build();
+        Products savedFood = productsRepository.save(products2);
+
+        Orders order = Orders.createOrder(savedMember);
+        Orders savedOrder = ordersRepository.save(order);
+
+        OrderProducts orderProductsByStuff = OrderProducts.createOrderProducts(savedOrder, savedStuff,3);
+        OrderProducts orderProductsByFood = OrderProducts.createOrderProducts(savedOrder, savedFood,4);
+        orderProductsRepository.saveAll(List.of(orderProductsByStuff,orderProductsByFood));
+        //when
+        List<OrderProductsResponseDTO> result = orderService.findOrderWithProductsByMemberID(1L);
+        //then
+        assertThat(result).hasSize(2);
+    }
 }

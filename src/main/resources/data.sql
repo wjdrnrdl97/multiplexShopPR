@@ -14,4 +14,4 @@ VALUES
 -- Cart 테이블에 데이터 추가
 INSERT INTO CART (id, member_id) VALUES (1, 1),(2, 2);
 -- CartPRODUCTS 테이블에 데이터 추가
-INSERT INTO CART_PRODUCTS (cart_id, products_id, count) VALUES(1, 1, 2), (1, 2, 1);
+INSERT INTO CART_PRODUCTS (cart_id, products_id, count) VALUES(1, 1, 2), (1, 2, 2);

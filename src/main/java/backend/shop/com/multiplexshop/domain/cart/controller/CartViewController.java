@@ -32,11 +32,5 @@ public class CartViewController {
         model.addAttribute("cartProduct",result);
         return "order/order";
     }
-//    @GetMapping("/order")
-//    @ResponseBody
-//    public ResponseEntity<List<CartProductsResponseDTO>> getOrderOfMyCart(@RequestParam List<Long> ids){
-//        List<CartProductsResponseDTO> result = cartService.findOrderProductsOfListByCartProductsId(ids);
-//        return ResponseEntity.ok().body(result);
-//    }
 
 }

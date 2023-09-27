@@ -46,15 +46,14 @@ class OrdersRepositoryTest {
         Products food = productsRepository.findById(2L).get();
         createOrder();
         Orders order = ordersRepository.findById(1L).get();
-        OrderProducts orderProducts1 = OrderProducts.createOrderProducts(order,stuff);
+        OrderProducts orderProducts1 = OrderProducts.createOrderProducts(order,stuff,3);
         orderProductsRepository.save(orderProducts1);
-        OrderProducts orderProducts2 = OrderProducts.createOrderProducts(order,food);
+        OrderProducts orderProducts2 = OrderProducts.createOrderProducts(order,food,4);
         orderProductsRepository.save(orderProducts2);
 
         //when
         Orders orders = ordersRepository.findById(1L).get();
-        List<OrderProducts> orderProducts = ordersRepository.findByOrdersIdAll(orders.getId())
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        List<OrderProducts> orderProducts = orderProductsRepository.findByOrdersIdAll(orders.getId());
         //then
         assertThat(orderProducts.size()).isEqualTo(2);
         assertThat(orderProducts.get(0).getOrders().getId()).isEqualTo(1L);
@@ -62,7 +61,6 @@ class OrdersRepositoryTest {
 
     private void createOrder() {
         Orders saveOrder = Orders.builder()
-                .orderPrice(50000)
                 .build();
         ordersRepository.save(saveOrder);
     }

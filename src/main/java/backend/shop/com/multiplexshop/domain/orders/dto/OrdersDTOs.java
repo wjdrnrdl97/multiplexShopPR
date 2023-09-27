@@ -3,6 +3,7 @@ package backend.shop.com.multiplexshop.domain.orders.dto;
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
+import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import jakarta.persistence.Column;
@@ -17,17 +18,19 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+
 public class OrdersDTOs {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PROTECTED)
     public static class OrderRequestDTO {
         private Long memberId;
-        private List<Long> productId;
+        private List<OrderProductsRequestDTO> productWithCount;
 
         @Builder
-        public OrderRequestDTO(Long memberId, List<Long> productId) {
+        public OrderRequestDTO(Long memberId, List<OrderProductsRequestDTO> productWithCount) {
             this.memberId = memberId;
-            this.productId = productId;
+            this.productWithCount = productWithCount;
         }
     }
 
@@ -37,22 +40,18 @@ public class OrdersDTOs {
         private Long id;
         private Member member;
         private OrderStatus orderStatus;
-        private Integer orderPrice;
 
         @Builder
-        public OrderResponseDTO(Long id, Member member, OrderStatus orderStatus,
-                                Integer orderPrice) {
+        public OrderResponseDTO(Long id, Member member, OrderStatus orderStatus) {
             this.id = id;
             this.member = member;
             this.orderStatus = orderStatus;
-            this.orderPrice = orderPrice;
         }
 
         public static OrderResponseDTO of(Orders orders){
             return OrderResponseDTO.builder()
                     .id(orders.getId())
                     .member(orders.getMember())
-                    .orderPrice(orders.getOrderPrice())
                     .orderStatus(orders.getOrderStatus())
                     .build();
         }

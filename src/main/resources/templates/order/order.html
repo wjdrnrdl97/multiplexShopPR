@@ -9,11 +9,11 @@
             <h2><span>USER</span>님의 결제하실 내역입니다.</h2>
             <div class="order_info" th:if="${not #lists.isEmpty(cartProduct)}" th:each="dto:${cartProduct}">
                 <div class="orders">
-                   <input type="hidden" class="memberId" th:value="${dto.cart.member.id}">
+                   <input type="hidden" class="memberId" th:value="${dto.cart.member.memberId}">
                     <input type="hidden" class="productId" th:value="${dto.products.id}">
                     <p>상품명: <span>[[${dto.products.productName}]]</span></p>
                     <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
-                    <p>주문수량 : <span>[[${dto.count}]]</span></p>
+                    <p>주문수량 : <span class="count">[[${dto.count}]]</span></p>
                 </div>
             </div> 
 
@@ -36,12 +36,21 @@
     const orderBtn = document.querySelector('.orderBtn');
 
     let getMemberId = document.querySelector('.memberId').value;
-    let productIdArray = Array.from(document.querySelectorAll('.productId'));
-    var productIds = [];
+    let productIdArray = Array.from(document.querySelectorAll('.productId'));  // 상품번호리스트
+    let countArray = Array.from(document.querySelectorAll('.count'));   // 주문수량 리스트
+
+    var productWithCountList = []; 
     for (var i = 0; i < productIdArray.length; i++) {
-        productIds.push(productIdArray[i].value);
+        let productWithCount = new Object();
+        productWithCount.productId = productIdArray[i].value;        
+        productWithCount.count = Number(countArray[i].textContent);         
+        productWithCountList.push(productWithCount);
     }
-  
+
+        // 객체 생성(상품번호, 수량)
+        // 객체리스트 생성
+
+        // 반복문으로 객체 상풂번호, 수량 프로퍼티 담기?
 
     if(cancleBtn){
         cancleBtn.addEventListener('click',event=>{
@@ -59,7 +68,7 @@
                 },
                 body: JSON.stringify({
                     memberId : getMemberId,
-                    productId : productIds
+                    productWithCount : productWithCountList
                 })
             })
             .then(response => {

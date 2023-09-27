@@ -35,19 +35,20 @@
                 </a>
             </form>
 
-            <div class="order_info">
-                <h3 style="text-align: left; margin-left: 20px;">O R D E R S (주문 내역이 있을시에만 보이는 박스 )</h3>
-                <div class="orders">
-                    <p>주문 번호 : <span>1</span></p>
-                    <p>상품 명: <span>Product1</span></p>
-                    <p>가격 : <span>3,9000 원</span></p>
+                <h3 style="text-align: left; margin-left: 20px;">O R D E R S</h3>
+                <div class="order_info" th:if="${not #lists.isEmpty(orderProduct)}" th:each="dto:${orderProduct}">
+                    <div class="orders" th:each="orders.id:${dto}">
+                        <p>주문번호: <span>[[${dto.orders.id}]]</span></p>
+                        <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
+                        <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
+                    </div>
+                    <a href="#">
+                        <button class="cancle-btn">C A N C L E</button>
+                    </a>
                 </div>
-                <a href="#">
-                    <button class="cancle-btn">C A N C L E</button>
-                </a>
-            </div>
 
-            <div class="order_info">
+
+            <div class="order_info" th:if="${#lists.isEmpty(orderProduct)}">
                 <h3>주문 내역이 없습니다.</h3>
                 <h2>주문하러 가기</h2>
                 <div class="btns moreOrder">

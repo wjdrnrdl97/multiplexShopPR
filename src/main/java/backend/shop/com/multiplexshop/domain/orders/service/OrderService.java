@@ -42,37 +42,39 @@ public class OrderService {
     public OrderResponseDTO save(OrderRequestDTO request){
 
         // 회원번호를 이용하여 회원 조회
-        Member member = memberRepository.findById(request.getMemberId())
+        Member findMemberById = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
-        // 상품번호 리스트를 받아 여러 상품 조회하여 리스트
-        List<Long> productId = request.getProductId();
-        List<Products> productsList = productsRepository.findAllById(productId);
+        // 회원을 이용하여 주문 생성하기
+        Orders createOrderByMember = Orders.createOrder(findMemberById);
+        Orders savedOrder = ordersRepository.save(createOrderByMember);
 
-        // 상품리스트와 회원을 받아 주문 생성
-        Orders createOrder = Orders.createOrder(member, productsList);
-        Orders saveOrders = ordersRepository.save(createOrder);
+        List<OrderProductsRequestDTO> productWithCountList = request.getProductWithCount();
+        for(OrderProductsRequestDTO dto : productWithCountList) {
 
-        // 주문과 상품리스트를 받아 상품리스트 수 만큼 주문상품 생성
-        for (Products products : productsList){
-            OrderProducts createOrderProducts = OrderProducts.createOrderProducts(saveOrders, products);
-            orderProductsRepository.save(createOrderProducts);
-        }
+            // 상품번호 받아 상품 조회
+            Products findProductById = productsRepository.findById(dto.getProductId())
+                    .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        // 주문를 받아 배송 생성
-        Delivery delivery = Delivery.createDelivery(saveOrders);
-        deliveryRepository.save(delivery);
+            OrderProducts createOrderProduct = OrderProducts
+                                            .createOrderProducts(createOrderByMember, findProductById, dto.getCount());
+            orderProductsRepository.save(createOrderProduct);
+            }
+            // 주문를 받아 배송 생성
+            Delivery delivery = Delivery.createDelivery(savedOrder);
+            deliveryRepository.save(delivery);
 
-        return OrderResponseDTO.of(saveOrders);
+        return OrderResponseDTO.of(savedOrder);
     }
 
-    // 주문번호를 입력받아 주문상품 상세 조회
-    public List<OrderProductsResponseDTO> findAllByOrderId(Long id){
-        List<OrderProducts> findOrderProducts = ordersRepository.findByOrdersIdAll(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
-        List<OrderProductsResponseDTO> responseDTOList = findOrderProducts.stream()
-                .map(OrderProductsResponseDTO::of).toList();
-        return responseDTOList;
+    public List<OrderProductsResponseDTO> findOrderWithProductsByMemberID(Long id){
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        List<OrderProducts> findAllByMember = orderProductsRepository.findAllByMember(findMember);
+        List<OrderProductsResponseDTO> findAllByMemberOfDTO = findAllByMember
+                                                        .stream().map(OrderProductsResponseDTO::of).toList();
+        return findAllByMemberOfDTO;
     }
 
     @Transactional
@@ -89,6 +91,14 @@ public class OrderService {
 
         findChangeOrderByOrderId.changeOrderStatus();
         ordersRepository.save(findChangeOrderByOrderId);
+    }
+
+    @Transactional
+    public List<OrderProductsResponseDTO> findAllByOrderId(Long id){
+        List<OrderProducts> findOrderProducts = orderProductsRepository.findByOrdersIdAll(id);
+        List<OrderProductsResponseDTO> responseDTOList = findOrderProducts.stream()
+                .map(OrderProductsResponseDTO::of).toList();
+        return responseDTOList;
     }
 }
 

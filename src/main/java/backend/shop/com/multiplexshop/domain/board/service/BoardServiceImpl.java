@@ -56,7 +56,7 @@ public class BoardServiceImpl implements BoardService{
         Board getBoard = boardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalArgumentException("Board not Found" + boardId));
         Board updateBoard = toBoard(boardRequestDTO);
-        if(!getBoard.getMember().getId().equals(updateBoard.getMember().getId())){
+        if(!getBoard.getMember().getMemberId().equals(updateBoard.getMember().getMemberId())){
             throw new DifferentMemberIdException("Not Match MemberID");
         }
 
