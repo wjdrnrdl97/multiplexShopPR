@@ -31,10 +31,10 @@ class CartProductsRepositoryTest {
     CartProductsRepository cartProductsRepository;
 
     
-    
+
     @Test
-    @DisplayName("장바구니를 입력받아 해당 장바구니 관련 모든 장바구니상품을 조회한다.")    
-    public void test(){
+    @DisplayName("장바구니를 입력받아 해당 장바구니 관련 모든 장바구니상품을 조회한다.")
+    public void findAllByCart(){
         //given
         Member member = Member.builder()
                 .memberEmailId("test")
@@ -80,6 +80,7 @@ class CartProductsRepositoryTest {
         assertThat(result).hasSize(2);
         assertThat(result.get(0).getCart()).isEqualTo(savedCart);
     }
+    
     @Test
     @DisplayName("장바구니를 입력받아 관련된 장바구니-상품을 전부 삭제한다.")
     public void deleteAllByCart(){
@@ -126,5 +127,38 @@ class CartProductsRepositoryTest {
         //then
         List<CartProducts> result = cartProductsRepository.findAll();
         assertThat(result).isEmpty();
+    }
+    @Test
+    @DisplayName("장바구니상품 번호를 입력받아 관련된 장바구니상품을 조회한다(지연로딩된 카트와 상품을 fetch join을 이용하여 즉시로딩으로)")
+    public void findWithCartAndProductById(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+        Cart cart = Cart.createCart(savedMember);
+        Cart savedCart = cartRepository.save(cart);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        Products savedStuff = productsRepository.save(products1);
+        
+        CartProducts createCartByStuff = CartProducts.builder()
+                .products(savedStuff)
+                .cart(savedCart)
+                .count(3)
+                .build();
+        cartProductsRepository.save(createCartByStuff);
+        //when
+        CartProducts result = cartProductsRepository.findWithCartAndProductById(1L).orElse(null);
+        //then
+        assertThat(result.getCart()).isEqualTo(savedCart);
     }
 }

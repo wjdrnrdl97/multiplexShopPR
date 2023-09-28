@@ -34,14 +34,10 @@ public class Orders extends BaseEntity {
     @Column(length = 10, columnDefinition = "varchar(10) default 'ORDER'")
     private OrderStatus orderStatus = OrderStatus.ORDER;
 
-    @Column(nullable = false)
-    private Integer orderPrice;
-
     @Builder
-    public Orders(Member member, OrderStatus orderStatus, Integer orderPrice) {
+    public Orders(Member member, OrderStatus orderStatus) {
         this.member = member;
         this.orderStatus = orderStatus;
-        this.orderPrice = orderPrice;
     }
 
     /**
@@ -53,13 +49,11 @@ public class Orders extends BaseEntity {
     /**
      * 회원과 상품의 번호리스트를 받아 주문을 생성하는 로직
      * @param member
-     * @param productsList
      * @return
      */
-    public static Orders createOrder(Member member,List<Products> productsList){
+    public static Orders createOrder(Member member){
         return Orders.builder().
                 member(member)
-                .orderPrice(setOrderPrice(productsList))
                 .orderStatus(OrderStatus.ORDER)
                 .build();
     }

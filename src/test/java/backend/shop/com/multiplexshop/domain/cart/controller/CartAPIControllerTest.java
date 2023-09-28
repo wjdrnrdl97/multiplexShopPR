@@ -93,6 +93,7 @@ class CartAPIControllerTest {
     }
     @Test
     @DisplayName("장바구니를 접속하였을 때 회원별 장바구니-상품을 조회한후 Http 200코드와 함께 응답에 성공한다.")
+    @Transactional
     public void getCartWithProductsByMember() throws Exception{
         //given
         String uri = "/api/cart/{memberId}";
@@ -154,7 +155,7 @@ class CartAPIControllerTest {
                 .build();
         cartProductsRepository.saveAll(List.of(member1CartWithStuff,member1CartWithFood,member2CartWithStuff,member2CartWithFood));
         //when
-        ResultActions perform = mockMvc.perform(get(uri, 1));
+        ResultActions perform = mockMvc.perform(get(uri, 2));
         //then
         perform.andExpect(status().isOk());
         perform.andDo(print());

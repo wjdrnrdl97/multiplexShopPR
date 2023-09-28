@@ -61,7 +61,7 @@ class CartServiceTest {
         //when
         CartResponseDTO response = cartService.createCartWithProductsByRequest(request);
         //then
-        assertThat(response.getMember().getId()).isEqualTo(1L);
+        assertThat(response.getMember().getMemberId()).isEqualTo(1L);
     }
     @Test
     @DisplayName("회원 아이디를 입력하였을 때 해당 회원의 장바구니를 조회한 후 조회한 장바구니에 담겨진 장바구니상품을 조회한다.")
@@ -210,6 +210,64 @@ class CartServiceTest {
         cartService.deleteCartProductsAllByMemberId(1L);
         //then
         List<CartProducts> result = cartProductsRepository.findAll();
+        assertThat(result).hasSize(2);
+    }
+    @Test
+    @DisplayName("장바구니상품 id 리스트를 받아 리스트에 해당하는 장바구니상품을 조회한다.(지연로딩된 장바구니와 상품을 fetch join을 사용하여)")
+    public void findOrderProductsOfListByCartProductsId(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        Cart createCart = Cart.createCart(savedMember);
+        Cart savedCart = cartRepository.save(createCart);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .orderQuantity(3)
+                .build();
+        Products stuff = productsRepository.save(products1);
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .orderQuantity(4)
+                .build();
+        Products food = productsRepository.save(products2);
+
+        CartProducts cartWithStuff1 = CartProducts.builder()
+                .products(stuff)
+                .cart(createCart)
+                .count(3)
+                .build();
+        CartProducts cartWithStuff2 = CartProducts.builder()
+                .products(stuff)
+                .cart(createCart)
+                .count(6)
+                .build();
+        CartProducts cartWithFood1 = CartProducts.builder()
+                .products(food)
+                .cart(createCart)
+                .count(4)
+                .build();
+        CartProducts cartWithFood2 = CartProducts.builder()
+                .products(food)
+                .cart(createCart)
+                .count(8)
+                .build();
+        cartProductsRepository.saveAll(List.of(cartWithStuff1,cartWithStuff2,cartWithFood1,cartWithFood2));
+        List<Long> ids = List.of(1L, 4L);
+        //when
+        List<CartProductsResponseDTO> result = cartService.findOrderProductsOfListByCartProductsId(ids);
+        //then
         assertThat(result).hasSize(2);
     }
 }

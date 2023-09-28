@@ -30,7 +30,6 @@ class DeliveryRepositoryTest {
         //given
         Orders orders = Orders.builder()
                 .orderStatus(OrderStatus.ORDER)
-                .orderPrice(10000)
                 .build();
         Orders savedOrder = ordersRepository.save(orders);
 

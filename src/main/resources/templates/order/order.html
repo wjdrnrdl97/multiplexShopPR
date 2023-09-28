@@ -6,18 +6,20 @@
 
     <article id="article">
         <div class="join_box">
-            <h2><span>USER</span>님의 주문내역입니다.</h2>
-            <div class="order_info">
-                <h3 style="text-align: left; margin-left: 20px;">O R D E R S (주문 내역이 있을시에만 보이는 박스 )</h3>
+            <h2><span>USER</span>님의 결제하실 내역입니다.</h2>
+            <div class="order_info" th:if="${not #lists.isEmpty(cartProduct)}" th:each="dto:${cartProduct}">
                 <div class="orders">
-                    <p>주문 번호 : <span>1</span></p>
-                    <p>상품 명: <span>Product1</span></p>
-                    <p>가격 : <span>3,9000 원</span></p>
+                   <input type="hidden" class="memberId" th:value="${dto.cart.member.memberId}">
+                    <input type="hidden" class="productId" th:value="${dto.products.id}">
+                    <p>상품명: <span>[[${dto.products.productName}]]</span></p>
+                    <p>가격 : <span class="productPrice">[[${dto.products.productPrice}]]</span></p>
+                    <p>주문수량 : <span class="count">[[${dto.count}]]</span></p>
                 </div>
-                <a href="#">
-                    <button class="cancle-btn">C A N C L E</button>
-                </a>
-            </div>
+            </div> 
+
+            <h3 style="text-align:right; margin-right: 10px;">총 결제금액 : <span id = "totalPrice">0</span>원</h3>
+
+            <button class="cancle-btn">C A N C L E</button>
             <button class="orderBtn" style="width: 300px; margin-left: 500px; margin-bottom: 50px;" >N A V E R  P A Y</button>
         </div>
 
@@ -28,8 +30,74 @@
 
     </th:block>
 </th:block>
- <script>
+<script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
+<script>
+    const cancleBtn = document.querySelector('.cancle-btn');
+    const orderBtn = document.querySelector('.orderBtn');
 
+    let getMemberId = document.querySelector('.memberId').value;
+    let productIdArray = Array.from(document.querySelectorAll('.productId'));  // 상품번호 리스트
+    let countArray = Array.from(document.querySelectorAll('.count'));   // 주문수량 리스트
+
+    var productWithCountList = [];  // 상품번호와 주문수량를 담는 객체 리스트 생성
+    for (var i = 0; i < productIdArray.length; i++) {
+        let productWithCount = new Object();
+        productWithCount.productId = productIdArray[i].value;        
+        productWithCount.count = Number(countArray[i].textContent);         
+        productWithCountList.push(productWithCount);
+    }
+
+    // 총 주문금액 계산을 위한 자바스크립트
+    let totalPrice = 0;
+    const productPriceElements = document.getElementsByClassName('productPrice');
+    const countElements = document.getElementsByClassName('count');
+
+    for(var i = 0; i < productPriceElements.length; i++){
+        var price = parseInt(productPriceElements[i].textContent);
+        var count = parseInt(countElements[i].textContent);
+        totalPrice += price*count;
+    }
+    document.getElementById('totalPrice').textContent = totalPrice;
+
+    if(cancleBtn){
+        cancleBtn.addEventListener('click',event=>{
+            if(confirm('결제를 취소하시겠습니까?')){
+             location.replace('/');
+            }
+        })
+    }
+    if(orderBtn){
+        orderBtn.addEventListener('click', event => {
+            fetch('/api/order',{
+                method:'POST',
+                headers:{
+                    "Content-Type" : "application/json",
+                },
+                body: JSON.stringify({
+                    memberId : getMemberId,
+                    productWithCount : productWithCountList
+                })
+            })
+            .then(response => {
+                if (response.status === 201){
+                    return response.json();
+                }else{
+                    alert('네트워크가 올바르지 않습니다. 다시 시도해주세요.')
+                    location.replace('/');
+                }
+             }
+        )            
+            .then(data => {
+                let orderId = data.id;
+                alert('결제가 완료되었습니다.');
+                location.replace(`/order/complete/${orderId}`);
+            })
+            .catch(error =>{
+                console.error(error);
+                alert('결제에 실패했습니다 다시 시도해주세요.')
+                location.replace('/');
+            })
+        })
+    }
  </script>
-</body>
 </html>
