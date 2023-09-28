@@ -12,12 +12,12 @@
                    <input type="hidden" class="memberId" th:value="${dto.cart.member.memberId}">
                     <input type="hidden" class="productId" th:value="${dto.products.id}">
                     <p>상품명: <span>[[${dto.products.productName}]]</span></p>
-                    <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>g
+                    <p>가격 : <span class="productPrice">[[${dto.products.productPrice}]]</span></p>
                     <p>주문수량 : <span class="count">[[${dto.count}]]</span></p>
                 </div>
             </div> 
 
-            <h3 style="text-align:right; margin-right: 10px;">총 결제금액 : 원</h3>
+            <h3 style="text-align:right; margin-right: 10px;">총 결제금액 : <span id = "totalPrice">0</span>원</h3>
 
             <button class="cancle-btn">C A N C L E</button>
             <button class="orderBtn" style="width: 300px; margin-left: 500px; margin-bottom: 50px;" >N A V E R  P A Y</button>
@@ -36,10 +36,10 @@
     const orderBtn = document.querySelector('.orderBtn');
 
     let getMemberId = document.querySelector('.memberId').value;
-    let productIdArray = Array.from(document.querySelectorAll('.productId'));  // 상품번호리스트
+    let productIdArray = Array.from(document.querySelectorAll('.productId'));  // 상품번호 리스트
     let countArray = Array.from(document.querySelectorAll('.count'));   // 주문수량 리스트
 
-    var productWithCountList = []; 
+    var productWithCountList = [];  // 상품번호와 주문수량를 담는 객체 리스트 생성
     for (var i = 0; i < productIdArray.length; i++) {
         let productWithCount = new Object();
         productWithCount.productId = productIdArray[i].value;        
@@ -47,10 +47,17 @@
         productWithCountList.push(productWithCount);
     }
 
-        // 객체 생성(상품번호, 수량)
-        // 객체리스트 생성
+    // 총 주문금액 계산을 위한 자바스크립트
+    let totalPrice = 0;
+    const productPriceElements = document.getElementsByClassName('productPrice');
+    const countElements = document.getElementsByClassName('count');
 
-        // 반복문으로 객체 상풂번호, 수량 프로퍼티 담기?
+    for(var i = 0; i < productPriceElements.length; i++){
+        var price = parseInt(productPriceElements[i].textContent);
+        var count = parseInt(countElements[i].textContent);
+        totalPrice += price*count;
+    }
+    document.getElementById('totalPrice').textContent = totalPrice;
 
     if(cancleBtn){
         cancleBtn.addEventListener('click',event=>{
