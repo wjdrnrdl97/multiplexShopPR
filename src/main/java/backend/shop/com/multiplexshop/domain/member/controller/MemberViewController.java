@@ -1,10 +1,11 @@
 package backend.shop.com.multiplexshop.domain.member.controller;
 
-import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs;
+import backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs;
+import backend.shop.com.multiplexshop.domain.delivery.service.DeliveryService;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.member.service.MemberService;
-import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
+import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+import static backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs.*;
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class MemberViewController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final OrderService orderService;
+    private final DeliveryService deliveryService;
 
     @GetMapping("/join")
     public String getJoinView(@RequestParam(required = false) Long id, Model model){
@@ -49,8 +53,11 @@ public class MemberViewController {
         MemberResponseDTO responseDTO = new MemberResponseDTO(member);
         model.addAttribute("member", responseDTO);
 
-        List<OrderProductsResponseDTO> getOrderByMember = orderService.findOrderWithProductsByMemberID(id);
-        model.addAttribute("orderProduct", getOrderByMember);
+        List<OrderResponseDTO> getOrderByMember = orderService.findAllByMemberId(id);
+        model.addAttribute("order", getOrderByMember);
+
+        List<DeliveryResponseDTO> getDeliveryByMember = deliveryService.findAllByMemberId(id);
+        model.addAttribute("orderDelivery",getDeliveryByMember);
         return "member/mypage";
     }
 }

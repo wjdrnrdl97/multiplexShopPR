@@ -35,30 +35,23 @@
                 </a>
             </form>
 
-            <h3 style="text-align: left; margin-left: 20px;">O R D E R S</h3>
-            <div class="order_info" th:if="${not #lists.isEmpty(orderProduct)}" th:each="dto, iterStat : ${orderProduct}">
-                <!-- 현재 주문번호와 이전 주문번호를 비교하여 출력 여부를 결정합니다. -->
-                <th:if="${dto.orders.id != prevOrderId}">
-                    <div class="orders">
-                        <p>주문번호: <span th:text="${dto.orders.id}"></span></p>
-                    </div>
-                </th:if>                                
-                <!-- 현재 주문 번호를 prevOrderId에 할당합니다. -->
-                <th:assign to="prevOrderId" th:value="${dto.orders.id}"></th:assign>
-
-                <!-- 상품 정보를 출력합니다. -->
+            <h2 style="text-align: left; margin-left: 20px;">O R D E R S</h2>
+            <div class="order_info" th:if="${not #lists.isEmpty(order)}" th:each="dto:${order}">
                 <div class="orders">
-                    <p>상품 명: <span th:text="${dto.products.productName}"></span></p>
-                    <p>가격 : <span th:text="${dto.products.productPrice}"></span></p>
-                </div>                
-                <a href="#">
-                    <button class="cancel-btn">C A N C E L</button>
+                    <p>주문번호 : <span>[[${dto.id}]]</span></p>                    
+                    <p th:if="${dto.orderStatus.label == 'ORDER'}">주문상태 : 주문완료</p>
+                    <p th:if="${dto.orderStatus.label == 'CANCEL'}">주문상태 : 주문취소</p>                    
+                </div>
+                <div class="orders" th:each="delivery : ${orderDelivery}">
+                    <p th:if="${delivery.deliveryStatus.label == 'READY'}">배송상태 : 배송 준비중</p>
+                    <p th:if="${delivery.deliveryStatus.label == 'COMPLETE'}">배송상태 : 배송 완료</p>
+                </div>
+                <a th:href="@{/order/{id}(id=${dto.id})}">
+                    <button class="cancle-btn">D E T A I L</button>
                 </a>
             </div>
-            
-            
 
-            <div class="order_info" th:if="${#lists.isEmpty(orderProduct)}">
+            <div class="order_info" th:if="${#lists.isEmpty(order)}">
                 <h3>주문 내역이 없습니다.</h3>
                 <h2>주문하러 가기</h2>
                 <div class="btns moreOrder">
