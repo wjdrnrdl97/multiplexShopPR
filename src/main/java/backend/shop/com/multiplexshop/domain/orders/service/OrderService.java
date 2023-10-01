@@ -2,10 +2,7 @@ package backend.shop.com.multiplexshop.domain.orders.service;
 
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
-import backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs;
-import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
-import backend.shop.com.multiplexshop.domain.cart.repository.CartRepository;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
@@ -19,11 +16,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-import static backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 
@@ -50,16 +45,15 @@ public class OrderService {
         Orders savedOrder = ordersRepository.save(createOrderByMember);
 
         List<OrderProductsRequestDTO> productWithCountList = request.getProductWithCount();
-        for(OrderProductsRequestDTO dto : productWithCountList) {
-
-            // 상품번호 받아 상품 조회
+        productWithCountList.stream().forEach(dto -> {
             Products findProductById = productsRepository.findById(dto.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
             OrderProducts createOrderProduct = OrderProducts
-                                            .createOrderProducts(createOrderByMember, findProductById, dto.getCount());
+                    .createOrderProducts(createOrderByMember, findProductById, dto.getCount());
+
             orderProductsRepository.save(createOrderProduct);
-            }
+        });
             // 주문를 받아 배송 생성
             Delivery delivery = Delivery.createDelivery(savedOrder);
             deliveryRepository.save(delivery);
@@ -67,7 +61,7 @@ public class OrderService {
         return OrderResponseDTO.of(savedOrder);
     }
 
-    public List<OrderProductsResponseDTO> findOrderWithProductsByMemberID(Long id){
+    public List<OrderProductsResponseDTO> findOrderWithProductsByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));
 
@@ -93,12 +87,20 @@ public class OrderService {
         ordersRepository.save(findChangeOrderByOrderId);
     }
 
-    @Transactional
     public List<OrderProductsResponseDTO> findAllByOrderId(Long id){
         List<OrderProducts> findOrderProducts = orderProductsRepository.findByOrdersIdAll(id);
-        List<OrderProductsResponseDTO> responseDTOList = findOrderProducts.stream()
+        List<OrderProductsResponseDTO> entityOfResponseDTO = findOrderProducts.stream()
                 .map(OrderProductsResponseDTO::of).toList();
-        return responseDTOList;
+        return entityOfResponseDTO;
+    }
+
+    public List<OrderResponseDTO> findAllByMemberId(Long id){
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+
+        List<Orders> findAllByMember = ordersRepository.findAllByMember(findMember);
+
+        return findAllByMember.stream().map(OrderResponseDTO::of).toList();
     }
 }
 

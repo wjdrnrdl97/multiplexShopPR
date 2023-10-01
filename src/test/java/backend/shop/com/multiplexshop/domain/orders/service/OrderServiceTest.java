@@ -3,11 +3,6 @@ package backend.shop.com.multiplexshop.domain.orders.service;
 import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
-import backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs;
-import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
-import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
-import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
-import backend.shop.com.multiplexshop.domain.cart.repository.CartRepository;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
@@ -18,17 +13,13 @@ import backend.shop.com.multiplexshop.domain.orders.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static backend.shop.com.multiplexshop.domain.cart.dto.CartProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 import static org.assertj.core.api.Assertions.*;
@@ -136,7 +127,7 @@ class OrderServiceTest {
         OrderProducts orderProducts1 = OrderProducts.createOrderProducts(savedOrder, savedFood,4);
         orderProductsRepository.saveAll(List.of(orderProducts,orderProducts1));
         // when
-        List<OrderProductsResponseDTO> result = orderService.findAllByOrderId(1L);
+        List<OrderProductsResponseDTO> result = orderService.findAllByOrderId(savedOrder.getId());
         //then
         assertThat(result.size()).isEqualTo(2);
     }
@@ -218,7 +209,25 @@ class OrderServiceTest {
         OrderProducts orderProductsByFood = OrderProducts.createOrderProducts(savedOrder, savedFood,4);
         orderProductsRepository.saveAll(List.of(orderProductsByStuff,orderProductsByFood));
         //when
-        List<OrderProductsResponseDTO> result = orderService.findOrderWithProductsByMemberID(1L);
+        List<OrderProductsResponseDTO> result = orderService.findOrderWithProductsByMemberId(1L);
+        //then
+        assertThat(result).hasSize(2);
+    }
+    @Test
+    @DisplayName("회원의 번호를 입력받아 회원을 조회한 후 해당 회원의 주문들을 조회한다.")
+    public void test(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+        Orders firstOrder = Orders.createOrder(savedMember);
+        Orders secondOrder = Orders.createOrder(savedMember);
+        ordersRepository.saveAll(List.of(firstOrder,secondOrder));
+        //when
+        List<OrderResponseDTO> result = orderService.findAllByMemberId(savedMember.getMemberId());
         //then
         assertThat(result).hasSize(2);
     }

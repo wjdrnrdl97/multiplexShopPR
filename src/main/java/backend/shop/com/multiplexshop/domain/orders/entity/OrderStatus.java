@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum OrderStatus {
     ORDER("ORDER"),
-    CANCEL("CANCLE");
+    CANCEL("CANCEL");
 
     private final String label;
 

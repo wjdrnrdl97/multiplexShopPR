@@ -2,10 +2,7 @@ package backend.shop.com.multiplexshop.domain.orders;
 
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +10,7 @@ public class OrderProductsDTOs {
 
     @Getter
     @NoArgsConstructor
+    @ToString
     public static class OrderProductsResponseDTO{
         private Long id;
         private Orders orders;
