@@ -39,11 +39,12 @@ public class Orders extends BaseEntity {
     }
 
     /**
-     *  주문의 상태를 취소로 변경하는 로직
+     *  주문의 상태를 ORDER에서 CANCEL로 변경하는 로직
      */
     public void changeOrderStatus(){
         this.orderStatus = OrderStatus.CANCEL;
     }
+
     /**
      * 회원과 상품의 번호리스트를 받아 주문을 생성하는 로직
      * @param member
@@ -54,19 +55,6 @@ public class Orders extends BaseEntity {
                 member(member)
                 .orderStatus(OrderStatus.ORDER)
                 .build();
-    }
-
-    /**
-     * 상품의 가격과 주문개수를 받아 총 주문의 총액을 계산하는 로직
-     * @param productsList
-     * @return
-     */
-    private static Integer setOrderPrice(List<Products> productsList) {
-        Integer sum = 0;
-        for (Products product : productsList){
-            sum += product.getProductPrice() * product.getOrderQuantity();
-        }
-        return sum;
     }
 }
 

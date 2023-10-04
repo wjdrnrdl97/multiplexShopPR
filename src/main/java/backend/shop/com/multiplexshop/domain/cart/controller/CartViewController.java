@@ -23,7 +23,7 @@ public class CartViewController {
     @GetMapping("/{id}")
     public String getMyCart(@PathVariable("id")Long id, Model model){
         List<CartProductsResponseDTO> cartWithProductsByMemberId = cartService.getCartWithProductsByMemberId(id);
-        model.addAttribute("dto",cartWithProductsByMemberId);
+        model.addAttribute("cartProduct",cartWithProductsByMemberId);
         return "cart/cart";
     }
     @GetMapping("/order")

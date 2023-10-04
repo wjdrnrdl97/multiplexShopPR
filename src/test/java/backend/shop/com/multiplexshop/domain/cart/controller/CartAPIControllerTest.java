@@ -76,7 +76,6 @@ class CartAPIControllerTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         productsRepository.save(stuff);
         CartRequestDTO request = CartRequestDTO.builder()
@@ -120,7 +119,6 @@ class CartAPIControllerTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products stuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -128,7 +126,6 @@ class CartAPIControllerTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products food = productsRepository.save(products2);
 
@@ -180,7 +177,6 @@ class CartAPIControllerTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products stuff = productsRepository.save(products1);
 
@@ -223,7 +219,6 @@ class CartAPIControllerTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products stuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -231,7 +226,6 @@ class CartAPIControllerTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products food = productsRepository.save(products2);
 

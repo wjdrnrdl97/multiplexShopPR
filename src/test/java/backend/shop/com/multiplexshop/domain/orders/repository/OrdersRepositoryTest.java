@@ -71,7 +71,6 @@ class OrdersRepositoryTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         productsRepository.save(products2);
     }
@@ -82,7 +81,6 @@ class OrdersRepositoryTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         productsRepository.save(products1);
     }

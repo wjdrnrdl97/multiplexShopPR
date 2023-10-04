@@ -11,22 +11,23 @@
                 <h3 style="text-align: left; margin-left: 20px;" th:if="${not #lists.isEmpty(dto)}">
                     O R D E R S (주문 내역이 있을시에만 보이는 박스 )
                 </h3>
-                <div class="order_info" th:if="${not #lists.isEmpty(dto)}" th:each="cartProduct:${dto}">
-                    <input type="checkbox" class="cartProductId" th:value="${cartProduct.id}">
+                <div class="order_info" th:if="${not #lists.isEmpty(dto)}" th:each="dto:${cartProduct}">
+                    <input type="checkbox" class="cartProductId" th:value="${dto.id}">
                     <div class="orders">
-                        <p>주문 번호 : <span>1</span></p>
-                        <p>상품 명: <span>[[${cartProduct.products.productName}]]</span></p>
-                        <p>가격 : <span>[[${cartProduct.products.productPrice}]]</span></p>
+                        <p>상품번호 : <span>[[${dto.products.id}]]</span></p>
+                        <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
+                        <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
+                        <p>주문 갯수 : <span>[[${dto.count}]]</span></p>
                     </div>
                     <a>
                         <button class="cancle-btn" id="delete_btn">C A N C L E</button>
                     </a>
                 </div>
-                <a th:if="${not #lists.isEmpty(dto)}">
+                <a th:if="${not #lists.isEmpty(cartProduct)}">
                     <button class="orderBtn" id="orderBtn" style="margin-bottom: 50px; margin-left: 750px;">O R D E R
                     </button>
                 </a>
-                <div class="order_info" th:if="${#lists.isEmpty(dto)}">
+                <div class="order_info" th:if="${#lists.isEmpty(cartProduct)}">
                     <h3>장바구니가 비어있습니다.</h3>
                     <h2>주문하러 가기</h2>
                     <div class="btns moreOrder">
@@ -60,7 +61,7 @@
             });
             
             if (selectedIds.length === 0) {
-                alert('Please select at least one item.');
+                alert('최소한 1개의 상품을 선택해주세요.');
             } else {
                 // 선택한 아이템의 ID를 사용하여 URL에 쿼리 문자열로 추가
                 const uri = '/cart/order?' + selectedIds.map(id => 'ids=' + id).join('&');

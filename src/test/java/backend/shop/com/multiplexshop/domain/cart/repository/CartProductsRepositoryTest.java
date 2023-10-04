@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,7 +52,6 @@ class CartProductsRepositoryTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products savedStuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -59,7 +59,6 @@ class CartProductsRepositoryTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products savedFood = productsRepository.save(products2);
 
@@ -99,7 +98,6 @@ class CartProductsRepositoryTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products savedStuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -107,7 +105,6 @@ class CartProductsRepositoryTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products savedFood = productsRepository.save(products2);
 
@@ -146,9 +143,16 @@ class CartProductsRepositoryTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products savedStuff = productsRepository.save(products1);
+
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .build();
+        Products savedFood = productsRepository.save(products2);
         
         CartProducts createCartByStuff = CartProducts.builder()
                 .products(savedStuff)
@@ -160,5 +164,51 @@ class CartProductsRepositoryTest {
         CartProducts result = cartProductsRepository.findWithCartAndProductById(1L).orElse(null);
         //then
         assertThat(result.getCart()).isEqualTo(savedCart);
+    }
+    @Test
+    @DisplayName("회원과 상품을 매개변수로 하여 회원의 장바구니와 상품이 일치한 장바구니-상품을 삭제한다.")
+    public void deleteByCartMemberAndProducts(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+        Cart cart = Cart.createCart(savedMember);
+        Cart savedCart = cartRepository.save(cart);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .build();
+        Products savedStuff = productsRepository.save(products1);
+
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .build();
+        Products savedFood = productsRepository.save(products2);
+
+        CartProducts createCartByStuff = CartProducts.builder()
+                .products(savedStuff)
+                .cart(savedCart)
+                .count(3)
+                .build();
+        CartProducts createCartByFood = CartProducts.builder()
+                .products(savedFood)
+                .cart(savedCart)
+                .count(3)
+                .build();
+        cartProductsRepository.saveAll(List.of(createCartByStuff,createCartByFood));
+        //when
+         cartProductsRepository.deleteByCartMemberAndProducts(savedMember,savedStuff);
+        //then
+        List<CartProducts> result = cartProductsRepository.findAll();
+        assertThat(result).hasSize(1);
     }
 }
