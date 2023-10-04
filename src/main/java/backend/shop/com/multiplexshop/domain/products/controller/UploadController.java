@@ -21,7 +21,7 @@ public class UploadController {
     public String imageUploadByUser(UploadFileDTOs uploadFileDTOs) throws IOException {
         uploadService.uploadImageByRequest(uploadFileDTOs);
 
-        return "이미지.png";
+        return "이미지 업로드 완료.";
     }
 
 }

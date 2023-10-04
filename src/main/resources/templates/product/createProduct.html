@@ -8,35 +8,34 @@
             <div class="right_contents">
                 <!-- 공지사항 본문 -->
                 <div class="notice_contents">
-                    <select name="product_category" id="" class="product_select">
+                    <select name="product_category" id="categories" class="product_select">
                         <option value="FOOD">FOOD</option>
                         <option value="STUFF">STUFF</option>
                     </select>
                     <p>
-                    <h3> 상품명 : </h3> <input class="txt_tit_notice" style="width: 400px;">
+                    <h3> 상품명 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="productName">
                     </p>
                     <p>
-                    <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;">
+                    <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="stockQuantity">
                     </p>
                     <p>
-                    <h3> 가 격 : </h3> <input class="txt_tit_notice" style="width: 400px;">
+                    <h3> 가 격 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="productPrice">
                     </p>
                     <p>
                     <h3> 이미지 등록하기 : </h3> <input type="button" onclick="getModal()" value="Image Upload" class="txt_tit_notice">
                     </p>
                     <h3> 제품에대한 상세 설명을 해주세요. </h3>
-                    <textarea class="box_contents">
-                </textarea>
+                    <label for="productScript"></label>
+                    <textarea class="box_contents" id="productScript"></textarea>
 
                 </div>
             </div>
-            <div class="btns">
-                <a href="board.html" class="list-btn" style="margin-top:20px;">LIST</a>
-                <a href="board.html" class="list-btn" style="margin-top:20px;">POST</a>
-                <a href="board.html" class="list-btn" style="margin-top:20px;">UPDATE</a>
-                <a href="board.html" class="list-btn" style="margin-top:20px;">DELETE</a>
-            </div>
-
+                <div class="btns">
+                    <a href="board.html" class="list-btn" style="margin-top:20px;">LIST</a>
+                    <a href="board.html" id="post_btn" class="list-btn" style="margin-top:20px;">POST</a>
+                    <a href="board.html" class="list-btn" style="margin-top:20px;">UPDATE</a>
+                    <a href="board.html" class="list-btn" style="margin-top:20px;">DELETE</a>
+                </div>
             </div>
         </article>
 
@@ -44,10 +43,36 @@
     </th:block>
 </th:block>
 <script>
-    function getModal() {
-        window.open('uploadModal.html', 'Modal', 'width=500,height=400,left=50%,top=50%,resizable=no');
 
+    function getModal(){
+        window.open('uploadImage', 'Modal', 'width=500,height=400,left=50%,top=50%,resizable=no');
     }
+
+    const postBtn = document.getElementById('post_btn');
+
+    if(postBtn){
+     postBtn.addEventListener('click', e => {
+         e.preventDefault()
+         fetch('/api/products',{
+             method:'POST',
+             headers:{
+                 "Content-Type": "application/json",
+             },
+             body: JSON.stringify({
+                 categories : document.getElementById('categories').value,
+                 productName : document.getElementById('productName').value,
+                 stockQuantity : document.getElementById('stockQuantity').value,
+                 productPrice : document.getElementById('productPrice').value,
+                 productScript : document.getElementById('productScript').value
+             })
+         })
+         .then(()=>{
+             alert('상품이 등록되었습니다.');
+             location.replace('/products');
+         });
+         }
+    )}
+
 
 </script>
 

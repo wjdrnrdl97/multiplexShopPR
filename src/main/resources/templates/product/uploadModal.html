@@ -58,12 +58,14 @@
 
 </style>
 <body>
-    <form action="Post" enctype="multipart/form-data">
-        <label for="uploadInput">대표 이미지 업로드</label>
-        <input type="file" value="click">
-        <label for="uploadInput">상세 이미지 업로드</label>
+    <form  th:action="@{/image-upload}" method="post" enctype="multipart/form-data">
+        <label>대표 이미지 업로드</label>
+        <input type="file" value="click" name="multipartFile">
+        <label>상세 이미지 업로드</label>
         <input type="file" value="click">
         <button type="submit">업로드하기</button>
     </form>
+<script>
+</script>
 </body>
 </html>
