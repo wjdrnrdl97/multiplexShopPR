@@ -32,7 +32,7 @@ spring:
       enabled: true
 
 file:
-  dir: C:/서정국/multiplexShopPR/src/main/resources/static/img/
+  dir: C:\Users\user\IdeaProjects\multiplexShopPR\src\main\resources\static\img\
 
 
 ---
@@ -54,4 +54,4 @@ spring:
       mode: never
 
 file:
-  dir: C:/서정국/multiplexShopPR/src/main/resources/static/img/
+  dir: C:\Users\user\IdeaProjects\multiplexShopPR\src\main\resources\static\img\

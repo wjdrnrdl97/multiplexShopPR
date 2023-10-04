@@ -47,7 +47,7 @@ public class UploadService {
     private String createStoreFileName(String originalFilename) {
         String uuid = UUID.randomUUID().toString();
         String extractedExtensionName = extractExt(originalFilename);
-        return uuid + extractedExtensionName;
+        return uuid +"."+ extractedExtensionName;
     }
 
     private String extractExt(String originalFilename) {
