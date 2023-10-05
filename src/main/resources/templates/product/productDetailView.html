@@ -6,18 +6,21 @@
 
     <article id="article">
         <div class="proudct">
+
             <div class="product_btns">
                 <button>M O D I F Y</button>
                 <button>D E L E T E</button>
                 <button>L I S T </button>
             </div>
+
             <div class="detail_box">
                 <div class="product_img">
-                    <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 009.jpeg" alt="">
+                    <img th:src="@{'/img/' + ${img.storeFileName}}" />
+                    <div th:text="${img.storeFileName}"></div>
                 </div>
-                <div class="product_info">
-                    <p class="product_name">너무 좋아 보이는 향수 </p>
 
+                <div class="product_info">
+                    <p class="product_name">[[${product.productName}]]</p>
                     <select class="product_select">
                         <option>- SELECT 1 -</option>
                         <option>xxx</option>
@@ -32,15 +35,16 @@
                         <option>xxxx</option>
                         <option>xxxxx</option>
                     </select>
+
                     <br>
                     <button class="minusBtn"><</button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
-                    <p class="price" style="display: inline-block;">10000</p> <span style="font-size: 16px;">원</span>
+                    <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000</p> <span style="font-size: 16px;">원</span>
 
                 </div>
             </div>
             <div class="product_info_img">
                 <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 009.jpeg" alt="">
-                <p>정말 좋은 향수네요.</p>
+                <p th:text="${product.productScript}">정말 좋은 향수네요.</p>
 
             </div>
         </div>

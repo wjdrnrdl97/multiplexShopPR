@@ -1,6 +1,8 @@
 package backend.shop.com.multiplexshop.domain.products.repository;
 
+import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
 import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.products.entity.Categories.STUFF;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
@@ -19,6 +23,8 @@ class UploadFileRepositoryTest {
 
     @Autowired
     private UploadFileRepository uploadFileRepository;
+    @Autowired
+    private ProductsRepository productsRepository;
 
     @Test
     @DisplayName("업로드파일 DB에서 상품 이름이 같은 업로드파일들을 전부 조회한다.")
@@ -39,4 +45,5 @@ class UploadFileRepositoryTest {
         assertThat(uploadFilesByProductName.get(0).getProductName()).isEqualTo(productName);
         assertThat(uploadFilesByProductName).hasSize(2);
     }
+
 }

@@ -6,11 +6,14 @@ import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -54,4 +57,9 @@ public class UploadService {
         int pos = originalFilename.lastIndexOf(".");
         return originalFilename.substring(pos + 1);
     }
+
+    public UrlResource fileResource(String filename) throws IOException {
+        return new UrlResource("file:"+getFullPath(filename));
+    }
+
 }

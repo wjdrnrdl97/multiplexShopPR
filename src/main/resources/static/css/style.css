@@ -121,6 +121,7 @@ footer{
 img{
     height: 500px;
     width: 550px;
+    object-fit:cover;
 }
 
 .bannerBtnL, .bannerBtnR{
@@ -613,6 +614,7 @@ input[type="text"]
     margin: auto;
     border: 1px solid #b5b4b4;
     width: 900px;
+    height: 500px;
 }
 
 .product_img img{
@@ -620,7 +622,8 @@ input[type="text"]
 }
 
 .product_info{
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
+    height: 450px;
 }
 
 .product_btns{

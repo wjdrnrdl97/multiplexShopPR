@@ -16,7 +16,7 @@ import java.util.List;
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
 public class ProductsService {
@@ -24,7 +24,7 @@ public class ProductsService {
     private final ProductsRepository productsRepository;
     private final UploadFileRepository uploadFileRepository;
 
-
+    @Transactional
     public ProductsResponseDTO productSaveByRequest(ProductsRequestDTO request) {
         Products products = request.toEntity(request);
         Products savedProduct = productsRepository.save(products);
@@ -34,6 +34,7 @@ public class ProductsService {
 
         return productsResponseDTO;
     }
+
 
     private void addProductNumberToUploadfile(Products productsEntity) {
         List<UploadFile> uploadFilesByProductName
@@ -45,7 +46,6 @@ public class ProductsService {
 
         uploadFileRepository.saveAll(uploadFileAddedProduct);
     }
-
 
     @Transactional
     public void productUpdateByRequestAndId(ProductsRequestDTO requestDTO, Long productId) {
@@ -61,8 +61,15 @@ public class ProductsService {
         productsRepository.delete(deleteProduct);
     }
 
-    private Products findProductById(Long productId) {
+    public Products findProductById(Long productId) {
         return productsRepository.findById(productId)
                 .orElseThrow(()-> new IllegalArgumentException("잘못된 상품 번호입니다. : "+productId));
     }
+
+    public List<UploadFile> findUploadFile(Long productId){
+        Products products = findProductById(productId);
+        return uploadFileRepository.findByProducts(products);
+    }
+
+
 }
