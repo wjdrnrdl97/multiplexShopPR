@@ -14,20 +14,20 @@
                     <input type="hidden" id="memberId" th:value = "${dto.orders.member.memberId}">
                     <p>주문번호: <span id="orderId">[[${dto.orders.id}]]</span></p>
                     <p>상품명: <span>[[${dto.products.productName}]]</span></p>
-                    <p>가격 : <span class="productPrice">[[${dto.products.productPrice}]]</span>원</p> 
-                    <p>주문 수량 : <span class="count">[[${dto.count}]]</span></p>                    
+                    <p>가격 : <span class="productPrice">[[${dto.products.productPrice}]]</span>원</p>
+                    <p>주문 수량 : <span class="count">[[${dto.count}]]</span></p>
                     <p th:if="${dto.orders.orderStatus.label == 'ORDER'}">주문상태 : 주문완료</p>
-                    <p th:if="${dto.orders.orderStatus.label == 'CANCEL'}">주문상태 : 주문취소</p>                       
+                    <p th:if="${dto.orders.orderStatus.label == 'CANCEL'}">주문상태 : 주문취소</p>
                 </div>
                 <div class="orders" th:if="${dto.orders.orderStatus.label == 'ORDER'}">
                     <div th:each="delivery:${orderDelivery}">
                         <p th:if="${delivery.deliveryStatus.label == 'READY'}">배송상태 : 배송 준비중</p>
                         <p th:if="${delivery.deliveryStatus.label == 'COMPLETE'}">배송상태 : 배송 완료</p>
                     </div>
-                </div>                
+                </div>
             </div>
-            <h3 style="text-align:right; margin-right: 10px;">총 결제금액 : <span id = "totalPrice">0</span>원</h3>                                    
-                <!--<a th:href="@{/mypage/{id}(id=${memberId})}" class="cancle-btn" style="margin-left: 600px; border: none; font-size: 20px; padding: 5px;">LIST</a>-->
+            <h3 style="text-align:right; margin-right: 10px;">총 결제금액 : <span id = "totalPrice">0</span>원</h3>
+                <!--<a th:href="@{/mypage/{id}(id=${memberId})}" class="cancle-btn" style="margin-left: 600px; border: none; font-size: 20px; padding: 5px;">LIST</a>  // 멤버아이디를 session에서 받아야함.-->
             <a href="/mypage/1" class="cancle-btn" style="margin-left: 600px; border: none; font-size: 20px; padding: 5px;">LIST</a>
             <a class="cancle-btn" id="ordercancel-btn" style="margin-left: 20px; border: none; font-size: 20px; padding: 5px;">CANCEL</a>
         </div>

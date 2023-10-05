@@ -33,37 +33,40 @@ public class OrderService {
     private final OrderProductsRepository orderProductsRepository;
     private final CartProductsRepository cartProductsRepository;
 
-    // 멤버번호, 상품번호리스트을 입력받아 주문생성 및 주문상품 생성
+    @Transactional
     public OrderResponseDTO save(OrderRequestDTO request){
 
-        // 회원번호를 이용하여 회원 조회
-        Member findMemberById = memberRepository.findById(request.getMemberId())
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+        Member findMemberByIdFromRequest = memberRepository.findById(request.getMemberId())
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
 
-        // 회원을 이용하여 주문 생성하기
-        Orders createOrderByMember = Orders.createOrder(findMemberById);
+        Orders createOrderByMember = Orders.createOrder(findMemberByIdFromRequest);
         Orders savedOrder = ordersRepository.save(createOrderByMember);
 
         List<OrderProductsRequestDTO> productWithCountList = request.getProductWithCount();
         productWithCountList.stream().forEach(dto -> {
             Products findProductById = productsRepository.findById(dto.getProductId())
-                    .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+                    .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
 
-            OrderProducts createOrderProduct = OrderProducts
-                    .createOrderProducts(createOrderByMember, findProductById, dto.getCount());
+            findProductById.decreaseStockQuantity(dto.getCount());
+            Products savedProductOfDecreaseStock = productsRepository.save(findProductById);
 
-            orderProductsRepository.save(createOrderProduct);
+            OrderProducts createNewOrderProduct = OrderProducts
+                    .createOrderProducts(createOrderByMember, savedProductOfDecreaseStock, dto.getCount());
+            orderProductsRepository.save(createNewOrderProduct);
+
+            cartProductsRepository.deleteByCartMemberAndProducts(findMemberByIdFromRequest,findProductById);
         });
-            // 주문를 받아 배송 생성
-            Delivery delivery = Delivery.createDelivery(savedOrder);
-            deliveryRepository.save(delivery);
+
+            Delivery createDeliveryByNewOrder = Delivery.createDelivery(savedOrder);
+            deliveryRepository.save(createDeliveryByNewOrder);
+
 
         return OrderResponseDTO.of(savedOrder);
     }
 
     public List<OrderProductsResponseDTO> findOrderWithProductsByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
 
         List<OrderProducts> findAllByMember = orderProductsRepository.findAllByMember(findMember);
         List<OrderProductsResponseDTO> findAllByMemberOfDTO = findAllByMember
@@ -74,17 +77,28 @@ public class OrderService {
     @Transactional
     public void deleteByOrdersIds(Long id){
         Delivery delivery = deliveryRepository.findByOrderId(id)
-                .orElseThrow(() -> new IllegalArgumentException("Delivery not found"));
+                .orElseThrow(() -> new IllegalArgumentException("배송정보가 없습니다."));
 
         if(delivery.getDeliveryStatus() == DeliveryStatus.COMPLETE){
-            throw new IllegalArgumentException("This order has already been completed.");
+            throw new IllegalArgumentException("이미 배송이 완료된 주문입니다.");
         }
 
-        Orders findChangeOrderByOrderId = ordersRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        Orders findByOrderIdFromRequest = ordersRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
 
-        findChangeOrderByOrderId.changeOrderStatus();
-        ordersRepository.save(findChangeOrderByOrderId);
+        findByOrderIdFromRequest.changeOrderStatus();
+        ordersRepository.save(findByOrderIdFromRequest);
+
+        List<OrderProducts> findOrderProductsByOrderId = orderProductsRepository.findByOrdersIdAll(id);
+        findOrderProductsByOrderId.stream().forEach(orderProducts -> {
+            Long getCancelProductsIdFromOrderProducts = orderProducts.getProducts().getId();
+            Integer getCancelCountFromOrderProducts = orderProducts.getCount();
+
+            Products productsByCancelOrder = productsRepository.findById(getCancelProductsIdFromOrderProducts)
+                    .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
+            productsByCancelOrder.increaseStockQunatity(getCancelCountFromOrderProducts);
+            productsRepository.save(productsByCancelOrder);
+        });
     }
 
     public List<OrderProductsResponseDTO> findAllByOrderId(Long id){
@@ -96,7 +110,7 @@ public class OrderService {
 
     public List<OrderResponseDTO> findAllByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
+                .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
 
         List<Orders> findAllByMember = ordersRepository.findAllByMember(findMember);
 

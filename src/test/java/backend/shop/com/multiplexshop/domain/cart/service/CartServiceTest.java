@@ -50,7 +50,6 @@ class CartServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         productsRepository.save(products1);
         CartRequestDTO request = CartRequestDTO.builder()
@@ -82,7 +81,6 @@ class CartServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products stuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -90,7 +88,6 @@ class CartServiceTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products food = productsRepository.save(products2);
 
@@ -129,7 +126,6 @@ class CartServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products stuff = productsRepository.save(products1);
         CartProducts cartWithStuff = CartProducts.builder()
@@ -171,7 +167,6 @@ class CartServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products stuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -179,7 +174,6 @@ class CartServiceTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products food = productsRepository.save(products2);
 
@@ -231,7 +225,6 @@ class CartServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products stuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -239,7 +232,6 @@ class CartServiceTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products food = productsRepository.save(products2);
 

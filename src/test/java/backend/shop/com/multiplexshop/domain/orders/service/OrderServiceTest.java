@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
@@ -51,7 +52,6 @@ class OrderServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         productsRepository.save(products1);
 
@@ -60,7 +60,6 @@ class OrderServiceTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         productsRepository.save(products2);
 
@@ -88,9 +87,10 @@ class OrderServiceTest {
         OrderResponseDTO result = orderService.save(request);
         //then
         List<OrderProducts> orderProducts = orderProductsRepository.findAll();
-        Orders order = ordersRepository.findById(1L).orElse(null);
-        assertThat(order).isNotNull();
+        Products productResult = productsRepository.findById(1L).orElse(null);
+        assertThat(result).isNotNull();
         assertThat(orderProducts).hasSize(2);
+        assertThat(productResult.getStockQuantity()).isEqualTo(96);
     }
 
     @Test
@@ -102,7 +102,6 @@ class OrderServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products savedStuff = productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -110,7 +109,6 @@ class OrderServiceTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products savedFood = productsRepository.save(products2);
         Member member = Member.builder()
@@ -135,20 +133,49 @@ class OrderServiceTest {
     @DisplayName("주문번호를 입력하여 해당 주문의 상태를 취소로 변경에 성공한다.")
     public void deleteByOrdersId() throws Exception{
         //given
-        Orders order = Orders.builder()
-                .orderStatus(OrderStatus.ORDER)
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(96)
+                .categories(Categories.STUFF)
                 .build();
+        Products savedStuff = productsRepository.save(products1);
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(96)
+                .categories(Categories.FOOD)
+                .build();
+        Products savedFood = productsRepository.save(products2);
+
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        Orders order = Orders.createOrder(savedMember);
         Orders savedOrder = ordersRepository.save(order);
+
         Delivery delivery = Delivery.builder()
                 .order(savedOrder)
                 .deliveryStatus(DeliveryStatus.READY)
                 .build();
         deliveryRepository.save(delivery);
+
+        OrderProducts orderProducts = OrderProducts.createOrderProducts(savedOrder, savedStuff,4);
+        OrderProducts orderProducts1 = OrderProducts.createOrderProducts(savedOrder, savedFood,4);
+        orderProductsRepository.saveAll(List.of(orderProducts,orderProducts1));
+
+
         //when
         orderService.deleteByOrdersIds(savedOrder.getId());
         // then
         Orders orders = ordersRepository.findById(savedOrder.getId()).get();
+        Products productsAfterCancelOrder = productsRepository.findById(1L).orElse(null);
         assertThat(orders.getOrderStatus()).isEqualTo(OrderStatus.CANCEL);
+        assertThat(productsAfterCancelOrder.getStockQuantity()).isEqualTo(100);
     }
 
     @Test
@@ -189,7 +216,6 @@ class OrderServiceTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         Products savedStuff = productsRepository.save(products1);
 
@@ -198,7 +224,6 @@ class OrderServiceTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         Products savedFood = productsRepository.save(products2);
 

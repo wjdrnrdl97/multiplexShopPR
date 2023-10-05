@@ -81,7 +81,6 @@ class OrdersAPIControllerTest {
                 .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.STUFF)
-                .orderQuantity(3)
                 .build();
         productsRepository.save(products1);
         Products products2 = Products.builder()
@@ -89,7 +88,6 @@ class OrdersAPIControllerTest {
                 .productPrice(5000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
-                .orderQuantity(4)
                 .build();
         productsRepository.save(products2);
         Member member = Member.builder()
@@ -131,7 +129,6 @@ public void getOrderWithProductByOrderId() throws Exception{
             .productPrice(10000)
             .stockQuantity(100)
             .categories(Categories.STUFF)
-            .orderQuantity(3)
             .build();
     Products savedProduct1 = productsRepository.save(products1);
     Products products2 = Products.builder()
@@ -139,7 +136,6 @@ public void getOrderWithProductByOrderId() throws Exception{
             .productPrice(5000)
             .stockQuantity(100)
             .categories(Categories.FOOD)
-            .orderQuantity(4)
             .build();
     Products savedProduct2 = productsRepository.save(products2);
     Member member = Member.builder()

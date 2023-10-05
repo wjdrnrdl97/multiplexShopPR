@@ -3,8 +3,10 @@ package backend.shop.com.multiplexshop.domain.cart.repository;
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
 import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
+import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,4 +25,8 @@ public interface CartProductsRepository extends JpaRepository<CartProducts,Long>
     Optional<CartProducts> findWithCartAndProductById(@Param("id") Long id);
 
     void deleteAllByCart(Cart cart);
+
+    void deleteByCartMemberAndProducts(Member member, Products products);
+
+
 }

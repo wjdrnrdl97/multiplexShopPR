@@ -42,9 +42,11 @@
                     <p th:if="${dto.orderStatus.label == 'ORDER'}">주문상태 : 주문완료</p>
                     <p th:if="${dto.orderStatus.label == 'CANCEL'}">주문상태 : 주문취소</p>                    
                 </div>
-                <div class="orders" th:each="delivery : ${orderDelivery}">
-                    <p th:if="${delivery.deliveryStatus.label == 'READY'}">배송상태 : 배송 준비중</p>
-                    <p th:if="${delivery.deliveryStatus.label == 'COMPLETE'}">배송상태 : 배송 완료</p>
+                <div class="orders" th:if="${dto.orderStatus.label == 'ORDER'}">
+                    <div th:each="delivery : ${orderDelivery}">
+                        <p th:if="${delivery.deliveryStatus.label == 'READY'}">배송상태 : 배송 준비중</p>
+                        <p th:if="${delivery.deliveryStatus.label == 'COMPLETE'}">배송상태 : 배송 완료</p>
+                    </div>
                 </div>
                 <a th:href="@{/order/{id}(id=${dto.id})}">
                     <button class="cancle-btn">D E T A I L</button>
