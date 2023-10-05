@@ -59,6 +59,8 @@
 </style>
 <body>
     <form  th:action="@{/image-upload}" method="post" enctype="multipart/form-data">
+        <label>제품명을 입력해주세요.</label>
+        <input type="text" name="productName">
         <label>대표 이미지 업로드</label>
         <input type="file" value="click" name="multipartFile">
         <label>상세 이미지 업로드</label>

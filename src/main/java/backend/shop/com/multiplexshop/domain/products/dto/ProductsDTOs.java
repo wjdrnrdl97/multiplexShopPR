@@ -51,6 +51,7 @@ public class ProductsDTOs {
                     .productPrice(requestDTO.getProductPrice())
                     .stockQuantity(requestDTO.getStockQuantity())
                     .categories(requestDTO.getCategories())
+                    .productScript(requestDTO.getProductScript())
                     .build();
         }
 
@@ -72,24 +73,24 @@ public class ProductsDTOs {
         private Products products;
 
         @Builder
-        public ProductsResponseDTO(Products products,String productName, Integer productPrice, Integer stockQuantity, Categories categories) {
+        public ProductsResponseDTO(Products products,String productName, Integer productPrice, Integer stockQuantity, Categories categories, String productScript) {
             this.products = products;
             this.productName = productName;
             this.productPrice = productPrice;
             this.stockQuantity = stockQuantity;
             this.categories = categories;
+            this.productScript = productScript;
         }
 
         public static ProductsResponseDTO of(Products entity){
-            ProductsResponseDTO dto = ProductsResponseDTO.builder()
+            return ProductsResponseDTO.builder()
                     .productName(entity.getProductName())
                     .productPrice(entity.getProductPrice())
                     .stockQuantity(entity.getStockQuantity())
                     .categories(entity.getCategories())
                     .products(entity)
+                    .productScript(entity.getProductScript())
                     .build();
-
-            return dto;
         }
 
     }

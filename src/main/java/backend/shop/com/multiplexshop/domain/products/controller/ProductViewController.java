@@ -1,7 +1,8 @@
 package backend.shop.com.multiplexshop.domain.products.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,6 +34,13 @@ public class ProductViewController {
 
         return "product/createProduct";
     }
+
+    @GetMapping("/{productsId}")
+    public String getProductsDetailView(Model model){
+
+        return "product/productDetailView";
+    }
+
 
     @GetMapping("uploadImage")
     public String getUploadImageModal(){
