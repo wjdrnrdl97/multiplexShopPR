@@ -9,6 +9,7 @@ import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
 import backend.shop.com.multiplexshop.domain.products.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import lombok.extern.slf4j.Slf4j;
@@ -68,15 +69,12 @@ public class ProductViewController {
 
     @ResponseBody
     @GetMapping("/images/{filename}")
-    public Resource downloadImage(@PathVariable String filename) throws IOException {
-        return uploadService.fileResource(filename);
+    public Resource viewImage(@PathVariable String filename) throws IOException {
+        return new UrlResource("file:"+uploadService.getFullPath(filename));
     }
-
-
 
     @GetMapping("uploadImage")
     public String getUploadImageModal(){
-
         return "product/uploadModal";
     }
 }

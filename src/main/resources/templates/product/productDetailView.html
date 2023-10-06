@@ -10,42 +10,42 @@
             <div class="product_btns">
                 <button>M O D I F Y</button>
                 <button>D E L E T E</button>
-                <button>L I S T </button>
+                <button><a th:href="@{/products}"> L I S T </a></button>
             </div>
 
             <div class="detail_box">
                 <div class="product_img">
-                    <img th:src="@{'/img/' + ${img.storeFileName}}" />
-                    <div th:text="${img.storeFileName}"></div>
+                    <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
                 </div>
 
                 <div class="product_info">
                     <p class="product_name">[[${product.productName}]]</p>
                     <select class="product_select">
                         <option>- SELECT 1 -</option>
-                        <option>xxx</option>
-                        <option>xxxx</option>
-                        <option>xxxxx</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
                     </select>
                     <br>
 
                     <select class="product_select">
                         <option>- SELECT 2 -</option>
-                        <option th:value="타임리프">xxx</option>
-                        <option>xxxx</option>
-                        <option>xxxxx</option>
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
                     </select>
 
                     <br>
                     <button class="minusBtn"><</button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
                     <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000</p> <span style="font-size: 16px;">원</span>
+                    <button>장바구니</button>
+                    <button>주문하기</button>
 
                 </div>
             </div>
             <div class="product_info_img">
-                <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 009.jpeg" alt="">
+                <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
                 <p th:text="${product.productScript}">정말 좋은 향수네요.</p>
-
             </div>
         </div>
     </article>

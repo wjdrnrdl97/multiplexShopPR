@@ -32,7 +32,11 @@ spring:
       enabled: true
 
 file:
-  dir: C:\Users\user\IdeaProjects\multiplexShopPR\src\main\resources\static\img\
+  dir: C:/Users/user/Downloads/imgs/
+
+webpath: file:/C:/Users/user/Downloads/imgs/
+
+
 
 
 ---
@@ -52,6 +56,3 @@ spring:
   sql:
     init:
       mode: never
-
-file:
-  dir: C:\Users\user\IdeaProjects\multiplexShopPR\src\main\resources\static\img\
