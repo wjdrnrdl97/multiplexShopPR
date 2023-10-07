@@ -9,7 +9,8 @@
 
 
             <div class="food_coner">
-                <h2>A L L</h2>
+                <h1>A L L</h1>
+                <h2>F O O D</h2>
                 <button><a th:href="@{/products/createProducts}">P O S T</a></button>
 
                 <form class="all_search_box">
@@ -18,33 +19,18 @@
                         <option value="ALL">ALL</option>
                         <option value="FOOD">FOOD</option>
                         <option value="STUFF">STUFF</option>
-                        <!-- 추가적인 옵션들을 여기에 추가할 수 있습니다. -->
                     </select>
                     <input type="text" class="search_input">
                     <input type="submit" value="Search">
                 </form>
                 
                 <div class="thumbnail_img">
-                    <div class="products">
-                        <a href="">
-                        <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 005.jpeg" alt="">
+                    <div class="products" th:each="item, iterStat : ${food}" th:if="${iterStat.index lt 3}">
+                        <a th:href="@{/products/{id}(id=${item.id})}">
+                                <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
                         </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 010.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="#">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
+                        <p th:text="${item.productName}">상품 이름</p>
+                        <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
                     </div>
                 </div>
             </div>
@@ -54,26 +40,12 @@
             <div class="stuff_coner">
                 <h2 style="margin-bottom: 100px;">S T U F F</h2>
                 <div class="thumbnail_img">
-                    <div class="products">
-                        <a href="">
-                        <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 005.jpeg" alt="">
+                    <div class="products" th:each="item, iterStat : ${stuff}" th:if="${iterStat.index lt 3}">
+                        <a th:href="@{/products/{id}(id=${item.id})}">
+                            <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
                         </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 010.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="#">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
+                        <p th:text="${item.productName}">상품 이름</p>
+                        <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
                     </div>
                 </div>
 

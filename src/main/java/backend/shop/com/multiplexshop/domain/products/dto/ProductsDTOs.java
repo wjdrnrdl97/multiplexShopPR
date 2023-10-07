@@ -73,23 +73,28 @@ public class ProductsDTOs {
         private Products products;
 
         @Builder
-        public ProductsResponseDTO(Products products,String productName, Integer productPrice, Integer stockQuantity, Categories categories, String productScript) {
+        public ProductsResponseDTO(Products products,String productName, Integer productPrice, Integer stockQuantity,
+                                   Categories categories, String productScript, Long id, String imagePath) {
             this.products = products;
             this.productName = productName;
             this.productPrice = productPrice;
             this.stockQuantity = stockQuantity;
             this.categories = categories;
             this.productScript = productScript;
+            this.id = id;
+            this.imagePath = imagePath;
         }
 
         public static ProductsResponseDTO of(Products entity){
             return ProductsResponseDTO.builder()
+                    .id(entity.getId())
                     .productName(entity.getProductName())
                     .productPrice(entity.getProductPrice())
                     .stockQuantity(entity.getStockQuantity())
                     .categories(entity.getCategories())
                     .products(entity)
                     .productScript(entity.getProductScript())
+                    .imagePath(entity.getImagePath())
                     .build();
         }
 

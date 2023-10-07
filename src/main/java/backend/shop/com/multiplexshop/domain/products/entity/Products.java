@@ -72,6 +72,10 @@ public class Products{
         this.orderQuantity = orderQuantity;
     }
 
+    public void addImagePath(UploadFile uploadFile){
+        this.imagePath = uploadFile.getStoreFileName();
+    }
+
     public void updateByRequest(ProductsRequestDTO requestDTO){
             this.productName = requestDTO.getProductName();
             this.productScript = requestDTO.getProductScript();

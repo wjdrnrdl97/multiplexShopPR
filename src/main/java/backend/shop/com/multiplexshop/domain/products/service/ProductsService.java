@@ -1,12 +1,17 @@
 package backend.shop.com.multiplexshop.domain.products.service;
 
 
+import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
+import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +45,8 @@ public class ProductsService {
         List<UploadFile> uploadFilesByProductName
                 = uploadFileRepository.findAllByProductName(productsEntity.getProductName());
 
+        productsEntity.addImagePath(uploadFilesByProductName.get(0));
+
         List<UploadFile> uploadFileAddedProduct = uploadFilesByProductName.stream()
                 .map(uploadFile -> uploadFile.updateProductId(productsEntity))
                 .toList();
@@ -72,4 +79,14 @@ public class ProductsService {
     }
 
 
+    public Page<ProductsResponseDTO> findAllProductsByCategories(Categories categories, int page) {
+
+        int pageNum = (page == 0)? 0 : page - 1;
+        PageRequest pageAble = PageRequest.of(pageNum, 6, Sort.by("id").descending());
+
+        Page<Products> productsByCategories =
+                productsRepository.findAllByCategories(categories, pageAble);
+
+        return productsByCategories.map(ProductsResponseDTO::of);
+    }
 }

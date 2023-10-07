@@ -32,9 +32,9 @@ spring:
       enabled: true
 
 file:
-  dir: C:/Users/user/Downloads/imgs/
+  dir: /Users/kwondonghyeok/Desktop/BackendStudy/uploadExample/
 
-webpath: file:/C:/Users/user/Downloads/imgs/
+webpath: file:/Users/kwondonghyeok/Desktop/BackendStudy/uploadExample/
 
 
 

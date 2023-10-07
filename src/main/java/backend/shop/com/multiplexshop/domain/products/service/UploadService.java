@@ -30,6 +30,13 @@ public class UploadService {
         return fileDir+filename;
     }
 
+    public List<UploadFileDTOs> findAllImages(){
+        List<UploadFile> allImages = uploadFileRepository.findAll();
+        return allImages.stream()
+                .map(UploadFileDTOs::new)
+                .toList();
+    }
+
     public void uploadImageByRequest(UploadFileDTOs request) throws IOException {
         UploadFile storedImageFile = storeImageFileByRequest(request)
                 .orElseThrow(() -> new BadImageException("잘못된 이미지입니다."));
