@@ -64,8 +64,16 @@ public class ProductsService {
 
     @Transactional
     public void deleteProductById(Long productId) {
+        deleteImageFilesByProduct(productId);
+
         Products deleteProduct = findProductById(productId);
         productsRepository.delete(deleteProduct);
+    }
+
+    private void deleteImageFilesByProduct(Long productId) {
+        Products productById = findProductById(productId);
+        List<UploadFile> byProducts = uploadFileRepository.findByProducts(productById);
+        uploadFileRepository.deleteAll(byProducts);
     }
 
     public Products findProductById(Long productId) {
@@ -80,7 +88,6 @@ public class ProductsService {
 
 
     public Page<ProductsResponseDTO> findAllProductsByCategories(Categories categories, int page) {
-
         int pageNum = (page == 0)? 0 : page - 1;
         PageRequest pageAble = PageRequest.of(pageNum, 6, Sort.by("id").descending());
 

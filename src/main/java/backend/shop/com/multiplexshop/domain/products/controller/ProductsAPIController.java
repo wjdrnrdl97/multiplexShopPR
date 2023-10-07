@@ -33,7 +33,7 @@ public class ProductsAPIController {
     }
 
     @DeleteMapping("/api/products/{id}")
-    public ResponseEntity deleteProducts(@PathVariable("id")Long productId){
+    public ResponseEntity deleteProducts(@PathVariable("id") Long productId){
         productsService.deleteProductById(productId);
         return ResponseEntity.noContent().build();
     }

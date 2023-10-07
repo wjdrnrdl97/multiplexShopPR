@@ -9,8 +9,10 @@
 
             <div class="product_btns">
                 <button>M O D I F Y</button>
-                <button>D E L E T E</button>
+                <button id="dlt_btn">D E L E T E</button>
                 <button><a th:href="@{/products}"> L I S T </a></button>
+                <input type="hidden" th:value="${product.id}" class="productId">
+                [[${product.id}]]
             </div>
 
             <div class="detail_box">
@@ -61,7 +63,9 @@
         let minusBtn = document.querySelector('.minusBtn');
         let price = document.querySelector('.price');
         let q = 1;
-        let qinit = document.querySelector('.price')
+        let qinit = document.querySelector('.price');
+        let dlt_btn = document.querySelector('#dlt_btn');
+
         const plusq = parseInt(qinit.textContent);
 
         plusBtn.addEventListener('click', e => {
@@ -96,6 +100,24 @@
             console.log(totalPrice);
             price.innerHTML = totalPrice;
         }
+
+        let dltId = document.querySelector('.productId').value;
+
+        if (dlt_btn) {
+            dlt_btn.addEventListener('click', event => {
+                if (!confirm("정말 삭제 하시겠습니까?")) {
+                         return;
+                }
+            fetch(`/api/products/${dltId}`, {method: 'DELETE'})
+        .then(() => {
+            alert('삭제가 완료되었습니다.');
+            location.replace('/products');
+        })
+    });
+}
+
+
+
     </script>
 
 </body>
