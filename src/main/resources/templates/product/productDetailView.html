@@ -8,11 +8,14 @@
         <div class="proudct">
 
             <div class="product_btns">
+                <a th:href="@{/products/modifyProducts/{productId}(productId=${product.id})}">
                 <button>M O D I F Y</button>
+                </a>
                 <button id="dlt_btn">D E L E T E</button>
-                <button><a th:href="@{/products}"> L I S T </a></button>
+                <a th:href="@{/products}">
+                    <button> L I S T </button>
+                </a>
                 <input type="hidden" th:value="${product.id}" class="productId">
-                [[${product.id}]]
             </div>
 
             <div class="detail_box">
@@ -112,9 +115,9 @@
         .then(() => {
             alert('삭제가 완료되었습니다.');
             location.replace('/products');
-        })
-    });
-}
+                })
+            });
+        }
 
 
 

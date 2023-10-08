@@ -78,6 +78,14 @@ public class ProductViewController {
         return "product/createProduct";
     }
 
+    @GetMapping("/modifyProducts/{productId}")
+    public String getUpdateProductsView(Model model, @PathVariable Long productId){
+        Products productById = productsService.findProductById(productId);
+
+        model.addAttribute("product",productById);
+        return "product/modifyProduct";
+    }
+
 
     @GetMapping("uploadImage")
     public String getUploadImageModal(){

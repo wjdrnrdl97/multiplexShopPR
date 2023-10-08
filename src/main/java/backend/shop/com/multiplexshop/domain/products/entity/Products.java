@@ -77,9 +77,9 @@ public class Products{
     }
 
     public void updateByRequest(ProductsRequestDTO requestDTO){
+            this.categories = requestDTO.getCategories();
             this.productName = requestDTO.getProductName();
-            this.productScript = requestDTO.getProductScript();
-            this.stockQuantity = requestDTO.getStockQuantity();
             this.productPrice = requestDTO.getProductPrice();
+            this.productScript = requestDTO.getProductScript();
      }
 }
