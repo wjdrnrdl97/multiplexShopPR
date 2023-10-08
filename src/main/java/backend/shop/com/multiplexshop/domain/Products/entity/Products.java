@@ -73,7 +73,7 @@ public class Products{
         this.stockQuantity = checkStock;
     }
     public void increaseStockQunatity(Integer count){
-        this.stockQuantity+= count;
+        this.stockQuantity += count;
     }
 
 }

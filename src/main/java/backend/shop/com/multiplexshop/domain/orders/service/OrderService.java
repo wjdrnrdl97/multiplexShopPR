@@ -44,8 +44,9 @@ public class OrderService {
 
         List<OrderProductsRequestDTO> productWithCountList = request.getProductWithCount();
         productWithCountList.stream().forEach(dto -> {
-            Products findProductById = productsRepository.findById(dto.getProductId())
+            Products findProductById = productsRepository.findAndPessimisticLockById(dto.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
+
 
             findProductById.decreaseStockQuantity(dto.getCount());
             Products savedProductOfDecreaseStock = productsRepository.save(findProductById);
@@ -91,12 +92,13 @@ public class OrderService {
 
         List<OrderProducts> findOrderProductsByOrderId = orderProductsRepository.findByOrdersIdAll(id);
         findOrderProductsByOrderId.stream().forEach(orderProducts -> {
-            Long getCancelProductsIdFromOrderProducts = orderProducts.getProducts().getId();
-            Integer getCancelCountFromOrderProducts = orderProducts.getCount();
+            Long getProductsIdByCancelOrderProducts = orderProducts.getProducts().getId();
+            Integer getCountByCancelOrderProducts = orderProducts.getCount();
 
-            Products productsByCancelOrder = productsRepository.findById(getCancelProductsIdFromOrderProducts)
+            Products productsByCancelOrder = productsRepository
+                    .findAndPessimisticLockById(getProductsIdByCancelOrderProducts)
                     .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
-            productsByCancelOrder.increaseStockQunatity(getCancelCountFromOrderProducts);
+            productsByCancelOrder.increaseStockQunatity(getCountByCancelOrderProducts);
             productsRepository.save(productsByCancelOrder);
         });
     }
