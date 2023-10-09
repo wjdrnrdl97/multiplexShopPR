@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="login_box">
-        <form action="/login" method="post" class="borderBox">
+        <form th:action method="post" class="borderBox">
             <h1 style="font-size: 55px;">W E L C O M E</h1>
             <input type="text" placeholder="E MAIL" name="memberEmailId">
             <input type="password" placeholder="PASSWORD" name="password" style="font-size: 18px; text-indent: 3px;">

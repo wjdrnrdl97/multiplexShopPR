@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.cart.dto;
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
 import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
 import lombok.AccessLevel;

@@ -16,6 +16,7 @@ public interface OrderProductsRepository extends JpaRepository<OrderProducts,Lon
     @Query("SELECT op FROM OrderProducts op JOIN FETCH op.products JOIN FETCH op.orders WHERE op.orders.id = :orderId")
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<OrderProducts> findByOrdersIdAll(@Param("orderId") Long orderId);
+
     @Query("SELECT op FROM OrderProducts op JOIN FETCH op.orders JOIN FETCH op.products WHERE op.orders.member = :member")
     List<OrderProducts> findAllByMember(@Param("member")Member member);
 }

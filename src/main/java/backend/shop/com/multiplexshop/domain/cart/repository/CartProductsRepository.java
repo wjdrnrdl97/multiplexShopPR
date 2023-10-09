@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.cart.repository;
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
 import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;

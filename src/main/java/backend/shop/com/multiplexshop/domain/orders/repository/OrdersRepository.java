@@ -12,6 +12,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrdersRepository extends JpaRepository <Orders,Long> {
-
     List<Orders> findAllByMember(Member member);
 }

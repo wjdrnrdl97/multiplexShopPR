@@ -10,6 +10,7 @@ public class MultiplexshopApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MultiplexshopApplication.class, args);
+		//dev 2023/10/09 push
 	}
 
 }

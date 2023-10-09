@@ -25,7 +25,6 @@
                 </form>
                 
                 <div class="thumbnail_img">
-<<<<<<< HEAD
                     <div class="products" th:each="item, iterStat : ${food}" th:if="${iterStat.index lt 3}">
                         <a th:href="@{/products/{id}(id=${item.id})}">
                                 <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">

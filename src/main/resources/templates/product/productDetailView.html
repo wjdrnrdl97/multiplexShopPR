@@ -7,7 +7,6 @@
     <article id="article">
         <div class="proudct">
             <div class="product_btns">
-<<<<<<< HEAD
                 <a th:href="@{/products/modifyProducts/{productId}(productId=${product.id})}">
                 <button>M O D I F Y</button>
                 </a>
@@ -16,6 +15,7 @@
                     <button> L I S T </button>
                 </a>
                 <input type="hidden" th:value="${product.id}" class="productId">
+                <input type="hidden" th:value="${session.loginUser.memberId}" id="memberId">
             </div>
 
             <div class="detail_box">
@@ -30,29 +30,10 @@
                         <option>Option 1</option>
                         <option>Option 2</option>
                         <option>Option 3</option>
-=======
-                <button>M O D I F Y</button>
-                <button>D E L E T E</button>
-                <button>L I S T </button>
-            </div>
-            <div class="detail_box">
-                <div class="product_img">
-                    <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 009.jpeg" alt="">
-                </div>
-                <div class="product_info">
-                    <p class="product_name">너무 좋아 보이는 향수 </p>
-
-                    <select class="product_select">
-                        <option>- SELECT 1 -</option>
-                        <option>xxx</option>
-                        <option>xxxx</option>
-                        <option>xxxxx</option>
->>>>>>> feat_order
                     </select>
                     <br>
 
                     <select class="product_select">
-<<<<<<< HEAD
                         <option>- SELECT 2 -</option>
                         <option>Option 1</option>
                         <option>Option 2</option>
@@ -64,30 +45,13 @@
                     <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000</p> <span style="font-size: 16px;">원</span>
                     <div class="order_btns">
                         <button id="cart_btn">장바구니</button>
-                        <button id="order_btn">주문하기</button>
+<!--                        <a th:href="@{/order}"><button id="order_btn">주문하기</button></a>-->
                     </div>
                 </div>
             </div>
             <div class="product_info_img">
                 <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
                 <p th:text="${product.productScript}">정말 좋은 향수네요.</p>
-=======
-                        <option>- SELECT 1 -</option>
-                        <option>xxx</option>
-                        <option>xxxx</option>
-                        <option>xxxxx</option>
-                    </select>
-                    <br>
-                    <button class="minusBtn"><</button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
-                    <p class="price" style="display: inline-block;">10000</p> <span style="font-size: 16px;">원</span>
-
-                </div>
-            </div>
-            <div class="product_info_img">
-                <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 009.jpeg" alt="">
-                <p>정말 좋은 향수네요.</p>
-
->>>>>>> feat_order
             </div>
         </div>
     </article>
@@ -103,14 +67,13 @@
         let minusBtn = document.querySelector('.minusBtn');
         let price = document.querySelector('.price');
         let q = 1;
-<<<<<<< HEAD
 
         let qinit = document.querySelector('.price');
         let dlt_btn = document.querySelector('#dlt_btn');
-
-=======
-        let qinit = document.querySelector('.price')
->>>>>>> feat_order
+        
+        let cart_btn = document.querySelector('#cart_btn');
+        let order_btn = document.querySelector('#order_btn');
+        
         const plusq = parseInt(qinit.textContent);
 
         plusBtn.addEventListener('click', e => {
@@ -145,7 +108,6 @@
             console.log(totalPrice);
             price.innerHTML = totalPrice;
         }
-<<<<<<< HEAD
 
         let dltId = document.querySelector('.productId').value;
 
@@ -162,9 +124,45 @@
             });
         }
 
+        if(cart_btn){
+            cart_btn.addEventListener('click',e => {
+                fetch(`/api/cart`, 
+                    {
+                        method: 'POST',
+                        headers: {"Content-Type": "application/json"},
+                        body : JSON.stringify({
+                            productsId : document.querySelector('.productId').value,
+                            memberId : document.getElementById('memberId').value,
+                            count : quantity.innerHTML
+                        })
+                    }
+                )
+                .then(()=>{
+                    alert("장바구니에 담겼습니다.");
+                })
+            })
+        }
 
-=======
->>>>>>> feat_order
+        if(order_btn){
+            order_btn.addEventListener('click', e => {
+                fetch(`/api/cart`,
+                    {
+                        method: 'POST',
+                        headers: {"Content-Type": "application/json"},
+                        body: JSON.stringify({
+                            productsId : document.querySelector('.productId').value,
+                            memberId : document.getElementById('memberId').value,
+                            count : document.querySelector('.quantity').value
+                        })
+                    }
+                )
+                .then(()=>{
+                    location.replace('')
+                })
+            })
+        }
+
+
     </script>
 
 </body>

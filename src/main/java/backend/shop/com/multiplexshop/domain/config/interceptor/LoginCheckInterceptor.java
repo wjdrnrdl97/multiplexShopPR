@@ -13,13 +13,13 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String requestURI = request.getRequestURI();
-        log.info("인증 체크 인터셉터 실행 : {}",requestURI);
+        String redirectURL = request.getRequestURI();
+        log.info("인증 체크 인터셉터 실행 : {}",redirectURL);
 
         HttpSession session = request.getSession();
         if (session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null){
             log.info("미인증 유저");
-            response.sendRedirect("/login?redirectURL"+requestURI);
+            response.sendRedirect("/login?redirectURL="+redirectURL);
             return false;
         }
         return true;

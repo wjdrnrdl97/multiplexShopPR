@@ -26,11 +26,13 @@ public class CartViewController {
         model.addAttribute("cartProduct",cartWithProductsByMemberId);
         return "cart/cart";
     }
+
     @GetMapping("/order")
     public String getOrderOfMyCart(@RequestParam List<Long> ids, Model model){
         List<CartProductsResponseDTO> result = cartService.findOrderProductsOfListByCartProductsId(ids);
         model.addAttribute("cartProduct",result);
         return "order/order";
     }
+
 
 }

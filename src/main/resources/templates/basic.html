@@ -27,8 +27,8 @@
     </ul>
 
     <ul class="navBar_members">
-        <li>
-            <a href="${/cart/cart.html}" class="iconA">
+        <li th:if="${session.loginUser != null}">
+            <a th:href="@{cart/{id}(id=${session.loginUser.memberId})}" class="iconA">
                 <i class="fa-solid fa-cart-shopping" style="display: block; text-align: center; line-height: 40px;" ></i>
                 <span>Cart</span>
             </a>

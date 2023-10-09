@@ -10,9 +10,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,7 +26,14 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String login(@ModelAttribute LoginDTO loginRequest, HttpServletRequest request){
+    public String login(@ModelAttribute LoginDTO loginRequest,
+                        @RequestParam(defaultValue = "/") String redirectURL,
+                        BindingResult bindingResult,
+                        HttpServletRequest request){
+
+        if (bindingResult.hasErrors()){
+            return "login";
+        }
 
         Member loginMember
                 = loginService.checkPasswordForLogin(loginRequest.getMemberEmailId(), loginRequest.getPassword());
@@ -32,7 +41,7 @@ public class LoginController {
         HttpSession session = request.getSession();
         session.setAttribute("loginUser", loginMember);
 
-        return "redirect:/";
+        return "redirect:"+redirectURL;
 
     }
 
