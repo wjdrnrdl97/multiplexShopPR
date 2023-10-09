@@ -31,22 +31,18 @@ dependencies {
 
 	//spring WEB
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-<<<<<<< HEAD
 
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
-=======
-    testImplementation 'junit:junit:4.13.1'
-    compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
->>>>>>> feat_product
-	annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.projectlombok:lombok:1.18.28'
 
 	//h2 database
 	runtimeOnly 'com.h2database:h2'
 
 	//testgit
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//Junit
+    testImplementation 'junit:junit:4.13.1'
 }
 
 tasks.named('test') {

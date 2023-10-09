@@ -5,9 +5,8 @@ VALUES
 (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '주소2', 'email2@example.com', '사용자2', '암호2', '010-2222-2222', 'USER'),
 (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '주소3', 'email3@example.com', 'ADMIN', '암호3', '010-3333-3333', 'ADMIN');
 
-
--- 더미 데이터 삽입
-INSERT INTO BOARD (board_id, mod_date, reg_date, board_content, board_title, board_type, board_view_count, member_name, member_id)
+---- Products 테이블에 데이터 추가
+INSERT INTO PRODUCTS (products_id, product_name, product_price, stock_quantity, select_tag1, select_tag2, categories, image_path, detail_image_path, product_script)
 VALUES
 (1, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '추석 연휴 기간내 주문 관련 공지사항 말씀 드립니다.', '[ NOTICE ] 주문 관련 공지 드립니다.', 'NOTICE', 100, '관리자', 3),
 (2, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '공지 사항2', '[ NOTICE ] 배송 관련 안내 말씀 드립니다.', 'NOTICE', 50, '관리자', 3),
@@ -47,8 +46,13 @@ VALUES
 (36, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 20', '게시글 제목 34', 'POST', 75, '사용자1', 1),
 (37, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '게시글 내용 20', '게시글 제목 35', 'POST', 75, '사용자1', 1);
 
---INSERT INTO Comment (comment_id, member_id, board_id, comment_content, member_name, mod_date, reg_date)VALUES
---(1, 1, 1, '코딩 재밌당', '권동혁', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
---(2, 1, 2, '환불해주세요.', '진상', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
---(3, 1, 1, '배고프당', '서정국', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
+INSERT INTO PRODUCTS (products_id, product_name, product_price, stock_quantity, select_tag1, select_tag2, categories, image_path, detail_image_path, product_script)
+VALUES
+(1, 'Product 1', 100, 50, 'Tag1', 'Tag2', 'FOOD', '/images/product1.jpg', '/images/detail1.jpg', 'Product 1 description'),
+(2, 'Product 2', 150, 30, 'Tag1', 'Tag2', 'FOOD', '/images/product2.jpg', '/images/detail2.jpg', 'Product 2 description'),
+(3, 'Product 3', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/images/product3.jpg', '/images/detail3.jpg', 'Product 3 description');
+-- Cart 테이블에 데이터 추가
+INSERT INTO CART (id, member_id) VALUES (1, 1),(2, 2);
+-- CartPRODUCTS 테이블에 데이터 추가
+INSERT INTO CART_PRODUCTS (cart_id, products_id, count) VALUES(1, 1, 2), (1, 2, 2);

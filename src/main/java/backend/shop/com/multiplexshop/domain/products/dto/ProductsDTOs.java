@@ -32,6 +32,12 @@ public class ProductsDTOs {
                                   String selectTag1, String selectTag2, Categories categories,
                                   String imagePath, String detailImagePath, String productScript,
                                   Integer orderQuantity, Long id) {
+
+        }
+
+        public ProductsRequestDTO(Long id, String productName, Integer productPrice, Integer stockQuantity,
+                                  String selectTag1, String selectTag2, Categories categories, String imagePath,
+                                  String detailImagePath, String productScript,Integer orderQuantity) {
             this.id = id;
             this.productName = productName;
             this.productPrice = productPrice;

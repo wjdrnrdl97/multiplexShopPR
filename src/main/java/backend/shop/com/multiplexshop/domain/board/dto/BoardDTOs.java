@@ -4,10 +4,7 @@ package backend.shop.com.multiplexshop.domain.board.dto;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.entity.BoardType;
 import lombok.*;
-
-
 import java.time.LocalDateTime;
-
 
 @Getter
 public class BoardDTOs {
@@ -34,7 +31,7 @@ public class BoardDTOs {
             this.regDate = board.getRegDate();
             this.modDate = board.getModDate();
             this.boardType = board.getBoardType().label();
-            this.memberId = board.getMember().getId();
+            this.memberId = board.getMember().getMemberId();
         }
     }
 
@@ -54,6 +51,3 @@ public class BoardDTOs {
     }
 
 }
-
-
-

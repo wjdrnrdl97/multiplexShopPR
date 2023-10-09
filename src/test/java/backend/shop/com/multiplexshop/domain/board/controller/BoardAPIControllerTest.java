@@ -57,27 +57,6 @@ class BoardAPIControllerTest {
                 .addFilter(new CharacterEncodingFilter("UTF-8",true))
                 .build();
     }
-
-//    @Test
-//    @DisplayName("getBoard(): UserBoard컨트롤러를 이용하여 게시물 상세조회")
-//    public void test1() throws Exception{
-//        //given
-//        final String url = "/api/support/{good}";
-//        final String title = "NOTICE";
-//        final String content = "NOTIFICATION";
-//        Board Board = boardRepository.findById(1L).get();
-//        //when
-//        final ResultActions result = mockMvc.perform(get (url, Board.getBoardId()));
-//        MvcResult mvcResult = result.andReturn();
-//
-//        //then
-//        String responseBody = mvcResult.getResponse().getContentAsString();
-//        System.out.println("응답: " + responseBody);
-//
-//        result.andExpect(status().isOk())
-//                .andExpect(jsonPath("$.boardTitle").value(title))
-//                .andExpect(jsonPath("$.boardContent").value(content));
-//    }
     @Test
     @DisplayName("getBoardList(): Board컨트롤러를 이용하여 게시물 목록조회")
     public void test2() throws Exception{

@@ -44,7 +44,6 @@ public class Products{
     @Column(length = 200)
     private String productScript;
 
-    private Integer orderQuantity;
 
     @Builder
     public Products(String productName, Integer productPrice, Integer stockQuantity, String selectTag1,
@@ -60,7 +59,6 @@ public class Products{
         this.imagePath = imagePath;
         this.detailImagePath = detailImagePath;
         this.productScript = productScript;
-        this.orderQuantity = orderQuantity;
     }
 
     public void addImagePath(UploadFile uploadFile){
@@ -73,4 +71,16 @@ public class Products{
             this.productPrice = requestDTO.getProductPrice();
             this.productScript = requestDTO.getProductScript();
      }
+
+    public void decreaseStockQuantity(Integer count){
+        Integer checkStock = this.stockQuantity = stockQuantity - count;
+        if (checkStock < 0){
+            throw new RuntimeException("재고가 부족합니다.");
+        }
+        this.stockQuantity = checkStock;
+    }
+    public void increaseStockQunatity(Integer count){
+        this.stockQuantity += count;
+    }
+
 }

@@ -1,12 +1,13 @@
 package backend.shop.com.multiplexshop.domain.orders.entity;
 
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.aspectj.weaver.ast.Or;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Orders {
+public class Orders extends BaseEntity {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,15 +27,33 @@ public class Orders {
     @JoinColumn(name = "member_id")
     Member member;
 
-    @OneToMany(mappedBy = "orders",cascade = CascadeType.ALL)
-    private List<OrderProducts> orderProducts = new ArrayList<>();
-
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "delivery_id")
-    private Delivery delivery;
-
-
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
-    private OrderStatus orderStatus;
+    @Column(length = 10, columnDefinition = "varchar(10) default 'ORDER'")
+    private OrderStatus orderStatus = OrderStatus.ORDER;
+
+    @Builder
+    public Orders(Member member, OrderStatus orderStatus) {
+        this.member = member;
+        this.orderStatus = orderStatus;
+    }
+
+    /**
+     *  주문의 상태를 ORDER에서 CANCEL로 변경하는 로직
+     */
+    public void changeOrderStatus(){
+        this.orderStatus = OrderStatus.CANCEL;
+    }
+
+    /**
+     * 회원과 상품의 번호리스트를 받아 주문을 생성하는 로직
+     * @param member
+     * @return
+     */
+    public static Orders createOrder(Member member){
+        return Orders.builder().
+                member(member)
+                .orderStatus(OrderStatus.ORDER)
+                .build();
+    }
 }
+

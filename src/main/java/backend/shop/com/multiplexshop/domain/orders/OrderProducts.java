@@ -3,6 +3,7 @@ package backend.shop.com.multiplexshop.domain.orders;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -20,30 +21,33 @@ public class OrderProducts {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id",nullable = false)
     private Orders orders;
 
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "products_id", nullable = false)
     private Products products;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    @Column
+    private Integer count;
 
-    @Column(nullable = false)
+    @Column
     private Integer orderPrice;
 
-    @Column(nullable = false)
-    private Integer order_count;
-
     @Builder
-    public OrderProducts(Orders orders, Products products, Member member, Integer orderPrice, Integer order_count) {
+    public OrderProducts(Orders orders, Products products, Integer count, Integer orderPrice) {
         this.orders = orders;
         this.products = products;
-        this.member = member;
+        this.count = count;
         this.orderPrice = orderPrice;
-        this.order_count = order_count;
+    }
+
+    public static OrderProducts createOrderProducts(Orders orders, Products products,Integer count){
+        return OrderProducts.builder()
+                .orders(orders)
+                .products(products)
+                .count(count)
+                .orderPrice(products.getProductPrice() * count)
+                .build();
     }
 }

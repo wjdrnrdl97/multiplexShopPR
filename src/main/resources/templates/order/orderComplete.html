@@ -7,20 +7,16 @@
     <article id="article">
         <div class="join_box">
             <h2><span>USER</span>님의 주문이 완료 되었습니다!</h2>
-            <div class="order_info">
-                <h3 style="text-align: left; margin-left: 20px;">O R D E R S</h3>
+            <h3 style="text-align: left; margin-left: 20px;">O R D E R S</h3>
+            <div class="order_info" th:each="dto:${orderProduct}">
                 <div class="orders">
-                    <p>주문 번호 : <span>2</span></p>
-                    <p>상품 명: <span>Product1</span></p>
-                    <p>가격 : <span>3,9000 원</span></p>
+                    <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
+                    <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
+                    <p>주문수량 : <span>[[${dto.count}]]</span></p>
                 </div>
-                <span></span>
-                <a href="#">
-                </a>
             </div>
+
         </div>
-
-
     </article>
 
     <!-- article -->

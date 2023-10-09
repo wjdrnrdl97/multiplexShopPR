@@ -104,13 +104,10 @@ a{
 }
 
 article{
-<<<<<<< HEAD
     min-height: 300px;
     height: 100%;
-=======
     min-height: 600px;
-  height: 100%;
->>>>>>> feat_product
+    height: 100%;
 }
 
 footer{

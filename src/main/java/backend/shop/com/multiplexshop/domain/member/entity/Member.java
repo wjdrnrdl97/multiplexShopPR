@@ -14,13 +14,13 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 public class Member extends BaseEntity {
 
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "member_id")
-    private Long id;
+    private Long memberId;
 
     @Column(length = 30, nullable = false)
     private String memberEmailId;
@@ -43,8 +43,8 @@ public class Member extends BaseEntity {
 
 
     @Builder
-    public Member(Long id, String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
-        this.id = id;
+    public Member(Long memberId, String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
+        this.memberId = memberId;
         this.memberEmailId = memberEmailId;
         this.password = password;
         this.memberName = memberName;
@@ -57,5 +57,4 @@ public class Member extends BaseEntity {
         this.memberAddress = memberAddress;
         this.phoneNumber = phoneNumber;
     }
-
 }
