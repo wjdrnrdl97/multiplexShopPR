@@ -43,9 +43,9 @@ spring:
 
 
 file:
-  dir: /Users/kwondonghyeok/Desktop/BackendStudy/uploadExample/
+  dir: C:\Users\wjdrn\Desktop\test\
 
-webpath: file:/Users/kwondonghyeok/Desktop/BackendStudy/uploadExample/
+webpath: file:\Users\wjdrn\Desktop\test\
 
 
 

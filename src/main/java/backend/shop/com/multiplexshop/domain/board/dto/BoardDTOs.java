@@ -22,6 +22,8 @@ public class BoardDTOs {
         private String boardType;
         private Long memberId;
 
+
+        @Builder
         public BoardResponseDTO(Board board){
             this.boardId = board.getBoardId();
             this.boardViewCount = board.getBoardViewCount();
