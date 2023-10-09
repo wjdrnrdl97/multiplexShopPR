@@ -104,8 +104,13 @@ a{
 }
 
 article{
+<<<<<<< HEAD
     min-height: 300px;
     height: 100%;
+=======
+    min-height: 600px;
+  height: 100%;
+>>>>>>> feat_product
 }
 
 footer{
@@ -121,6 +126,7 @@ footer{
 img{
     height: 500px;
     width: 550px;
+    object-fit:cover;
 }
 
 .bannerBtnL, .bannerBtnR{
@@ -206,8 +212,7 @@ img{
     margin: auto;
     text-align:center;
     width: 800px;
-    /* 머지난곳 */
- }
+  }
 
   table {
     margin: 100px auto;
@@ -216,8 +221,8 @@ img{
     width: 100%;
     border-bottom: 1px solid black;
     width: 800px;
+
     text-align:center;
-    /* 머지난곳 */
 }
 
 .notice th,.notice td,
@@ -226,7 +231,6 @@ img{
     padding: 8px;
     text-align: center;
     border-bottom: 1px solid #e9e6e6;
-    /* 머지난곳 */
 }
 
 th, td {
@@ -238,9 +242,7 @@ th, td {
 
 td a{
     cursor:pointer;
-    /* 머지난곳 */
 }
-
 th {
     background-color: #f2f2f2;
 }
@@ -293,7 +295,6 @@ tr:hover {
     margin-right: 10px;
     cursor:pointer;
 
-    
 }
 
 .list-btn:hover{
@@ -316,7 +317,6 @@ textarea {
     border: none;
     resize: none;
   }
-
 
   .pageActive{
     background-color: #000;
@@ -345,9 +345,7 @@ textarea {
     font-size: 18px;
     box-sizing: border-box;
     text-align: left;
-
     padding: 10px;
-
 
 }
 
@@ -360,6 +358,7 @@ textarea {
     height: 30px;
     font-size: 18px;
     padding: 5px;
+
     padding-top: 0px;
 
 }
@@ -485,8 +484,7 @@ input[type="text"]
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 30px
-
+    margin-bottom: 30px;
 }
 
 .join_btn:hover{
@@ -644,6 +642,7 @@ input[type="text"]
     margin: auto;
     border: 1px solid #b5b4b4;
     width: 900px;
+    height: 500px;
 }
 
 .product_img img{
@@ -651,7 +650,10 @@ input[type="text"]
 }
 
 .product_info{
+
     padding: 20px;
+    padding: 20px 20px 0px 20px;
+    height: 450px;
 }
 
 .product_btns{
@@ -700,7 +702,6 @@ input[type="text"]
     height: 30px;
     font-weight: bold;
     text-align: center;
-
 }
 
 .minusBtn, .plusBtn{
@@ -754,7 +755,6 @@ input[type="text"]
     background-color: white;
     color: #000;
 }
-
 
 input[type=file]::file-selector-button {
     width: 150px;
@@ -885,8 +885,19 @@ input[type=file]::file-selector-button {
     margin:auto;
 }
 
+  .order_btns{
+    display: flex;
+    justify-content: center;
+  }
 
 
+  .order_btns button{
+    background: transparent;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid black;
+
+}
 
 
 

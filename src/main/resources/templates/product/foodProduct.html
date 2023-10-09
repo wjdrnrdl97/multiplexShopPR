@@ -23,59 +23,24 @@
                 </form>
                 
                 <div class="thumbnail_img">
-                    <div class="products">
-                        <a href="">
-                        <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 005.jpeg" alt="">
+                    <div class="products" th:each="item : ${food}">
+                        <a th:href="@{/products/{id}(id=${item.id})}">
+                            <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
                         </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 010.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="#">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="#">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="#">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
-                    </div>
-                    <div class="products">
-                        <a href="#">
-                            <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
-                        </a>
-                        <p>상품 이름</p>
-                        <p>가격 : <span> 3,9000원</span></p>
+                        <p th:text="${item.productName}">상품 이름</p>
+                        <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
                     </div>
                 </div>
             </div>
-
-
         </div>
 
+
         <div class="pagination">
-            <span class="page-link">1</span>
-            <span class="page-link">2</span>
-            <span class="page-link">3</span>
-            <!-- 여기에 더 많은 페이지 링크 추가 -->
+            <th:block th:each="page : ${#numbers.sequence(1, food.totalPages)}">
+                <a class="page-link" th:class="'page-link '+ ${(food.number + 1) == page? 'pageActive':''}"  th:href="@{/products/food(page = ${page})}">
+                    [[${page}]]
+                </a>
+            </th:block>
         </div>
 
     </article>

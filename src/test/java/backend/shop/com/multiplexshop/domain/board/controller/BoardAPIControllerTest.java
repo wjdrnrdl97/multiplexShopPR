@@ -106,7 +106,7 @@ class BoardAPIControllerTest {
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent("new board")
-                .memberId(member.getMemberId())
+//                .memberId(member.getMemberId()) memberid -> id 로 수정해야함
                 .build();
         final String requestBody = objectMapper.writeValueAsString(boardRequest);
         //when
@@ -129,7 +129,7 @@ class BoardAPIControllerTest {
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
                 .boardTitle(title)
                 .boardContent(content)
-                .memberId(member.getMemberId())
+//                .memberId(member.getMemberId())
                 .build();
         String requestBody = objectMapper.writeValueAsString(boardRequest);
     //when

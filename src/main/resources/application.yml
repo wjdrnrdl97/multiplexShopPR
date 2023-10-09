@@ -1,5 +1,29 @@
 spring:
+  profiles:
+    default: local
+  datasource:
+    url: jdbc:h2:mem:h2db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
   jpa:
+    hibernate:
+      ddl-auto: create
+
+---
+spring:
+  thymeleaf:
+    cache: false
+  config:
+    activate:
+      on-profile: local
+
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -8,12 +32,6 @@ spring:
     defer-datasource-initialization: true
     thymeleaf:
       cache: false
-
-
-  datasource:
-    url: jdbc:h2:mem:h2db
-    username: sa
-    driver-class-name: org.h2.Driver
   h2:
     console:
       enabled: true
@@ -24,3 +42,28 @@ spring:
       org.hibernate: DEBUG
 
 
+file:
+  dir: /Users/kwondonghyeok/Desktop/BackendStudy/uploadExample/
+
+webpath: file:/Users/kwondonghyeok/Desktop/BackendStudy/uploadExample/
+
+
+
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      mode: never

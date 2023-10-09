@@ -31,9 +31,15 @@ dependencies {
 
 	//spring WEB
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+<<<<<<< HEAD
 
 	//lombok
 	compileOnly 'org.projectlombok:lombok'
+=======
+    testImplementation 'junit:junit:4.13.1'
+    compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+>>>>>>> feat_product
 	annotationProcessor 'org.projectlombok:lombok'
 
 	//h2 database

@@ -52,4 +52,3 @@ VALUES
 --(2, 1, 2, '환불해주세요.', '진상', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 --(3, 1, 1, '배고프당', '서정국', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
-

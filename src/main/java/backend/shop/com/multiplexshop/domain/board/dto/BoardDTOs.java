@@ -34,7 +34,7 @@ public class BoardDTOs {
             this.regDate = board.getRegDate();
             this.modDate = board.getModDate();
             this.boardType = board.getBoardType().label();
-            this.memberId = board.getMember().getMemberId();
+            this.memberId = board.getMember().getId();
         }
     }
 

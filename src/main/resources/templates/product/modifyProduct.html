@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+        <article id="article">
+            <div class="right_contents">
+                <div class="notice_contents">
+                    <input type="hidden" th:value="${product.id}" class="productId">
+                    <select name="product_category" id="categories" class="product_select">
+                        <option value="FOOD">FOOD</option>
+                        <option value="STUFF">STUFF</option>
+                    </select>
+                    <p>
+                    <h3> 상품명 : </h3> <input class="txt_tit_notice"
+                                            style="width: 400px;" id="productName"
+                                            th:value="${product.productName}">
+                    </p>
+                    <p>
+                    <h3> 가 격 : </h3> <input class="txt_tit_notice"
+                                            style="width: 400px;"
+                                            id="productPrice"
+                                            th:value="${product.productPrice}">
+                    </p>
+                    <h3> 제품에대한 상세 설명을 해주세요. </h3>
+                    <label for="productScript"></label>
+                    <textarea class="box_contents" id="productScript" th:text="${product.productScript}"></textarea>
+                </div>
+            </div>
+                <div class="btns">
+                    <a th:href="@{/products}" class="list-btn" style="margin-top:20px;">LIST</a>
+                    <a href="" class="list-btn" style="margin-top:20px;" id="upt_btn">UPDATE</a>
+                    <a href="" class="list-btn" style="margin-top:20px;" id="dlt_btn">DELETE</a>
+                </div>
+            </div>
+        </article>
+    </th:block>
+</th:block>
+<script>
+    let dlt_btn = document.querySelector('#dlt_btn');
+    let upt_btn = document.querySelector('#upt_btn');
+
+
+    let pId = document.querySelector('.productId').value;
+
+    if(upt_btn){
+        upt_btn.addEventListener('click', e => {
+            e.preventDefault();
+
+            fetch(`/api/products/${pId}`, 
+            {method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",},
+                body : JSON.stringify({
+
+                    productName : document.getElementById('productName').value,
+                    productPrice : document.getElementById('productPrice').value,
+                    categories : document.getElementById('categories').value,
+                    productScript : document.getElementById('productScript').value
+                })
+            })
+            .then(()=>{
+                alert('수정이 완료되었습니다.')
+                location.replace(`/products/${pId}`);
+            });
+        })
+    }
+    
+
+    if (dlt_btn) {
+        dlt_btn.addEventListener('click', e => {
+            e.preventDefault();
+            if (!confirm("정말 삭제 하시겠습니까?")) {
+                     return;
+            }
+        fetch(`/api/products/${pId}`, {method: 'DELETE'})
+    .then(() => {
+        alert('삭제가 완료되었습니다.');
+        location.replace('/products');
+            })
+        });
+    }
+
+
+</script>
+
+</body>
+
+</html>
