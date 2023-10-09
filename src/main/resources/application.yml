@@ -13,9 +13,12 @@ spring:
 
 ---
 spring:
+  thymeleaf:
+    cache: false
   config:
     activate:
       on-profile: local
+
 
 
   jpa:

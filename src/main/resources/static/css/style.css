@@ -739,6 +739,22 @@ input[type=file]::file-selector-button {
   }
 
 
+  .order_btns{
+    display: flex;
+    justify-content: center;
+  }
+
+
+  .order_btns button{
+    background: transparent;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid black;
+
+}
+
+
+
 
 
 
