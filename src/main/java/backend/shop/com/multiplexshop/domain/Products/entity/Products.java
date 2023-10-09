@@ -1,17 +1,8 @@
 package backend.shop.com.multiplexshop.domain.products.entity;
 
-
-/*
- * 셀렉트 태그 최종 컬럼명은 추후에 반영 예정.
- * notNull : 가격 수량 이름 카테고리
- */
-
-
-
 import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
 import jakarta.persistence.*;
 import lombok.*;
-
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Entity
