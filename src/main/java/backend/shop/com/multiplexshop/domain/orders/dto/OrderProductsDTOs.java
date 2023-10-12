@@ -1,10 +1,9 @@
-package backend.shop.com.multiplexshop.domain.orders;
+package backend.shop.com.multiplexshop.domain.orders.dto;
 
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.orders.entity.OrderProducts;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import lombok.*;
-
-import java.util.List;
 
 public class OrderProductsDTOs {
 

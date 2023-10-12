@@ -1,9 +1,9 @@
-package backend.shop.com.multiplexshop.domain.products.entity;
+package backend.shop.com.multiplexshop.domain.Products.entity;
 
-import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
+import backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs;
 import jakarta.persistence.*;
 import lombok.*;
-import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs.*;
 
 @Entity
 @Getter

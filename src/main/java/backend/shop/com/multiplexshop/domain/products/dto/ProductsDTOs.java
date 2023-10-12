@@ -1,7 +1,7 @@
-package backend.shop.com.multiplexshop.domain.products.dto;
+package backend.shop.com.multiplexshop.domain.Products.dto;
 
-import backend.shop.com.multiplexshop.domain.products.entity.Categories;
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

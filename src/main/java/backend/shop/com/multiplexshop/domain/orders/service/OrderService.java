@@ -1,15 +1,15 @@
 package backend.shop.com.multiplexshop.domain.orders.service;
 
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
-import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
-import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
-import backend.shop.com.multiplexshop.domain.orders.OrderProductsRepository;
+import backend.shop.com.multiplexshop.domain.orders.entity.OrderProducts;
+import backend.shop.com.multiplexshop.domain.orders.repository.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 
-import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 
 @Service

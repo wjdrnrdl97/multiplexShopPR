@@ -1,8 +1,8 @@
-package backend.shop.com.multiplexshop.domain.products.controller;
+package backend.shop.com.multiplexshop.domain.Products.controller;
 
 
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
-import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.Products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs.*;
 
 @RestController
 @RequiredArgsConstructor

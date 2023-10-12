@@ -1,14 +1,15 @@
 package backend.shop.com.multiplexshop.domain.cart.service;
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
+
 import backend.shop.com.multiplexshop.domain.Products.entity.Products;
-import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
 import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
+import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
+import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

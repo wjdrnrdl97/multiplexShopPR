@@ -1,4 +1,4 @@
-package backend.shop.com.multiplexshop.domain.products.entity;
+package backend.shop.com.multiplexshop.domain.Products.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

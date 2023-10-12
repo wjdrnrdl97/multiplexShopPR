@@ -1,9 +1,9 @@
-package backend.shop.com.multiplexshop.domain.products.service;
+package backend.shop.com.multiplexshop.domain.Products.service;
 
 import backend.shop.com.multiplexshop.domain.exception.BadImageException;
-import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
-import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
-import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
+import backend.shop.com.multiplexshop.domain.Products.dto.UploadFileDTOs;
+import backend.shop.com.multiplexshop.domain.Products.entity.UploadFile;
+import backend.shop.com.multiplexshop.domain.Products.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;

@@ -1,8 +1,6 @@
     package backend.shop.com.multiplexshop.domain.orders.controller;
 
-import backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs;
 import backend.shop.com.multiplexshop.domain.delivery.service.DeliveryService;
-import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs.*;
-import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs.*;
 
 @Controller
 @RequestMapping("/order")

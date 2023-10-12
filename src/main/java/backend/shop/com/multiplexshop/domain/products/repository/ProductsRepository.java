@@ -1,7 +1,7 @@
-package backend.shop.com.multiplexshop.domain.products.repository;
+package backend.shop.com.multiplexshop.domain.Products.repository;
 
-import backend.shop.com.multiplexshop.domain.products.entity.Categories;
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

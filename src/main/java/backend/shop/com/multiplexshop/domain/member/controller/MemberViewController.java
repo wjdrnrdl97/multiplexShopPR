@@ -1,11 +1,9 @@
 package backend.shop.com.multiplexshop.domain.member.controller;
 
-import backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs;
 import backend.shop.com.multiplexshop.domain.delivery.service.DeliveryService;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.member.service.MemberService;
-import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,7 +16,6 @@ import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs.*;
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.*;
-import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 
 @Controller

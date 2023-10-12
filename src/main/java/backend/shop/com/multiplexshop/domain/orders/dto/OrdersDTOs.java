@@ -1,23 +1,16 @@
 package backend.shop.com.multiplexshop.domain.orders.dto;
 
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
-import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs.*;
 
 public class OrdersDTOs {
     @Getter

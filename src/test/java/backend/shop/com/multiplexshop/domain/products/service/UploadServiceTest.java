@@ -1,21 +1,17 @@
 package backend.shop.com.multiplexshop.domain.products.service;
 
 import backend.shop.com.multiplexshop.domain.IntegrationTestSupport;
-import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
-import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
-import org.assertj.core.api.Assertions;
+import backend.shop.com.multiplexshop.domain.Products.dto.UploadFileDTOs;
+import backend.shop.com.multiplexshop.domain.Products.entity.UploadFile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBeans;
-import org.springframework.mock.web.MockHttpServletRequest;
+
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 class UploadServiceTest extends IntegrationTestSupport {
@@ -25,7 +21,7 @@ class UploadServiceTest extends IntegrationTestSupport {
     public void uploadImageByRequest() throws IOException {
         //given
         byte[] testByte = null;
-        MultipartFile mockMultipartFile = new MockMultipartFile("테스트","test.png",null,testByte);
+        MultipartFile mockMultipartFile = new MockMultipartFile("테스트","test.png",null, testByte);
         UploadFileDTOs request = UploadFileDTOs.builder()
                 .productName("향수")
                 .multipartFile(mockMultipartFile)

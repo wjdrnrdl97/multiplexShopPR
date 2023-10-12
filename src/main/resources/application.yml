@@ -43,9 +43,9 @@ spring:
 
 
 file:
-  dir: C:\Users\wjdrn\Desktop\test\
+  dir: C:\Users\wjdrn\Desktop\test1\
 
-webpath: file:\Users\wjdrn\Desktop\test\
+webpath: file:\Users\wjdrn\Desktop\test1\
 
 
 

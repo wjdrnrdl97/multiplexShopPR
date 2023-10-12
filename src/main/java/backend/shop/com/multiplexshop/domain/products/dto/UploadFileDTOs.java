@@ -1,6 +1,6 @@
-package backend.shop.com.multiplexshop.domain.products.dto;
+package backend.shop.com.multiplexshop.domain.Products.dto;
 
-import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
+import backend.shop.com.multiplexshop.domain.Products.entity.UploadFile;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

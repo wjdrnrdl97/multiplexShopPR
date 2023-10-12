@@ -7,20 +7,17 @@ import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
-import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
-import backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs;
-import backend.shop.com.multiplexshop.domain.orders.OrderProductsRepository;
-import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs;
+import backend.shop.com.multiplexshop.domain.orders.entity.OrderProducts;
+import backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs;
+import backend.shop.com.multiplexshop.domain.orders.repository.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.OrderRequestDTO;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -39,8 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

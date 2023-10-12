@@ -1,9 +1,6 @@
-package backend.shop.com.multiplexshop.domain.orders;
+package backend.shop.com.multiplexshop.domain.orders.entity;
 
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
-import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

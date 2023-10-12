@@ -1,16 +1,11 @@
 package backend.shop.com.multiplexshop.domain.orders.entity;
 
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
-import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
+
 import jakarta.persistence.*;
 import lombok.*;
-import org.aspectj.weaver.ast.Or;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

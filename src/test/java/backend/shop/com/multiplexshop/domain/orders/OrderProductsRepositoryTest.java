@@ -5,19 +5,18 @@ import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
+import backend.shop.com.multiplexshop.domain.orders.entity.OrderProducts;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
+import backend.shop.com.multiplexshop.domain.orders.repository.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class OrderProductsRepositoryTest {

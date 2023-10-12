@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 
 @RestController

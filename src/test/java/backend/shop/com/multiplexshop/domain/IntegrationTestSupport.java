@@ -1,14 +1,11 @@
 package backend.shop.com.multiplexshop.domain;
 
-import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
-import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
-import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
-import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
-import backend.shop.com.multiplexshop.domain.products.service.UploadService;
-import org.junit.jupiter.api.AfterEach;
+import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.Products.repository.UploadFileRepository;
+import backend.shop.com.multiplexshop.domain.Products.service.ProductsService;
+import backend.shop.com.multiplexshop.domain.Products.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest

@@ -8,8 +8,8 @@ import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
-import backend.shop.com.multiplexshop.domain.orders.OrderProducts;
-import backend.shop.com.multiplexshop.domain.orders.OrderProductsRepository;
+import backend.shop.com.multiplexshop.domain.orders.entity.OrderProducts;
+import backend.shop.com.multiplexshop.domain.orders.repository.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
@@ -19,12 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static backend.shop.com.multiplexshop.domain.orders.OrderProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs.*;
 import static backend.shop.com.multiplexshop.domain.orders.dto.OrdersDTOs.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;

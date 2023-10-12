@@ -1,6 +1,6 @@
 package backend.shop.com.multiplexshop.domain.cart.entity;
 
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.Products.entity.Products;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
