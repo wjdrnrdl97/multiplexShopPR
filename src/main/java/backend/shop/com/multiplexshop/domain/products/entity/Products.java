@@ -1,9 +1,8 @@
-package backend.shop.com.multiplexshop.domain.Products.entity;
+package backend.shop.com.multiplexshop.domain.products.entity;
 
-import backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs;
 import jakarta.persistence.*;
 import lombok.*;
-import static backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Entity
 @Getter
@@ -79,7 +78,7 @@ public class Products{
         }
         this.stockQuantity = checkStock;
     }
-    public void increaseStockQunatity(Integer count){
+    public void increaseStockQuantity(Integer count){
         this.stockQuantity += count;
     }
 

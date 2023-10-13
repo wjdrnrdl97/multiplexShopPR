@@ -1,16 +1,15 @@
 package backend.shop.com.multiplexshop.domain.products.repository;
 
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
 
-import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 
-import static backend.shop.com.multiplexshop.domain.Products.entity.Categories.STUFF;
+import static backend.shop.com.multiplexshop.domain.products.entity.Categories.STUFF;
 
 
 

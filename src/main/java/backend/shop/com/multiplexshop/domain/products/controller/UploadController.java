@@ -1,7 +1,7 @@
-package backend.shop.com.multiplexshop.domain.Products.controller;
+package backend.shop.com.multiplexshop.domain.products.controller;
 
-import backend.shop.com.multiplexshop.domain.Products.dto.UploadFileDTOs;
-import backend.shop.com.multiplexshop.domain.Products.service.UploadService;
+import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
+import backend.shop.com.multiplexshop.domain.products.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;

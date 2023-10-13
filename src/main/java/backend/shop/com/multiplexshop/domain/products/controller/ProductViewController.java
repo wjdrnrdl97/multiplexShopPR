@@ -1,11 +1,11 @@
-package backend.shop.com.multiplexshop.domain.Products.controller;
+package backend.shop.com.multiplexshop.domain.products.controller;
 
-import backend.shop.com.multiplexshop.domain.Products.dto.UploadFileDTOs;
-import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
-import backend.shop.com.multiplexshop.domain.Products.entity.UploadFile;
-import backend.shop.com.multiplexshop.domain.Products.service.ProductsService;
-import backend.shop.com.multiplexshop.domain.Products.service.UploadService;
+import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
+import backend.shop.com.multiplexshop.domain.products.entity.Categories;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
+import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
+import backend.shop.com.multiplexshop.domain.products.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-import static backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Controller
 @Slf4j

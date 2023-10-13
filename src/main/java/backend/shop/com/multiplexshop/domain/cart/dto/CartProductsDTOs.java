@@ -1,14 +1,11 @@
 package backend.shop.com.multiplexshop.domain.cart.dto;
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.cart.entity.Cart;
 import backend.shop.com.multiplexshop.domain.cart.entity.CartProducts;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 public class CartProductsDTOs {
 

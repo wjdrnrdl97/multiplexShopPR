@@ -1,7 +1,7 @@
 package backend.shop.com.multiplexshop.domain;
 
 
-import backend.shop.com.multiplexshop.domain.Products.service.ProductsService;
+import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

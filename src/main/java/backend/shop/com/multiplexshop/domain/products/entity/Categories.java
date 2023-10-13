@@ -1,4 +1,4 @@
-package backend.shop.com.multiplexshop.domain.Products.entity;
+package backend.shop.com.multiplexshop.domain.products.entity;
 
 import lombok.Getter;
 

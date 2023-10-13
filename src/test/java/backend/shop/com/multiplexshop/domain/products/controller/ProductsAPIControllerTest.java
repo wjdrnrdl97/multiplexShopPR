@@ -1,11 +1,13 @@
 package backend.shop.com.multiplexshop.domain.products.controller;
 
 import backend.shop.com.multiplexshop.domain.ControllerTestSupport;
-import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
+import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
+import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import static backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs.*;
+
+import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

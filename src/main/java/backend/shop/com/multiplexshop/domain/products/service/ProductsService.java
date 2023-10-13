@@ -1,12 +1,11 @@
-package backend.shop.com.multiplexshop.domain.Products.service;
+package backend.shop.com.multiplexshop.domain.products.service;
 
 
-import backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs;
-import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
-import backend.shop.com.multiplexshop.domain.Products.entity.UploadFile;
-import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
-import backend.shop.com.multiplexshop.domain.Products.repository.UploadFileRepository;
+import backend.shop.com.multiplexshop.domain.products.entity.Categories;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
+import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -15,10 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static backend.shop.com.multiplexshop.domain.Products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Service
 @Transactional(readOnly = true)

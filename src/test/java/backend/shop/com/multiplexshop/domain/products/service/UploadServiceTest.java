@@ -1,8 +1,8 @@
 package backend.shop.com.multiplexshop.domain.products.service;
 
 import backend.shop.com.multiplexshop.domain.IntegrationTestSupport;
-import backend.shop.com.multiplexshop.domain.Products.dto.UploadFileDTOs;
-import backend.shop.com.multiplexshop.domain.Products.entity.UploadFile;
+import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
+import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

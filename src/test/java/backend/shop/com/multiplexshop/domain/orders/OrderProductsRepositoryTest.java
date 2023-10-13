@@ -1,8 +1,8 @@
 package backend.shop.com.multiplexshop.domain.orders;
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Categories;
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
-import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.products.entity.Categories;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderProducts;

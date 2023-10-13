@@ -1,12 +1,10 @@
-package backend.shop.com.multiplexshop.domain.Products.entity;
+package backend.shop.com.multiplexshop.domain.products.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
 
 @Entity
 @Getter

@@ -1,7 +1,7 @@
 package backend.shop.com.multiplexshop.domain.orders.service;
 
-import backend.shop.com.multiplexshop.domain.Products.entity.Products;
-import backend.shop.com.multiplexshop.domain.Products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
@@ -98,7 +98,7 @@ public class OrderService {
             Products productsByCancelOrder = productsRepository
                     .findAndPessimisticLockById(getProductsIdByCancelOrderProducts)
                     .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
-            productsByCancelOrder.increaseStockQunatity(getCountByCancelOrderProducts);
+            productsByCancelOrder.increaseStockQuantity(getCountByCancelOrderProducts);
             productsRepository.save(productsByCancelOrder);
         });
     }
