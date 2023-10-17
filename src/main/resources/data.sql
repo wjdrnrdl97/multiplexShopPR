@@ -21,12 +21,12 @@ INSERT INTO BOARD (board_id, mod_date, reg_date, board_content, board_title, boa
 (22, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'Post Content 10', 'Post Title 10', 'POST', 75, 'User1', 3);
 
 ---- Products 테이블에 데이터 추가
---INSERT INTO PRODUCTS (products_id, product_name, product_price, stock_quantity, select_tag1, select_tag2, categories, image_path, detail_image_path, product_script)
---VALUES
---    (4, 'Product 1', 100, 50, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', 'Product 1 description'),
---    (5, 'Product 2', 150, 30, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', 'Product 2 description'),
---    (6, 'Product 3', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', 'Product 3 description');
+INSERT INTO PRODUCTS (products_id, product_name, product_price, stock_quantity, select_tag1, select_tag2, categories, image_path, detail_image_path, product_script)
+VALUES
+    (4, 'Product 1', 100, 50, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', 'Product 1 description'),
+    (5, 'Product 2', 150, 30, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', 'Product 2 description'),
+    (6, 'Product 3', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', 'Product 3 description');
 -- Cart 테이블에 데이터 추가
---INSERT INTO CART (id, member_id) VALUES (3, 3),(4, 4);
+INSERT INTO CART (id, member_id) VALUES (3, 3),(4, 4);
 -- CartPRODUCTS 테이블에 데이터 추가
---INSERT INTO CART_PRODUCTS (cart_id, products_id, count) VALUES(3, 4, 2), (3, 4, 2);
+INSERT INTO CART_PRODUCTS (cart_id, products_id, count) VALUES(3, 4, 2), (3, 4, 2);

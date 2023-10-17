@@ -142,6 +142,52 @@ class CartServiceTest {
         assertThat(result).isEmpty();
     }
     @Test
+    @DisplayName("모든 장바구니상품의 목록을 전부 삭제한다.")
+    public void deleteCartProductsAll(){
+        //given
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        Cart createCart = Cart.createCart(savedMember);
+        Cart savedCart = cartRepository.save(createCart);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .build();
+        Products stuff = productsRepository.save(products1);
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .build();
+        Products food = productsRepository.save(products2);
+
+        CartProducts cartWithStuff = CartProducts.builder()
+                .products(stuff)
+                .cart(createCart)
+                .count(3)
+                .build();
+        CartProducts cartWithFood = CartProducts.builder()
+                .products(food)
+                .cart(createCart)
+                .count(4)
+                .build();
+        cartProductsRepository.saveAll(List.of(cartWithStuff,cartWithFood));
+        //when
+        cartService.deleteCartProductsAll();
+        //then
+        List<CartProducts> result = cartProductsRepository.findAll();
+        assertThat(result).isEmpty();
+    }
+    @Test
     @DisplayName("회원을 조회하여 해당 회원의 장바구니와 관련된 장바구니상품을 전부 삭제한다.")
     public void deleteCartProductsAllByMemberId(){
         //given

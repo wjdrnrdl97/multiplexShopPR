@@ -36,6 +36,12 @@ public class CartAPIController {
         cartService.deleteCartProductsById(id);
         return ResponseEntity.noContent().build();
     }
+    @DeleteMapping("/api/cart/all")
+    public ResponseEntity deleteCartProductsAll(){
+        cartService.deleteCartProductsAll();
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/api/cart/all/{memberId}")
     public ResponseEntity deleteCartProductsAllByMember(@PathVariable("memberId")Long memberId){
         cartService.deleteCartProductsAllByMemberId(memberId);

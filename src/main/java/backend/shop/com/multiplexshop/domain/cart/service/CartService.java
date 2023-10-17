@@ -67,6 +67,10 @@ public class CartService {
     }
 
     @Transactional
+    public void deleteCartProductsAll(){
+        cartProductsRepository.deleteAll();
+    }
+    @Transactional
     public void deleteCartProductsAllByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Member not found"));

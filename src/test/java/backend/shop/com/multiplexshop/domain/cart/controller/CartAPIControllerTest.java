@@ -190,6 +190,54 @@ class CartAPIControllerTest {
         .andExpect(status().isNoContent());
     }
     @Test
+    @DisplayName("요청에 의해 장바구니상품의 목록을 전체 삭제 하고 Http 204코드 응답에 성공한다.")    
+    public void deleteCartProductsAll() throws Exception {
+        //given
+        String uri = "/api/cart/all";
+        
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        Cart createCart = Cart.createCart(savedMember);
+        Cart savedCart = cartRepository.save(createCart);
+
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .build();
+        Products stuff = productsRepository.save(products1);
+        Products products2 = Products.builder()
+                .productName("밀키트")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .categories(Categories.FOOD)
+                .build();
+        Products food = productsRepository.save(products2);
+
+        CartProducts cartWithStuff = CartProducts.builder()
+                .products(stuff)
+                .cart(createCart)
+                .count(3)
+                .build();
+        CartProducts cartWithFood = CartProducts.builder()
+                .products(food)
+                .cart(createCart)
+                .count(4)
+                .build();
+        cartProductsRepository.saveAll(List.of(cartWithStuff,cartWithFood));
+        //when
+        mockMvc.perform(delete(uri))
+        //then
+        .andExpect(status().isNoContent())
+        .andDo(print());
+    }
+    @Test
     @DisplayName("회원의 아이디를 조회한후 조회한 회원의 장바구니에 담겨진 장바구니-상품을 전체 삭제하고 Http 204코드 응답에 성공한다.")
     public void deleteCartProductsAllByMember() throws Exception{
         //given

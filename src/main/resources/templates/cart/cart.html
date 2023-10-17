@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="~{/basic :: setContent(~{this::contentFrag})}">
+<th:block th:replace="~{basic :: setContent(~{this::contentFrag})}">
     <th:block th:fragment="contentFrag">
         <article id="article">
             <div class="join_box">
                 <h2><span>USER</span>님의 장바구니입니다.</h2>
-                <h3 style="text-align: left; margin-left: 20px;" th:if="${not #lists.isEmpty(dto)}">
-                    O R D E R S (주문 내역이 있을시에만 보이는 박스 )
-                </h3>
-                <div class="order_info" th:if="${not #lists.isEmpty(dto)}" th:each="dto:${cartProduct}">
-                    <input type="checkbox" class="cartProductId" th:value="${dto.id}">
-                    <div class="orders">
-                        <p>상품번호 : <span>[[${dto.products.id}]]</span></p>
-                        <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
-                        <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
-                        <p>주문 갯수 : <span>[[${dto.count}]]</span></p>
-                    </div>
-                    <a>
-                        <button class="cancle-btn" id="delete_btn">C A N C L E</button>
-                    </a>
+                <label th:if="${not #lists.isEmpty(cartProduct)}">
+                    <input type="checkbox" name="selectAll" value="selectAll" onclick="selectAll(this)">Select All
+                </label>
+                <button th:if="${not #lists.isEmpty(cartProduct)}" id="cancelAllBtn" style="float: right; margin-right: 200px;">C A N C L E - A L L</button>
+                <div class="order_info" th:if="${not #lists.isEmpty(cartProduct)}" th:each="dto:${cartProduct}">
+                        <input type="checkbox" name="cartId" class="cartProductId" onclick="checkSelectAll()" th:value="${dto.id}">
+                        <div class="orders">
+                            <p>상품번호 : <span>[[${dto.products.id}]]</span></p>
+                            <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
+                            <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
+                            <p>주문 갯수 : <span>[[${dto.count}]]</span></p>
+                        </div>
+                        <a>
+                            <button class="cancle-btn" id="cancelBtn">C A N C L E</button>
+                        </a>
                 </div>
                 <a th:if="${not #lists.isEmpty(cartProduct)}">
                     <button class="orderBtn" id="orderBtn" style="margin-bottom: 50px; margin-left: 750px;">O R D E R
@@ -29,13 +30,13 @@
                     <h3>장바구니가 비어있습니다.</h3>
                     <h2>주문하러 가기</h2>
                     <div class="btns moreOrder">
-                        <a href="">
+                        <a th:href="@{/products}">
                             <button>A L L</button>
                         </a>
-                        <a href="">
+                        <a th:href="@{/products/food}">
                             <button>F O O D</button>
                         </a>
-                        <a href="">
+                        <a th:href="@{/products/stuff}">
                             <button>S T U F F</button>
                         </a>
                     </div>
@@ -48,39 +49,75 @@
 </th:block>
 <script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
 <script>
-    let id = document.querySelector('.cartProductId').value;
-    const deleteBtn = document.getElementById('delete_btn');
+    function checkSelectAll()  {
+    // 전체 체크박스
+    const checkboxes = document.querySelectorAll('input[name="cartId"]');
+    // 선택된 체크박스
+    const checked = document.querySelectorAll('input[name="cartId"]:checked');
+    // select all 체크박스
+    const selectAll = document.querySelector('input[name="selectAll"]');
 
-    const orderBtn = document.getElementById('orderBtn');
-    if (orderBtn) {
-        orderBtn.addEventListener('click', function () {
-            const selectedIds = Array.from(document.querySelectorAll('.cartProductId:checked')).map(function (checkbox) {
-                return checkbox.value;
-            });
-            
-            if (selectedIds.length === 0) {
-                alert('최소한 1개의 상품을 선택해주세요.');
-            } else {
-                // 선택한 아이템의 ID를 사용하여 URL에 쿼리 문자열로 추가
-                const uri = '/cart/order?' + selectedIds.map(id => 'ids=' + id).join('&');
-                location.replace(uri);
-}
-    })};
-        
-        
-    if(deleteBtn){
-       deleteBtn.addEventListener('click', event =>{
-             if(confirm('해당 장바구니 목록을 삭제하시겠습니까?')){
-                 fetch(`/api/cart/${id}`,{
-                     method:'DELETE'
-                 })
-                 .then(()=>{
+        if(checkboxes.length === checked.length)  {
+             selectAll.checked = true;
+        }else {
+            selectAll.checked = false;
+        }
+    }
+ function selectAll(selectAll)  {
+     const checkboxes = document.getElementsByName('cartId');
+
+     checkboxes.forEach((checkbox) => {
+         checkbox.checked = selectAll.checked;
+     })
+ }
+
+ let id = document.querySelector('.cartProductId').value;
+ const deleteBtn = document.getElementById('cancelBtn');
+ const orderBtn = document.getElementById('orderBtn');
+ const cancelAllBtn = document.getElementById('cancelAllBtn')
+
+ if (orderBtn) {
+     orderBtn.addEventListener('click', function () {
+         const selectedIds = Array.from(document.querySelectorAll('.cartProductId:checked')).map(function (checkbox) {
+             return checkbox.value;
+         });
+
+         if (selectedIds.length === 0) {
+             alert('최소한 1개의 상품을 선택해주세요.');
+         } else {
+             // 선택한 아이템의 ID를 사용하여 URL에 쿼리 문자열로 추가
+             const uri = '/cart/order?' + selectedIds.map(id => 'ids=' + id).join('&');
+             location.replace(uri);
+         }
+     })
+ };
+
+ if (deleteBtn) {
+     deleteBtn.addEventListener('click', event => {
+         if (confirm('해당 장바구니 목록을 삭제하시겠습니까?')) {
+             fetch(`/api/cart/${id}`, {
+                 method: 'DELETE'
+             })
+                 .then(() => {
                      alert('삭제가 완료되었습니다.');
                      location.reload();
                  });
-             }
-         });
-     }
-
+         }
+     });
+ }
+ if(cancelAllBtn){
+    cancelAllBtn.addEventListener('click', event => {
+        if(confirm('모든 장바구니 목록을 삭제하시겠습니까?')){
+            fetch(`/api/cart/all`,{
+                method:'DELETE'
+            })
+            .then(() => {
+                alert('삭제가 완료되었습니다.');
+                location.reload();
+            })
+        }
+    })
+ }
 </script>
+
 </html>

@@ -43,10 +43,14 @@ spring:
 
 
 file:
-  dir: C:\Users\Administrator\Desktop\test\
+  dir: C:\Users\wjdrn\Desktop\test1\
 
-webpath: file:\Users\Administrator\Desktop\test\
+webpath: file:\Users\wjdrn\Desktop\test1\
 
+#file:
+#  dir: C:\Users\Administrator\Desktop\test\
+#
+#webpath: file:\Users\Administrator\Desktop\test\
 
 
 
