@@ -19,8 +19,6 @@ spring:
     activate:
       on-profile: local
 
-
-
   jpa:
     hibernate:
       ddl-auto: create
@@ -41,18 +39,9 @@ spring:
       org.springframework: DEBUG
       org.hibernate: DEBUG
 
-
 file:
   dir: C:\Users\wjdrn\Desktop\test1\
-
 webpath: file:\Users\wjdrn\Desktop\test1\
-
-#file:
-#  dir: C:\Users\Administrator\Desktop\test\
-#
-#webpath: file:\Users\Administrator\Desktop\test\
-
-
 
 ---
 spring:
@@ -71,3 +60,6 @@ spring:
   sql:
     init:
       mode: never
+file:
+  dir: C:\Users\wjdrn\Desktop\test1\
+webpath: file:\Users\wjdrn\Desktop\test1\

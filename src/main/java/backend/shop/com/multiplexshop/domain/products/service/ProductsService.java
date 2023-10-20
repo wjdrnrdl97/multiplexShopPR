@@ -87,11 +87,19 @@ public class ProductsService {
 
     public Page<ProductsResponseDTO> findAllProductsByCategories(Categories categories, int page) {
         int pageNum = (page == 0)? 0 : page - 1;
-        PageRequest pageAble = PageRequest.of(pageNum, 6, Sort.by("id").descending());
+        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by("modDate").descending());
 
         Page<Products> productsByCategories =
-                productsRepository.findAllByCategories(categories, pageAble);
+                productsRepository.findAllByCategories(categories, pageable);
 
         return productsByCategories.map(ProductsResponseDTO::of);
+    }
+    public Page<ProductsResponseDTO>findAllByProductNameContaining(String keyword, int page){
+        int pageNum = (page == 0) ? 0 : page - 1;
+        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by(Sort.Direction.DESC, "modDate"));
+
+        Page<Products> productsByNameContaining = productsRepository.findAllByProductNameContaining(keyword, pageable);
+
+        return productsByNameContaining.map(ProductsResponseDTO::of);
     }
 }

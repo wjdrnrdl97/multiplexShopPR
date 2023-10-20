@@ -25,7 +25,16 @@ INSERT INTO PRODUCTS (products_id, product_name, product_price, stock_quantity, 
 VALUES
     (4, 'Product 1', 100, 50, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', 'Product 1 description'),
     (5, 'Product 2', 150, 30, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', 'Product 2 description'),
-    (6, 'Product 3', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', 'Product 3 description');
+    (6, 'Product 3', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', 'Product 3 description'),
+    (7, 'Product 4', 100, 50, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', 'Product 1 description'),
+    (8, 'Product 5', 150, 30, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', 'Product 2 description'),
+    (9, 'Product 6', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', 'Product 3 description'),
+    (10, 'Product 7', 100, 50, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', 'Product 1 description'),
+    (11, 'Product 8', 150, 30, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', 'Product 2 description'),
+    (12, 'Product 9', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', 'Product 3 description'),
+    (13, 'Product 10', 100, 50, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg', 'Product 1 description'),
+    (14, 'Product 11', 150, 30, 'Tag1', 'Tag2', 'FOOD', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 002.jpeg', 'Product 2 description'),
+    (15, 'Product 12', 200, 20, 'Tag1', 'Tag2', 'STUFF', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', '/img/KakaoTalk_Photo_2023-08-24-17-31-37 004.jpeg', 'Product 3 description');
 -- Cart 테이블에 데이터 추가
 INSERT INTO CART (id, member_id) VALUES (3, 3),(4, 4);
 -- CartPRODUCTS 테이블에 데이터 추가

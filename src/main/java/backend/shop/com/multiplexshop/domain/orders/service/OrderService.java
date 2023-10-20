@@ -1,5 +1,6 @@
 package backend.shop.com.multiplexshop.domain.orders.service;
 
+import backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
@@ -117,6 +118,15 @@ public class OrderService {
         List<Orders> findAllByMember = ordersRepository.findAllByMember(findMember);
 
         return findAllByMember.stream().map(OrderResponseDTO::of).toList();
+    }
+    public OrderProductsResponseDTO getProductsAndInjectCount(Long productId, Integer count){
+        Products findProductByRequest = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
+
+        return OrderProductsResponseDTO.builder()
+                .products(findProductByRequest)
+                .count(count)
+                .build();
     }
 }
 

@@ -72,6 +72,15 @@ public class ProductViewController {
         return "product/stuffProduct";
     }
 
+    @GetMapping("/search")
+    public String getSearchAllProductsView
+                                (@RequestParam(defaultValue = "0")int page,@RequestParam String keyword, Model model){
+        Page<ProductsResponseDTO> productNameContaining = productsService.findAllByProductNameContaining(keyword, page);
+        model.addAttribute("search", productNameContaining);
+        model.addAttribute("keyword", keyword);
+        return "product/searchProduct";
+    }
+
     @GetMapping("/createProducts")
     public String getCreateProductsView(){
 

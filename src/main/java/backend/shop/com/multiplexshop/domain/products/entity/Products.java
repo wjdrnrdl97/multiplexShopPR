@@ -1,14 +1,18 @@
 package backend.shop.com.multiplexshop.domain.products.entity;
 
+import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.time.LocalDateTime;
+
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode
-public class Products{
+public class Products extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +51,7 @@ public class Products{
     @Builder
     public Products(String productName, Integer productPrice, Integer stockQuantity, String selectTag1,
                     String selectTag2, Categories categories, String imagePath, String detailImagePath,
-                    String productScript, Long id, Integer orderQuantity) {
+                    String productScript, Long id) {
         this.id = id;
         this.productName = productName;
         this.productPrice = productPrice;

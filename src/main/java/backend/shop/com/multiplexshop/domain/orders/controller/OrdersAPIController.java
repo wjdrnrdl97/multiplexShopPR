@@ -27,6 +27,12 @@ public class OrdersAPIController {
         List<OrderProductsResponseDTO> findAllByOrderId = orderService.findAllByOrderId(id);
         return ResponseEntity.ok().body(findAllByOrderId);
     }
+//    @GetMapping("/api/order/product")
+//    public ResponseEntity<OrderProductsResponseDTO> getProductWithCountByRequest
+//                                                                        (@RequestBody OrderProductsRequestDTO request){
+//        OrderProductsResponseDTO productsAndInjectCount = orderService.getProductsAndInjectCount(request);
+//        return ResponseEntity.ok().body(productsAndInjectCount);
+//    }
 
     @DeleteMapping("api/order/{id}")
     public ResponseEntity deleteOrderByOrderId(@PathVariable("id") Long id){

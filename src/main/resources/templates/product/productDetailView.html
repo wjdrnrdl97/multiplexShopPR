@@ -45,7 +45,7 @@
                     <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000</p> <span style="font-size: 16px;">원</span>
                     <div class="order_btns">
                         <button id="cart_btn">장바구니</button>
-<!--                        <a th:href="@{/order}"><button id="order_btn">주문하기</button></a>-->
+                        <button id="order_btn">주문하기</button>
                     </div>
                 </div>
             </div>
@@ -145,22 +145,13 @@
 
         if(order_btn){
             order_btn.addEventListener('click', e => {
-                fetch(`/api/cart`,
-                    {
-                        method: 'POST',
-                        headers: {"Content-Type": "application/json"},
-                        body: JSON.stringify({
-                            productsId : document.querySelector('.productId').value,
-                            memberId : document.getElementById('memberId').value,
-                            count : document.querySelector('.quantity').value
-                        })
-                    }
-                )
-                .then(()=>{
-                    location.replace('')
-                })
+                const productId = document.querySelector('.productId').value;
+                const count = quantity.innerHTML;
+                const uri = `/order/products?productId=${productId}&count=${count}`;                
+                location.replace(uri)
             })
         }
+        
 
 
     </script>

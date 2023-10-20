@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{basic :: setContent(~{this::contentFrag})}">
+    <th:block th:fragment="contentFrag">
+
+
+    <article id="article">        
+        <div class="all_product_box">
+            <div class="stuff_coner">
+                <h2>S T U F F</h2>
+                <form class="all_search_box">
+                    <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>
+                    <select id="foodSelect" name="foodCategory">
+                        <option value="all">ALL</option>
+                        <option value="fruits">FOOD</option>
+                        <option value="vegetables">STUFF</option>
+                        <!-- 추가적인 옵션들을 여기에 추가할 수 있습니다. -->
+                    </select>
+                    <input type="text" class="search_input">
+                    <input type="submit" value="Search">
+                </form>
+                
+                <div class="thumbnail_img">
+                    <div class="products" th:each="item : ${search}">
+                        <a th:href="@{/products/{id}(id=${item.id})}">
+                            <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
+                        </a>
+                        <p th:text="${item.productName}">상품 이름</p>
+                        <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="pagination">
+            <th:block th:each="page : ${#numbers.sequence(1, search.totalPages)}">
+                <a class="page-link" th:class="'page-link '+ ${(search.number + 1) == page? 'pageActive':''}"  th:href="@{/products/search(page = ${page}, keyword = ${keyword})}">
+                    [[${page}]]
+                </a>
+            </th:block>
+        </div>
+    </article>
+
+    <!-- article -->
+
+    </th:block>
+</th:block>
+
+    <script>
+
+    </script>
+
+</body>
+
+</html>

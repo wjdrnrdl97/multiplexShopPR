@@ -25,8 +25,6 @@ public class OrderProductsDTOs {
             this.count = count;
             this.orderPrice = orderPrice;
         }
-
-        @Builder
         public static OrderProductsResponseDTO of(OrderProducts orderProducts){
             return OrderProductsResponseDTO.builder()
                     .id(orderProducts.getId())

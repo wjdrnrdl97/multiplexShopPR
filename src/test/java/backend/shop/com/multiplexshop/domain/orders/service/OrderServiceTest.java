@@ -369,4 +369,22 @@ class OrderServiceTest {
         //then
         assertThat(result).hasSize(2);
     }
+    @Test
+    @DisplayName("요청에 따라 상품을 조회한 후 주문 갯수와 함께 반환한다.")
+    public void getProductsAndInjectCount(){
+        //given
+        Products products1 = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .categories(Categories.STUFF)
+                .build();
+        Products savedStuff = productsRepository.save(products1);
+
+        //when
+        OrderProductsResponseDTO result = orderService.getProductsAndInjectCount(1L,3);
+        //then
+        assertThat(result).isNotNull();
+        assertThat(result.getCount()).isEqualTo(3);
+    }
 }

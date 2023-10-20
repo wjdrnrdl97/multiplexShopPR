@@ -13,14 +13,14 @@
                 <h2>F O O D</h2>
                 <button style="background: transparent; border: 1px solid black;" ><a th:href="@{/products/createProducts}">P O S T</a></button>
 
-                <form class="all_search_box">
+                <form class="all_search_box" onsubmit="return handleSubmit();">
                     <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>
                     <select id="foodSelect" name="foodCategory">
                         <option value="ALL">ALL</option>
                         <option value="FOOD">FOOD</option>
                         <option value="STUFF">STUFF</option>
                     </select>
-                    <input type="text" class="search_input">
+                    <input type="text" class="search_input" id="searchInput">
                     <input type="submit" value="Search">
                 </form>
                 
@@ -59,7 +59,22 @@
     </th:block>
 </th:block>
     <script>
+        function handleSubmit(){
+            var keyword = document.getElementById("searchInput");
+            var select = document.getElementById("foodSelect");
 
+            if(keyword.value.trim()===""){
+                alert("검색어를 입력하세요")
+                return false;
+            }
+
+            if(select.value==="ALL"){
+                const uri  =`/products/search?keyword=${keyword.value}`;
+                location.replace(uri);
+                return false;
+            }
+            return true;
+        }
     </script>
 
 </body>

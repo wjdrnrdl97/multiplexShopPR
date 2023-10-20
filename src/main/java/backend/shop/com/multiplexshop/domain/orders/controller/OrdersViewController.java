@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class OrdersViewController {
         return "order/orderComplete";
     }
     @GetMapping("/{id}")
-    public String getDetailOrderWithProductsAndDeliveryByOrderId(@PathVariable("id") Long id, Model model){
+    public String getOrderDetailAndDeliveryByOrderId(@PathVariable("id") Long id, Model model){
         List<OrderProductsResponseDTO> findAllByOrderId = orderService.findAllByOrderId(id);
         model.addAttribute("orderProduct",findAllByOrderId);
 
@@ -38,4 +39,11 @@ public class OrdersViewController {
         return "order/detailOrder";
     }
 
+    @GetMapping("/products")
+    public String getProductsFromProductPageToOrderPage
+                                            (@RequestParam Long productId, @RequestParam Integer count, Model model){
+        OrderProductsResponseDTO productsWithCount = orderService.getProductsAndInjectCount(productId,count);
+        model.addAttribute("product", productsWithCount);
+        return "order/order";
+    }
 }

@@ -1,4 +1,4 @@
-package backend.shop.com.multiplexshop.domain.orders;
+package backend.shop.com.multiplexshop.domain.orders.repository;
 
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;

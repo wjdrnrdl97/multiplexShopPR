@@ -15,6 +15,7 @@ import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import static backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -92,15 +94,15 @@ class OrdersAPIControllerTest {
                 .build();
         memberRepository.save(member);
 
-        OrderProductsDTOs.OrderProductsRequestDTO dto1 = OrderProductsDTOs.OrderProductsRequestDTO.builder()
+        OrderProductsRequestDTO dto1 = OrderProductsRequestDTO.builder()
                 .productId(1L)
                 .count(4)
                 .build();
-        OrderProductsDTOs.OrderProductsRequestDTO dto2 = OrderProductsDTOs.OrderProductsRequestDTO.builder()
+        OrderProductsRequestDTO dto2 = OrderProductsRequestDTO.builder()
                 .productId(2L)
                 .count(4)
                 .build();
-        List<OrderProductsDTOs.OrderProductsRequestDTO> productAndCount = List.of(dto1, dto2);
+        List<OrderProductsRequestDTO> productAndCount = List.of(dto1, dto2);
         OrderRequestDTO request = OrderRequestDTO.builder()
                 .memberId(1L)
                 .productWithCount(productAndCount)
@@ -177,4 +179,28 @@ public void getOrderWithProductByOrderId() throws Exception{
         //then
                 .andExpect(status().isNoContent());
     }
+//    @Test
+//    @DisplayName("요청을 통해 해당 상품을 조회한 후 HTTP 200코드와 함께 상품과 주문갯수를 응답한다.")
+//    public void getProductWithCountByRequest() throws Exception {
+//        //given
+//        String uri = "/api/order/product";
+//        Products products1 = Products.builder()
+//                .productName("향수")
+//                .productPrice(10000)
+//                .stockQuantity(100)
+//                .categories(Categories.STUFF)
+//                .build();
+//        productsRepository.save(products1);
+//        OrderProductsRequestDTO dto = OrderProductsRequestDTO.builder()
+//                .productId(1L)
+//                .count(3)
+//                .build();
+//        String request = objectMapper.writeValueAsString(dto);
+//        //when
+//        mockMvc.perform(get(uri).contentType(MediaType.APPLICATION_JSON).content(request))
+//        //then
+//                .andExpect(status().isOk())
+//                .andDo(print());
+//    }
+
 }
