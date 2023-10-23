@@ -36,14 +36,38 @@ public class MemberDTOs {
         private String memberName;
         private String memberAddress;
         private String phoneNumber;
+        private Role role;
 
-        public MemberResponseDTO(Member member) {
-            this.memberId = member.getMemberId();
-            this.memberEmailId = member.getMemberEmailId();
-            this.password = member.getPassword();
-            this.memberName = member.getMemberName();
-            this.memberAddress = member.getMemberAddress();
-            this.phoneNumber = member.getPhoneNumber();
+        @Builder
+        public MemberResponseDTO(Long memberId, String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
+            this.memberId = memberId;
+            this.memberEmailId = memberEmailId;
+            this.password = password;
+            this.memberName = memberName;
+            this.memberAddress = memberAddress;
+            this.phoneNumber = phoneNumber;
+            this.role = role;
+        }
+        public static MemberResponseDTO of(Member member){
+            return MemberResponseDTO.builder()
+                    .memberId(member.getMemberId())
+                    .memberEmailId(member.getMemberEmailId())
+                    .password(member.getPassword())
+                    .memberName(member.getMemberName())
+                    .memberAddress(member.getMemberAddress())
+                    .phoneNumber(member.getPhoneNumber())
+                    .role(member.getRole())
+                    .build();
+        }
+        public static MemberResponseDTO withoutPassword(Member member){
+            return MemberResponseDTO.builder()
+                    .memberId(member.getMemberId())
+                    .memberEmailId(member.getMemberEmailId())
+                    .memberName(member.getMemberName())
+                    .memberAddress(member.getMemberAddress())
+                    .phoneNumber(member.getPhoneNumber())
+                    .role(member.getRole())
+                    .build();
         }
     }
 

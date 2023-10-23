@@ -428,6 +428,26 @@ button[type="submit"]:hover{
     transition: all 0.3s;
 }
 
+.join_button{
+    position: absolute;
+    display: inline;
+    top: 358px;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid black;
+    border-radius: 2px;
+    background-color: transparent;
+    cursor: pointer;
+    font-weight: bold;
+    color: black;
+    
+}
+.join_button:hover{
+    background-color: black;
+    color: white;
+    transition: all 0.3s;
+}
+
 .join_box{
     border: 1px solid #000;
     margin: 50px auto;

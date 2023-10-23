@@ -5,6 +5,8 @@ import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
 import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
 import backend.shop.com.multiplexshop.domain.config.interceptor.SessionConst;
+import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs;
+import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.MemberResponseDTO;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,7 +34,7 @@ public class BoardViewController {
     public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model, HttpSession session){
         List<BoardResponseDTO> noticePages = boardService.findByNotice();
         Page<BoardResponseDTO> postPages = boardService.findByPost(page);
-        Member loginUser = (Member) session.getAttribute("loginUser");
+        MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
 
         model.addAttribute("login",loginUser);
         model.addAttribute("notice",noticePages);
@@ -44,14 +46,15 @@ public class BoardViewController {
 
 
     @GetMapping("/board/{id}")
-    public String getBoard(@PathVariable("id") Long boardId,HttpServletRequest request,
-                           @RequestParam(defaultValue = "0") int page,
-                                                HttpServletResponse response, Model model){
+    public String getBoard(@PathVariable("id") Long boardId, HttpServletRequest request, HttpSession session,
+                           @RequestParam(defaultValue = "0") int page, HttpServletResponse response, Model model){
+
         Board getBoard = boardService.viewCountValidation(boardId, request,response);
-        List<CommentResponseDTO> commentResponseDTOList =
-                commentService.findAllByBoard(boardId);
+        List<CommentResponseDTO> commentResponseDTOList = commentService.findAllByBoard(boardId);
 
+        MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
 
+        model.addAttribute("loginUser", loginUser);
         model.addAttribute("comment", commentResponseDTOList);
         model.addAttribute("getBoard",new BoardResponseDTO(getBoard));
         model.addAttribute("page",page);
@@ -63,7 +66,7 @@ public class BoardViewController {
                               @RequestParam(defaultValue = "0")int page,
                               Model model, HttpSession session){
 
-        Member loginUser = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
         if(boardId == null){
             model.addAttribute("login",loginUser);
             model.addAttribute("Board", new BoardResponseDTO());

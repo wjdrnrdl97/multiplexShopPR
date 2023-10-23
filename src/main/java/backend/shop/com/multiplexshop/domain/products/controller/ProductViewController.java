@@ -1,11 +1,13 @@
 package backend.shop.com.multiplexshop.domain.products.controller;
 
+import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.MemberResponseDTO;
 import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
 import backend.shop.com.multiplexshop.domain.products.service.UploadService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -42,7 +44,11 @@ public class ProductViewController {
     }
 
     @GetMapping
-    public String getAllProductsView(@RequestParam(defaultValue = "0")int page,Model model){
+    public String getAllProductsView(@RequestParam(defaultValue = "0")int page, HttpSession session, Model model){
+
+        MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
+        model.addAttribute("loginUser", loginUser);
+
         Page<ProductsResponseDTO> allStuffProducts =
                 productsService.findAllProductsByCategories(Categories.STUFF,page);
 
@@ -72,15 +78,24 @@ public class ProductViewController {
         return "product/stuffProduct";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/searchAll")
     public String getSearchAllProductsView
                                 (@RequestParam(defaultValue = "0")int page,@RequestParam String keyword, Model model){
         Page<ProductsResponseDTO> productNameContaining = productsService.findAllByProductNameContaining(keyword, page);
         model.addAttribute("search", productNameContaining);
         model.addAttribute("keyword", keyword);
-        return "product/searchProduct";
+        return "product/searchAll";
     }
-
+    @GetMapping("/search")
+    public String getSearchCategoryProductsView(@RequestParam(defaultValue = "0")int page,
+                                    @RequestParam Categories categories, @RequestParam String keyword, Model model){
+        Page<ProductsResponseDTO> byCategoriesAndProductNameContaining =
+                                productsService.findAllByCategoriesAndProductNameContaining(categories, keyword, page);
+        model.addAttribute("search",byCategoriesAndProductNameContaining);
+        model.addAttribute("keyword",keyword);
+        model.addAttribute("categories",categories);
+        return "product/searchCategory";
+    }
     @GetMapping("/createProducts")
     public String getCreateProductsView(){
 
@@ -94,7 +109,6 @@ public class ProductViewController {
         model.addAttribute("product",productById);
         return "product/modifyProduct";
     }
-
 
     @GetMapping("uploadImage")
     public String getUploadImageModal(){

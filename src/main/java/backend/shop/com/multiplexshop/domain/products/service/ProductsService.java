@@ -102,4 +102,20 @@ public class ProductsService {
 
         return productsByNameContaining.map(ProductsResponseDTO::of);
     }
+
+    public Page<ProductsResponseDTO>findAllByCategoriesAndProductNameContaining
+                                                                    (Categories categories, String keyword, int page){
+        int pageNum = (page == 0) ? 0 : page - 1;
+        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by(Sort.Direction.DESC, "modDate"));
+        Page<Products> byCategoriesAndProductNameContaining
+                        = productsRepository.findAllByCategoriesAndProductNameContaining(categories, keyword, pageable);
+        return byCategoriesAndProductNameContaining.map(ProductsResponseDTO::of);
+    }
+
+    public Page<ProductsResponseDTO>findAllOfPagination(int page){
+        int pageNum = (page == 0) ? 0 : page - 1;
+        PageRequest pageable = PageRequest.of(pageNum, 10, Sort.by(Sort.Direction.DESC, "id"));
+        Page<Products> allProductOfPagination = productsRepository.findAll(pageable);
+        return allProductOfPagination.map(ProductsResponseDTO::of);
+    }
 }

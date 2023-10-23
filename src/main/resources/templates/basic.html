@@ -40,14 +40,30 @@
             </a>
         </li>
         <li th:if="${session.loginUser == null}">
-            <a th:href="@{/join}">Join</a>
+            <a th:href="@{/join}">
+                <i class="fa-solid fa-arrow-right-to-bracket" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                <span>Join</span>
+            </a>
         </li>
         <li>
-            <a th:if="${session.loginUser == null}" th:href="@{/login}">Login</a>
-            <a th:if="${session.loginUser != null}" style="cursor: pointer;" id="logoutBtn">Logout</a>
+            <a th:if="${session.loginUser == null}" th:href="@{/login}">
+                <i class="fa-solid fa-power-off" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                <span>Login</span>
+            </a>
+            <a th:if="${session.loginUser != null}" style="cursor: pointer;" id="logoutBtn">
+                <i class="fa-solid fa-door-open" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                <span>Logout</span>
+            </a>
         </li>
         <li th:if="${session.loginUser != null}">
-            <a th:href="@{/mypage/{id}(id=${session.loginUser.memberId})}">MyPage</a>
+            <a th:if="${session.loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).USER}" th:href="@{/mypage/{id}(id=${session.loginUser.memberId})}">
+                <i class="fa-solid fa-user" style="color: black; display: block; text-align: center; line-height: 40px;"></i>
+                <span>MyPage</span>
+            </a>
+            <a th:if="${session.loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).ADMIN}" th:href="@{/adminpage}">
+                <i class="fa-solid fa-gear" style="display: block; text-align: center; line-height: 40px;"></i>
+                <span>AdminPage</span>
+            </a>
         </li>
     </ul>
 </nav>
@@ -66,8 +82,7 @@
 <!-- footer -->
 
 </body>
-<script src="https://kit.fontawesome.com/d2cac4190c.js" crossorigin="anonymous"></script>
-    <script>
+     <script src="https://kit.fontawesome.com/0febe7a16f.js" crossorigin="anonymous"></script>
         const logoutBtn = document.querySelector('#logoutBtn');
 
         if (logoutBtn) {

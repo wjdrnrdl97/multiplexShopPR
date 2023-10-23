@@ -20,6 +20,8 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
 
     Page<Products> findAllByCategoriesAndProductNameContaining
                                     (Categories categories, String productName, Pageable pageable);
+    @Override
+    Page<Products> findAll(Pageable pageable);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from Products p where p.id = :id")

@@ -5,7 +5,11 @@ import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.member.service.MemberService;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
+import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
+import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.ProductsResponseDTO;
+import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +29,7 @@ public class MemberViewController {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final OrderService orderService;
+    private final ProductsService productsService;
     private final DeliveryService deliveryService;
 
     @GetMapping("/join")
@@ -32,8 +37,8 @@ public class MemberViewController {
         if (id == null){
             model.addAttribute("member",new MemberResponseDTO());
         }else {
-            Member member = memberService.findById(id);
-            model.addAttribute("member", new MemberResponseDTO(member));
+            MemberResponseDTO  findMember = memberService.findById(id);
+            model.addAttribute("member", findMember);
         }
         return "member/join";
     }
@@ -45,17 +50,20 @@ public class MemberViewController {
 
     @GetMapping("/mypage/{id}")
     public String getMyPageView(Model model, @PathVariable Long id){
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalStateException("등록 되지않은 회원입니다."));
+        MemberResponseDTO getMemberByMemberId = memberService.findById(id);
+        model.addAttribute("member", getMemberByMemberId);
 
-        MemberResponseDTO responseDTO = new MemberResponseDTO(member);
-        model.addAttribute("member", responseDTO);
+        List<OrderResponseDTO> getOrderByMemberId = orderService.findAllByMemberId(id);
+        model.addAttribute("order", getOrderByMemberId);
 
-        List<OrderResponseDTO> getOrderByMember = orderService.findAllByMemberId(id);
-        model.addAttribute("order", getOrderByMember);
-
-        List<DeliveryResponseDTO> getDeliveryByMember = deliveryService.findAllByMemberId(id);
-        model.addAttribute("orderDelivery",getDeliveryByMember);
+        List<DeliveryResponseDTO> getDeliveryByMemberId = deliveryService.findAllByMemberId(id);
+        model.addAttribute("orderDelivery",getDeliveryByMemberId);
         return "member/mypage";
+    }
+    @GetMapping("/adminpage")
+    public String getAdminPageView(@RequestParam(defaultValue = "0") int page, Model model){
+        Page<ProductsResponseDTO> allProductOfPagination = productsService.findAllOfPagination(page);
+        model.addAttribute("product", allProductOfPagination);
+        return "admin/adminPage";
     }
 }

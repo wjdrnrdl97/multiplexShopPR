@@ -4,42 +4,32 @@
 <th:block th:replace="~{basic :: setContent(~{this::contentFrag})}">
     <th:block th:fragment="contentFrag">
 
-    <article id="article">
+
+    <article id="article">        
         <div class="all_product_box">
-
-
-            <div class="food_coner">                
-                <h2>F O O D</h2>
-                <button th:if="${loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).ADMIN}" style="background: transparent; border: 1px solid black;"><a th:href="@{/products/createProducts}">P O S T</a></button>
-
+            <div class="stuff_coner">                
+                <h2>[[${categories}]]</h2>
                 <form class="all_search_box" th:action="@{/products/search}" onsubmit="return handleSubmit();">
                     <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>
                     <select id="foodSelect" name="categories">
                         <option value="ALL">ALL</option>
-                        <option value="FOOD">FOOD</option>
-                        <option value="STUFF">STUFF</option>
+                        <option value="FOOD" th:selected="${categories == T(backend.shop.com.multiplexshop.domain.products.entity.Categories).FOOD}">FOOD</option>
+                        <option value="STUFF" th:selected="${categories == T(backend.shop.com.multiplexshop.domain.products.entity.Categories).STUFF}">STUFF</option>
                     </select>
                     <input type="text" class="search_input" id="searchInput" name="keyword">
                     <input type="submit" value="Search">
                 </form>
+
+                <div  th:if="${!search.hasContent()}" class="errorPageBox" style="text-align:center;">
+                    <h1>검색하신 <span style="color: #ff1d18;">[[${keyword}]]</span>에 대한 검색결과가 없습니다.</h1>
+                    <p style="font-weight: bold;">다른 검색어로 검색해 보세요.</p>
+                    <p style="font-weight: bold;">다른 카테고리를 선택하여 재검색해 보세요.</p>
+                    <br/>
+                    <img src="/img/noResult.png" style="height:300px; width:300px;">
+                </div>
                 
                 <div class="thumbnail_img">
-                    <div class="products" th:each="item, iterStat : ${food}" th:if="${iterStat.index lt 3}">
-                        <a th:href="@{/products/{id}(id=${item.id})}">
-                                <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
-                        </a>
-                        <p th:text="${item.productName}">상품 이름</p>
-                        <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
-                    </div>
-                </div>
-            </div>
-
-            <hr style="">
-
-            <div class="stuff_coner">
-                <h2 style="margin-bottom: 100px;">S T U F F</h2>
-                <div class="thumbnail_img">
-                    <div class="products" th:each="item, iterStat : ${stuff}" th:if="${iterStat.index lt 3}">
+                    <div class="products" th:each="item : ${search}">
                         <a th:href="@{/products/{id}(id=${item.id})}">
                             <img th:src="@{'/uploadfile/'+${item.imagePath}}" width="300px" height="300px">
                         </a>
@@ -47,16 +37,24 @@
                         <p>가격 : <span th:text="${item.productPrice}"></span><span>원</span></p>
                     </div>
                 </div>
-
             </div>
         </div>
 
+
+        <div class="pagination" th:if="${search.hasContent()}">
+            <th:block th:each="page : ${#numbers.sequence(1, search.totalPages)}">
+                <a class="page-link" th:class="'page-link '+ ${(search.number + 1) == page? 'pageActive':''}"  th:href="@{/products/search(categories = ${categories}, page = ${page}, keyword = ${keyword})}">
+                    [[${page}]]
+                </a>
+            </th:block>
+        </div>
     </article>
 
     <!-- article -->
 
     </th:block>
 </th:block>
+
     <script>
         function handleSubmit(){
             var keyword = document.getElementById("searchInput");
@@ -77,6 +75,6 @@
         }
     </script>
 
-</body>
+
 
 </html>

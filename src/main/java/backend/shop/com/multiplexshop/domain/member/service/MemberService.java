@@ -24,9 +24,10 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public Member findById(Long id){
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("등록되지않은 회원 입니다. : "+id));
+    public MemberResponseDTO findById(Long id){
+        Member findMember = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("등록되지않은 회원 입니다. : " + id));
+        return MemberResponseDTO.of(findMember);
     }
 
     public void duplicateEmailValidate(Member member){
@@ -37,11 +38,10 @@ public class MemberService {
     }
 
     public void deleteMemberById(Long id){
-        Member deleteMember = findById(id);
+        Member deleteMember = memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("등록되지않은 회원 입니다. : " + id));
         memberRepository.delete(deleteMember);
     }
-
-
 
     public Member dtoToMemberEntity(MemberRequestDTO memberRequestDTO){
         return Member.builder()

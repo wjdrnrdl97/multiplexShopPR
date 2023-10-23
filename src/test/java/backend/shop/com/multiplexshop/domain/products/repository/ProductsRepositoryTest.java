@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.objenesis.ObjenesisStd;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -102,5 +103,25 @@ class ProductsRepositoryTest {
 
         assertThat(result.getNumberOfElements()).isEqualTo(6);
         assertThat(result.getTotalPages()).isEqualTo(1);
+    }
+    @Test
+    @DisplayName("모든 상품목록을 조회하여 페이징처리에 성공한다.")
+    public void findAll(){
+        //given
+        for (int i = 0; i < 10; i++) {
+            Products stuff = Products.builder()
+                    .productName("향수" + i)
+                    .productPrice(10000)
+                    .stockQuantity(100)
+                    .categories(Categories.STUFF)
+                    .build();
+            productsRepository.save(stuff);
+        }
+        PageRequest pageable = PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "id"));
+        //when
+        Page<Products> result = productsRepository.findAll(pageable);
+        //then
+        assertThat(result.getNumberOfElements()).isEqualTo(5);
+        assertThat(result.getTotalPages()).isEqualTo(2);
     }
 }

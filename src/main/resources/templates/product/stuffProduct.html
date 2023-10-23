@@ -9,15 +9,14 @@
         <div class="all_product_box">
             <div class="stuff_coner">
                 <h2>S T U F F</h2>
-                <form class="all_search_box">
+                <form class="all_search_box" th:action="@{/products/search}" onsubmit="return handleSubmit();">
                     <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>
-                    <select id="foodSelect" name="foodCategory">
-                        <option value="all">ALL</option>
-                        <option value="fruits">FOOD</option>
-                        <option value="vegetables">STUFF</option>
-                        <!-- 추가적인 옵션들을 여기에 추가할 수 있습니다. -->
+                    <select id="foodSelect" name="categories">
+                        <option value="ALL">ALL</option>
+                        <option value="FOOD">FOOD</option>
+                        <option value="STUFF" selected>STUFF</option>
                     </select>
-                    <input type="text" class="search_input">
+                    <input type="text" class="search_input" id="searchInput" name="keyword">
                     <input type="submit" value="Search">
                 </form>
                 
@@ -47,10 +46,25 @@
 
     </th:block>
 </th:block>
+<script>
+    function handleSubmit(){
+        var keyword = document.getElementById("searchInput");
+        var select = document.getElementById("foodSelect");
 
-    <script>
+        if(keyword.value.trim()===""){
+            alert("검색어를 입력하세요")
+            return false;
+        }
 
-    </script>
+        if(select.value==="ALL"){
+            const uri  =`/products/searchAll?keyword=${keyword.value}`;
+            location.replace(uri);
+            return false;
+        }
+
+        return true;
+    }
+</script>
 
 </body>
 
