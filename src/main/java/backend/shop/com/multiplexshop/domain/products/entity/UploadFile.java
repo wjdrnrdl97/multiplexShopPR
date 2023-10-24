@@ -38,9 +38,8 @@ public class UploadFile {
         return this;
     }
 
-    public UploadFile(String originalFileName, String storeFileName, String productName) {
+    public UploadFile(String originalFileName, String storeFileName) {
         this.originalFileName = originalFileName;
         this.storeFileName = storeFileName;
-        this.productName = productName;
     }
 }

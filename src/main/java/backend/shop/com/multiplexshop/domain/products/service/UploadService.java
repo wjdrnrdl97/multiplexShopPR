@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs.*;
+
 @Service
 @RequiredArgsConstructor
 public class UploadService {
@@ -35,22 +37,24 @@ public class UploadService {
                 .map(UploadFileDTOs::new)
                 .toList();
     }
-
-    public void uploadImageByRequest(UploadFileDTOs request) throws IOException {
+    public UploadFileResponseDTO createUploadFileByRequest(MultipartFile request) throws IOException {
+        UploadFile createUploadFile = storeImageFileByRequest(request)
+                .orElseThrow(() -> new BadImageException("잘못된 이미지입니다."));
+        UploadFile storedUploadFile = uploadFileRepository.save(createUploadFile);
+        return new UploadFileResponseDTO().of(storedUploadFile);
+    }
+    public void uploadImageByRequest(MultipartFile request) throws IOException {
         UploadFile storedImageFile = storeImageFileByRequest(request)
                 .orElseThrow(() -> new BadImageException("잘못된 이미지입니다."));
         uploadFileRepository.save(storedImageFile);
     }
 
-    private Optional<UploadFile> storeImageFileByRequest(UploadFileDTOs request) throws IOException {
-        MultipartFile multipartFile = request.getMultipartFile();
-
-        String originalFilename = multipartFile.getOriginalFilename();
+    private Optional<UploadFile> storeImageFileByRequest(MultipartFile request) throws IOException {
+        String originalFilename = request.getOriginalFilename();
         String storeFileName = createStoreFileName(originalFilename);
-        String productName = request.getProductName();
 
-        multipartFile.transferTo(new File(getFullPath(storeFileName)));
-        return Optional.of(new UploadFile(originalFilename,storeFileName,productName));
+        request.transferTo(new File(getFullPath(storeFileName)));
+        return Optional.of(new UploadFile(originalFilename,storeFileName));
     }
 
     private String createStoreFileName(String originalFilename) {

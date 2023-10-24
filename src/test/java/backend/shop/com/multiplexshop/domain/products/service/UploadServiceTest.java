@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs.*;
 import static org.assertj.core.api.Assertions.*;
 
 
@@ -22,10 +23,8 @@ class UploadServiceTest extends IntegrationTestSupport {
         //given
         byte[] testByte = null;
         MultipartFile mockMultipartFile = new MockMultipartFile("테스트","test.png",null, testByte);
-        UploadFileDTOs request = UploadFileDTOs.builder()
-                .productName("향수")
-                .multipartFile(mockMultipartFile)
-                .build();
+
+        UploadFileRequestDTO request = UploadFileRequestDTO.builder().multipartFile(mockMultipartFile).build();
         //when
         uploadService.uploadImageByRequest(request);
         //then
@@ -33,6 +32,5 @@ class UploadServiceTest extends IntegrationTestSupport {
 
         assertThat(result).isNotNull();
         assertThat(result.getStoreFileName().contains("png")).isEqualTo(true);
-        assertThat(result.getProductName()).isEqualTo("향수");
     }
 }

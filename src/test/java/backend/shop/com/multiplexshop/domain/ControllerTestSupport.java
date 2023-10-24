@@ -2,6 +2,7 @@ package backend.shop.com.multiplexshop.domain;
 
 
 import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
+import backend.shop.com.multiplexshop.domain.products.service.UploadService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public abstract class ControllerTestSupport {
     protected WebApplicationContext context;
     @Autowired
     protected ProductsService productsService;
+    @Autowired
+    protected UploadService uploadService;
 
     @BeforeEach
     void setUp() {
