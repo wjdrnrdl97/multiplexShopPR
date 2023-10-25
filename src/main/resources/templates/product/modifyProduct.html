@@ -8,6 +8,7 @@
             <div class="right_contents">
                 <div class="notice_contents">
                     <input type="hidden" th:value="${product.id}" class="productId">
+                    <h3> 상품 카데고리 : </h3> 
                     <select name="product_category" id="categories" class="product_select">
                         <option value="FOOD">FOOD</option>
                         <option value="STUFF">STUFF</option>
@@ -23,9 +24,31 @@
                                             id="productPrice"
                                             th:value="${product.productPrice}">
                     </p>
+                    <p>
+                        <div>
+                            <h3>썸네일 이미지 등록하기 → <label for="thumnailFile">C L I C K   H E R E</label> </h3>
+                            <button class="txt_tit_notice" id="thumnailUploadButton" type="button">이미지 미리보기</button>
+                        </div>
+                        <input type="file" id="thumnailFile" accept="image/*" style="visibility: hidden;">                                                
+                    </p>
+                    <input type="hidden" id="thumnailImageId" value="0">
+                    <input type="hidden" id="thumnailPath" value="image">
+                    <div id="thumnail-container"></div>
+                    <p>
+                        <div>
+                            <h3>상세내용 이미지 등록하기 → <label for="detailFile">C L I C K   H E R E</label> </h3>
+                            <button class="txt_tit_notice" id="detailUploadButton" type="button">이미지 미리보기</button>
+                        </div>
+                        <input type="file" id="detailFile" accept="image/*" style="visibility: hidden;">
+                        <input type="hidden" id="detailImageId" value="0">
+                        <input type="hidden" id="detailPath" value="image">                                                                        
+                    </p>
+                    <div id="detail-container"></div>
+
                     <h3> 제품에대한 상세 설명을 해주세요. </h3>
                     <label for="productScript"></label>
                     <textarea class="box_contents" id="productScript" th:text="${product.productScript}"></textarea>
+                    
                 </div>
             </div>
                 <div class="btns">

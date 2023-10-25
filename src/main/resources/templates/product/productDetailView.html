@@ -20,7 +20,7 @@
 
             <div class="detail_box">
                 <div class="product_img">
-                    <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
+                    <img th:src="@{'/uploadfile/'+${product.imagePath}}">
                 </div>
 
                 <div class="product_info">
@@ -41,7 +41,7 @@
                     </select>
 
                     <br>
-                    <button class="minusBtn"></button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
+                    <button class="minusBtn"> < </button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
                     <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000</p> <span style="font-size: 16px;">원</span>
                     <div class="order_btns">
                         <button id="cart_btn">장바구니</button>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="product_info_img">
-                <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
+                <img th:src="@{'/uploadfile/'+${product.detailImagePath}}">
                 <p th:text="${product.productScript}">정말 좋은 향수네요.</p>
             </div>
         </div>

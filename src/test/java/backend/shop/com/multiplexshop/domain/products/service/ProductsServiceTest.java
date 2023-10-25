@@ -109,4 +109,23 @@ class ProductsServiceTest extends IntegrationTestSupport {
         assertThat(result.getTotalPages()).isEqualTo(1);
         assertThat(result.getNumberOfElements()).isEqualTo(10);
     }
+    @Test
+    @DisplayName("요청에 따라(상품번호) 해당 상품을 조회에 성공한다.")
+    public void test(){
+        //given
+        Products products = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .imagePath("썸네일")
+                .detailImagePath("상세이미지")
+                .categories(Categories.STUFF)
+                .build();
+        Products findProduct = productsRepository.save(products);
+        //when
+        ProductsResponseDTO result = productService.findProductByRequest(1L);
+        //then
+        assertThat(result).isNotNull();
+        assertThat(result.getProductName()).isEqualTo("향수");
+    }
 }

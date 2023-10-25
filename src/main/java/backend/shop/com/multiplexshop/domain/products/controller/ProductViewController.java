@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs.*;
 
 @Controller
 @Slf4j
@@ -34,12 +35,8 @@ public class ProductViewController {
     @GetMapping("/{productsId}")
     public String getProductsDetailView(@PathVariable Long productsId, Model model){
 
-        Products responseProduct = productsService.findProductById(productsId);
-        List<UploadFile> uploadFile = productsService.findUploadFile(productsId);
-
-        model.addAttribute("img",new UploadFileDTOs(uploadFile.get(0)));
-        model.addAttribute("product", ProductsResponseDTO.of(responseProduct));
-
+        ProductsResponseDTO productByRequest = productsService.findProductByRequest(productsId);
+        model.addAttribute("product", productByRequest);
         return "product/productDetailView";
     }
 
@@ -104,9 +101,11 @@ public class ProductViewController {
 
     @GetMapping("/modifyProducts/{productId}")
     public String getUpdateProductsView(Model model, @PathVariable Long productId){
-        Products productById = productsService.findProductById(productId);
+        ProductsResponseDTO productByRequest = productsService.findProductByRequest(productId);
+        List<UploadFileResponseDTO> allUploadFileByRequest = uploadService.findAllUploadFileByProductId(productId);
 
-        model.addAttribute("product",productById);
+        model.addAttribute("product",productByRequest);
+        model.addAttribute("img",allUploadFileByRequest);
         return "product/modifyProduct";
     }
 

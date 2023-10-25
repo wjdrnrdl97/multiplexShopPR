@@ -67,8 +67,14 @@ public class ProductsService {
 
     private void deleteImageFilesByProduct(Long productId) {
         Products productById = findProductById(productId);
-        List<UploadFile> byProducts = uploadFileRepository.findByProducts(productById);
+        List<UploadFile> byProducts = uploadFileRepository.findAllByProducts(productById);
         uploadFileRepository.deleteAll(byProducts);
+    }
+
+    public ProductsResponseDTO findProductByRequest(Long productId){
+        Products findProductById = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + productId));
+        return ProductsResponseDTO.of(findProductById);
     }
 
     public Products findProductById(Long productId) {
@@ -78,7 +84,7 @@ public class ProductsService {
 
     public List<UploadFile> findUploadFile(Long productId){
         Products products = findProductById(productId);
-        return uploadFileRepository.findByProducts(products);
+        return uploadFileRepository.findAllByProducts(products);
     }
 
 
