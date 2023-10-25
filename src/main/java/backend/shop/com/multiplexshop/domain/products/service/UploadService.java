@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -42,6 +43,20 @@ public class UploadService {
                 .orElseThrow(() -> new BadImageException("잘못된 이미지입니다."));
         UploadFile storedUploadFile = uploadFileRepository.save(createUploadFile);
         return new UploadFileResponseDTO().of(storedUploadFile);
+    }
+    @Transactional
+    public UploadFileResponseDTO changeUploadFileNameByRequest(Long id, MultipartFile request) throws IOException{
+        UploadFile findUploadFile = uploadFileRepository.findById(id)
+                .orElseThrow(() -> new BadImageException("잘못된 이미지입니다."));
+
+        String originalFilename = request.getOriginalFilename();
+        String storeFileName = createStoreFileName(originalFilename);
+        request.transferTo(new File(getFullPath(storeFileName)));
+
+        findUploadFile.changeFilenames(originalFilename,storeFileName);
+        UploadFile changeFileName = uploadFileRepository.save(findUploadFile);
+        return new UploadFileResponseDTO().of(changeFileName);
+
     }
     public void uploadImageByRequest(MultipartFile request) throws IOException {
         UploadFile storedImageFile = storeImageFileByRequest(request)

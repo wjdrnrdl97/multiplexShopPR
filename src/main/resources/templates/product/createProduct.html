@@ -7,23 +7,45 @@
             <div class="right_contents">
                 <!-- 공지사항 본문 -->
                 <div class="notice_contents">
+                    <p>
+                    <h3> 상품 카데고리 : </h3> 
                     <select name="product_category" id="categories" class="product_select">
                         <option value="FOOD">FOOD</option>
                         <option value="STUFF">STUFF</option>
                     </select>
+                    </p>
                     <p>
                     <h3> 상품명 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="productName">
                     </p>
                     <p>
-                    <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="stockQuantity">
+                    <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;"  id="stockQuantity">
                     </p>
                     <p>
-                    <h3> 가 격 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="productPrice">
+                    <h3> 가 격 : </h3> <input class="txt_tit_notice" style="width: 400px;"  id="productPrice">
                     </p>
                     <p>
-                    <h3> 이미지 등록하기 : </h3> <input type="button" onclick="getModal()" value="Image Upload" class="txt_tit_notice">
+                        <div>
+                            <h3>썸네일 이미지 등록하기 → <label for="thumnailFile">C L I C K   H E R E</label> </h3>
+                            <button class="txt_tit_notice" id="thumnailUploadButton" type="button">이미지 미리보기</button>
+                        </div>
+                        <input type="file" id="thumnailFile" accept="image/*" style="visibility: hidden;">                                                
                     </p>
-                    <h3> 제품에대한 상세 설명을 해주세요. </h3>
+                    <input type="text" id="thumnailImageId" value="0">
+                    <input type="text" id="thumnailPath" value="image">
+                    <div id="thumnail-container">
+                    </div>
+                    <p>
+                        <div>
+                            <h3>상세내용 이미지 등록하기 → <label for="detailFile">C L I C K   H E R E</label> </h3>
+                            <button class="txt_tit_notice" id="detailUploadButton" type="button">이미지 미리보기</button>
+                        </div>
+                        <input type="file" id="detailFile" accept="image/*" style="visibility: hidden;">
+                        <input type="text" id="detailImageId" value="0">
+                        <input type="text" id="detailPath" value="image">                                                
+                    </p>
+                    <div id="detail-container"></div>
+
+                    <h3> 제품에 대한 상세 설명을 해주세요. </h3>
                     <label for="productScript"></label>
                     <textarea class="box_contents" id="productScript"></textarea>
 
@@ -41,16 +63,155 @@
 </th:block>
 <script>
 
-    function getModal(){
-        window.open('uploadImage', 'Modal', 'width=500,height=400,left=50%,top=50%,resizable=no');
-    }
+    document.getElementById("thumnailUploadButton").addEventListener("click", function() {
+        var thumnailImageInput = document.getElementById("thumnailFile");
+        var file = thumnailImageInput.files[0];        
+        
+        var thumnailIdInput = document.getElementById("thumnailImageId"); // 이미지 번호를 가져올 input 요소
+        var thumnailImageNumber = parseInt(thumnailIdInput.value);
+     
+        var thumnailPathInput = document.getElementById("thumnailPath");
 
+        if (!file) {
+            alert("이미지를 선택해주세요.");
+            return;
+        }
+
+            // 파일 확장자 확인
+        var allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+        var fileExtension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert("올바른 이미지 파일 형식이 아닙니다.");
+            return;
+        }
+
+        var formData = new FormData();        
+        formData.append("request", file); 
+
+        let uri = '';
+        let method = '';
+
+        if(thumnailImageNumber===0){
+            uri = '/api/image-upload';
+            method = 'POST';
+        }else{
+            uri = `/api/image-upload?id=${thumnailImageNumber}`;
+            method = 'PUT';
+        }
+
+        fetch(uri, {
+            method: method,
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+
+
+            var imageElement = document.createElement("img");
+            imageElement.src = "/uploadfile/" + data.storeFileName;
+
+            imageElement.style.width = "500px";
+            imageElement.style.height = "500px";
+            imageElement.style.padding = "10px";
+            imageElement.style.objectFit = "contain";
+
+
+            var imageContainer = document.getElementById("thumnail-container");
+            imageContainer.innerHTML = ''; // 이미지를 교체하려면 이전 이미지를 지우고 새 이미지를 표시합니다.
+            imageContainer.appendChild(imageElement);
+            thumnailIdInput.value = data.id;
+            thumnailPathInput.value = data.storeFileName;
+        })
+        .catch(error => {
+            console.error("Error: " + error);
+        });
+    });
+    
+    document.getElementById("detailUploadButton").addEventListener("click", function() {
+        var detailImageInput = document.getElementById("detailFile");
+        var file = detailImageInput.files[0];       
+
+        var detailIdInput = document.getElementById("detailImageId"); // 이미지 번호를 가져올 input 요소
+        var detailImageNumber = parseInt(detailIdInput.value);
+        
+
+        var detailPathInput = document.getElementById("detailPath");
+
+        if (!file) {
+            alert("이미지를 선택해주세요.");
+            return;
+        }
+
+            // 파일 확장자 확인
+        var allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+        var fileExtension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert("올바른 이미지 파일 형식이 아닙니다.");
+            return;
+        }
+
+        var formData = new FormData();        
+        formData.append("request", file); 
+
+        let uri = '';
+        let method = '';
+
+        if(detailImageNumber===0){
+            uri = '/api/image-upload';
+            method = 'POST';
+        }else{
+            uri = `/api/image-upload?id=${detailImageNumber}`;
+            method = 'PUT';
+        }
+
+        fetch(uri, {
+            method: method,
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+
+
+            var imageElement = document.createElement("img");
+            imageElement.src = "/uploadfile/" + data.storeFileName;
+
+            imageElement.style.width = "500px";
+            imageElement.style.height = "500px";
+            imageElement.style.padding = "10px";
+            imageElement.style.objectFit = "contain";
+
+
+            var imageContainer = document.getElementById("detail-container");
+            imageContainer.innerHTML = ''; // 이미지를 교체하려면 이전 이미지를 지우고 새 이미지를 표시합니다.
+            imageContainer.appendChild(imageElement);
+            detailIdInput.value = data.id;
+            detailPathInput.value = data.storeFileName;
+        })
+        .catch(error => {
+            console.error("Error: " + error);
+        });
+    });
+
+    
     const postBtn = document.getElementById('post_btn');
 
     if(postBtn){
      postBtn.addEventListener('click', e => {
+
+        const thumbnailId = document.getElementById("thumnailImageId");
+        const detailImageId = document.getElementById("detailImageId");
+        
+        if(thumbnailId === 0 || detailImageId === 0){
+            alert("상품 이미지를 업로드 해주세요.")
+            return;
+        }
+        const idArray = [thumbnailId.value,detailImageId.value];
+        let uri = '/api/products?' + idArray.map(id => 'ids=' + id).join('&');
+
          e.preventDefault()
-         fetch('/api/products',{
+         fetch(uri,{
              method:'POST',
              headers:{
                  "Content-Type": "application/json",
@@ -60,7 +221,9 @@
                  productName : document.getElementById('productName').value,
                  stockQuantity : document.getElementById('stockQuantity').value,
                  productPrice : document.getElementById('productPrice').value,
-                 productScript : document.getElementById('productScript').value
+                 productScript : document.getElementById('productScript').value,
+                 imagePath : document.getElementById('thumnailPath').value,
+                 detailImagePath : document.getElementById('detailPath').value
              })
          })
          .then(()=>{

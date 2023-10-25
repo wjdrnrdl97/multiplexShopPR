@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -23,13 +24,29 @@ class UploadServiceTest extends IntegrationTestSupport {
         //given
         byte[] testByte = null;
         MultipartFile mockMultipartFile = new MockMultipartFile("테스트","test.png",null, testByte);
-
-        UploadFileRequestDTO request = UploadFileRequestDTO.builder().multipartFile(mockMultipartFile).build();
         //when
-        uploadService.uploadImageByRequest(request);
+        uploadService.uploadImageByRequest(mockMultipartFile);
         //then
         UploadFile result = uploadFileRepository.findById(1L).orElse(null);
 
+        assertThat(result).isNotNull();
+        assertThat(result.getStoreFileName().contains("png")).isEqualTo(true);
+    }
+    @Test
+    @DisplayName("파일번호를 통해 업로드파일을 조회하고 해당 파일의 이름을 변경하고 저장하는데 성공한다.")
+    @Transactional
+    public void changeUploadFileNameByRequest() throws IOException {
+        //given
+        UploadFile uploadFile = UploadFile.builder()
+                .originalFileName("원본이름")
+                .storeFileName("저장이름")
+                .build();
+        UploadFile savedFile = uploadFileRepository.save(uploadFile);
+        byte[] testByte = null;
+        MultipartFile mockMultipartFile = new MockMultipartFile("테스트","test.png",null, testByte);
+        //when
+        UploadFileResponseDTO result = uploadService.changeUploadFileNameByRequest(1L, mockMultipartFile);
+        //then
         assertThat(result).isNotNull();
         assertThat(result.getStoreFileName().contains("png")).isEqualTo(true);
     }

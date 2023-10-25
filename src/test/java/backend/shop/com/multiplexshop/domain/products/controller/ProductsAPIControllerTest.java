@@ -6,6 +6,8 @@ import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -21,13 +23,17 @@ class ProductsAPIControllerTest extends ControllerTestSupport {
     @DisplayName("클라이언트의 상품 등록 요청에 HTTP 201번 상태코드로 응답에 성공한다.")
     void postProducts() throws Exception {
         //given
-        String url = "/api/products";
+        byte[] testByte = null;
+        MultipartFile mockMultipartFile = new MockMultipartFile("테스트","test.png",null, testByte);
+        uploadService.createUploadFileByRequest(mockMultipartFile);
+        uploadService.createUploadFileByRequest(mockMultipartFile);
+        String url = "/api/products?ids=1&ids=2";
         ProductsRequestDTO requestDTO
                 = ProductsRequestDTO.builder()
                 .stockQuantity(1)
                 .productName("향수")
                 .productPrice(10000)
-                .categories(Categories.STUFF)
+                .categories(Categories.FOOD)
                 .build();
 
         // when //then
@@ -55,7 +61,7 @@ class ProductsAPIControllerTest extends ControllerTestSupport {
                 .productPrice(10000)
                 .categories(Categories.STUFF)
                 .build();
-        productsService.productSaveByRequest(requestDTO);
+        productsService.productSaveByRequest(requestDTO,null);
 
         ProductsRequestDTO updateRequest = ProductsRequestDTO.builder()
                 .productScript("수정으로인해 추가된 스크립트.")
@@ -88,7 +94,7 @@ class ProductsAPIControllerTest extends ControllerTestSupport {
                 .productPrice(10000)
                 .categories(Categories.STUFF)
                 .build();
-        productsService.productSaveByRequest(requestDTO);
+        productsService.productSaveByRequest(requestDTO,null);
 
         // when //then
         mockMvc.perform(delete(url, 1L))

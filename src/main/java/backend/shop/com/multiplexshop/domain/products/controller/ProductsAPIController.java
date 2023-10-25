@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @RestController
@@ -18,8 +20,9 @@ public class ProductsAPIController {
     private final ProductsService productsService;
 
     @PostMapping(value = "/api/products")
-    public ResponseEntity<ProductsResponseDTO> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
-        ProductsResponseDTO responseDTO = productsService.productSaveByRequest(productsRequestDTO);
+    public ResponseEntity<ProductsResponseDTO> postProducts(@RequestParam("ids")List<Long> ids,
+                                                                    @RequestBody ProductsRequestDTO productsRequestDTO){
+        ProductsResponseDTO responseDTO = productsService.productSaveByRequest(productsRequestDTO, ids);
         log.info("dto = {}", responseDTO.getProductScript());
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }

@@ -27,14 +27,8 @@ public class ProductsDTOs {
         private String productScript;
         private Integer orderQuantity;
 
+
         @Builder
-        public ProductsRequestDTO(String productName, Integer productPrice, Integer stockQuantity,
-                                  String selectTag1, String selectTag2, Categories categories,
-                                  String imagePath, String detailImagePath, String productScript,
-                                  Integer orderQuantity, Long id) {
-
-        }
-
         public ProductsRequestDTO(Long id, String productName, Integer productPrice, Integer stockQuantity,
                                   String selectTag1, String selectTag2, Categories categories, String imagePath,
                                   String detailImagePath, String productScript,Integer orderQuantity) {
@@ -51,6 +45,7 @@ public class ProductsDTOs {
             this.orderQuantity = orderQuantity;
         }
 
+
         public Products toEntity(ProductsRequestDTO requestDTO){
             return Products.builder()
                     .productName(requestDTO.getProductName())
@@ -58,6 +53,8 @@ public class ProductsDTOs {
                     .stockQuantity(requestDTO.getStockQuantity())
                     .categories(requestDTO.getCategories())
                     .productScript(requestDTO.getProductScript())
+                    .imagePath(requestDTO.imagePath)
+                    .detailImagePath(requestDTO.detailImagePath)
                     .build();
         }
 
@@ -80,7 +77,8 @@ public class ProductsDTOs {
 
         @Builder
         public ProductsResponseDTO(Products products,String productName, Integer productPrice, Integer stockQuantity,
-                                   Categories categories, String productScript, Long id, String imagePath) {
+                                   Categories categories, String productScript, Long id,
+                                   String imagePath, String detailImagePath) {
             this.products = products;
             this.productName = productName;
             this.productPrice = productPrice;
@@ -89,6 +87,8 @@ public class ProductsDTOs {
             this.productScript = productScript;
             this.id = id;
             this.imagePath = imagePath;
+            this.detailImagePath = detailImagePath;
+
         }
 
         public static ProductsResponseDTO of(Products entity){
