@@ -6,26 +6,24 @@
         <article id="article">
             <div class="join_box">
                 <h2><span>USER</span>님의 장바구니입니다.</h2>
-                <label th:if="${not #lists.isEmpty(cartProduct)}">
-                    <input type="checkbox" name="selectAll" value="selectAll" onclick="selectAll(this)">Select All
+                <label th:if="${not #lists.isEmpty(cartProduct)}" for="selectAll">
+                    <input type="checkbox" name="selectAll" id="selectAll" onclick="selectAll(this)">Select All
                 </label>
-                <button th:if="${not #lists.isEmpty(cartProduct)}" id="cancelAllBtn" style="float: right; margin-right: 200px;">C A N C L E - A L L</button>
-                <div class="order_info" th:if="${not #lists.isEmpty(cartProduct)}" th:each="dto:${cartProduct}">
-                        <input type="checkbox" name="cartId" class="cartProductId" onclick="checkSelectAll()" th:value="${dto.id}">
-                        <div class="orders">
-                            <p>상품번호 : <span>[[${dto.products.id}]]</span></p>
-                            <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
-                            <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
-                            <p>주문 갯수 : <span>[[${dto.count}]]</span></p>
-                        </div>
-                        <a>
-                            <button class="cancle-btn" id="cancelBtn">C A N C L E</button>
-                        </a>
+                <div class="order_info" th:if="${not #lists.isEmpty(cartProduct)}" th:each="dto:${cartProduct}" style="margin-top:20px; margin-bottom:70px">
+                    <input type="checkbox" name="cartId" class="cartProductId" onclick="checkSelectAll()" th:value="${dto.id}">
+                    <div class="orders">
+                        <p>상품번호 : <span>[[${dto.products.id}]]</span></p>
+                        <p>상품 명: <span>[[${dto.products.productName}]]</span></p>
+                        <p>가격 : <span>[[${dto.products.productPrice}]]</span></p>
+                        <p>주문 갯수 : <span>[[${dto.count}]]</span></p>
+                    </div>
                 </div>
-                <a th:if="${not #lists.isEmpty(cartProduct)}">
-                    <button class="orderBtn" id="orderBtn" style="margin-bottom: 50px; margin-left: 750px;">O R D E R
+                <div class="cart_btns" th:if="${not #lists.isEmpty(cartProduct)}">
+                    <button class="cartBtn" id="orderBtn">O R D E R
                     </button>
-                </a>
+                    <button class="cartBtn" id="deleteBtn">C A N C E L
+                    </button>
+                </div>
                 <div class="order_info" th:if="${#lists.isEmpty(cartProduct)}">
                     <h3>장바구니가 비어있습니다.</h3>
                     <h2>주문하러 가기</h2>
@@ -72,9 +70,7 @@
  }
 
  let id = document.querySelector('.cartProductId').value;
- const deleteBtn = document.getElementById('cancelBtn');
  const orderBtn = document.getElementById('orderBtn');
- const cancelAllBtn = document.getElementById('cancelAllBtn')
 
  if (orderBtn) {
      orderBtn.addEventListener('click', function () {
@@ -91,33 +87,28 @@
          }
      })
  };
-
- if (deleteBtn) {
-     deleteBtn.addEventListener('click', event => {
-         if (confirm('해당 장바구니 목록을 삭제하시겠습니까?')) {
-             fetch(`/api/cart/${id}`, {
-                 method: 'DELETE'
-             })
-                 .then(() => {
-                     alert('삭제가 완료되었습니다.');
-                     location.reload();
-                 });
-         }
-     });
- }
- if(cancelAllBtn){
-    cancelAllBtn.addEventListener('click', event => {
-        if(confirm('모든 장바구니 목록을 삭제하시겠습니까?')){
-            fetch(`/api/cart/all`,{
+const deleteBtn = document.getElementById('deleteBtn');
+if(deleteBtn){
+    deleteBtn.addEventListener('click', function(){
+        const selectedIds = Array.from(document.querySelectorAll('.cartProductId:checked')).map(function(checkbox){
+            return checkbox.value;
+        });
+        let uri = '/api/cart/?' + selectedIds.map(id => 'ids=' + id).join('&');        
+            if (!confirm("해당 장바구니 목록을 삭제하시겠습니까?")) {
+                     return;
+            }        
+            fetch(uri,{
                 method:'DELETE'
             })
-            .then(() => {
+            .then(()=> {
                 alert('삭제가 완료되었습니다.');
                 location.reload();
-            })
-        }
+            })        
     })
- }
+}
+
+
+
 </script>
 
 </html>

@@ -65,27 +65,21 @@ public class CartService {
     public void deleteCartProductsById(Long id){
         cartProductsRepository.deleteById(id);
     }
-
     @Transactional
-    public void deleteCartProductsAll(){
-        cartProductsRepository.deleteAll();
-    }
-    @Transactional
-    public void deleteCartProductsAllByMemberId(Long id){
-        Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Member not found"));
-
-        Cart findCart = cartRepository.findByMember(findMember)
-                        .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
-        cartProductsRepository.deleteAllByCart(findCart);
-    }
-        public List<CartProductsResponseDTO> findOrderProductsOfListByCartProductsId (List<Long> ids){
-        List<CartProducts> cartProducts = new ArrayList<>();
-        for (Long id : ids){
-            cartProducts.add(cartProductsRepository.findWithCartAndProductById(id)
-                                    .orElseThrow(()->new IllegalArgumentException("CartProduct not found")));
+    public void deleteCartProductsByIds(List<Long> ids){
+        for(Long id :ids){
+            cartProductsRepository.deleteById(id);
         }
-        List<CartProductsResponseDTO> dto = cartProducts.stream().map(CartProductsResponseDTO::of).toList();
-        return dto;
+    }
+
+
+    public List<CartProductsResponseDTO> findOrderProductsOfListByCartProductsId (List<Long> ids){
+    List<CartProducts> cartProducts = new ArrayList<>();
+    for (Long id : ids){
+        cartProducts.add(cartProductsRepository.findWithCartAndProductById(id)
+                                .orElseThrow(()->new IllegalArgumentException("CartProduct not found")));
+    }
+    List<CartProductsResponseDTO> dto = cartProducts.stream().map(CartProductsResponseDTO::of).toList();
+    return dto;
     }
 }

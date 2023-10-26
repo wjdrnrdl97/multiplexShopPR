@@ -1,5 +1,6 @@
 package backend.shop.com.multiplexshop.domain.orders.service;
 
+import backend.shop.com.multiplexshop.domain.IntegrationTestSupport;
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
@@ -29,22 +30,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class OrderServiceTest {
-
-    @Autowired
-    OrderService orderService;
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    ProductsRepository productsRepository;
-    @Autowired
-    OrdersRepository ordersRepository;
-    @Autowired
-    OrderProductsRepository orderProductsRepository;
-    @Autowired
-    DeliveryRepository deliveryRepository;
-
-
+class OrderServiceTest extends IntegrationTestSupport {
     @Test
     @DisplayName("주문 요청을 받아 주문을 생성에 성공한다.")
     public void save(){

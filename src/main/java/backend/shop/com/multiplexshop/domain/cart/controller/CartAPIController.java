@@ -31,20 +31,9 @@ public class CartAPIController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("/api/cart/{id}")
-    public ResponseEntity deleteCartProductsById(@PathVariable("id")Long id){
-        cartService.deleteCartProductsById(id);
-        return ResponseEntity.noContent().build();
-    }
-    @DeleteMapping("/api/cart/all")
-    public ResponseEntity deleteCartProductsAll(){
-        cartService.deleteCartProductsAll();
-        return ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/api/cart/all/{memberId}")
-    public ResponseEntity deleteCartProductsAllByMember(@PathVariable("memberId")Long memberId){
-        cartService.deleteCartProductsAllByMemberId(memberId);
+    @DeleteMapping("/api/cart/")
+    public ResponseEntity deleteCartProductsByRequest(@RequestParam List<Long> ids){
+        cartService.deleteCartProductsByIds(ids);
         return ResponseEntity.noContent().build();
     }
 }

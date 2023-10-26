@@ -190,75 +190,17 @@ class CartAPIControllerTest {
         .andExpect(status().isNoContent());
     }
     @Test
-    @DisplayName("요청에 의해 장바구니상품의 목록을 전체 삭제 하고 Http 204코드 응답에 성공한다.")    
-    public void deleteCartProductsAll() throws Exception {
+    @DisplayName("사용자의 요청으로 요청한 주문상품을 삭제하고 HTTP 204코드 응답에 성공한다.")
+    public void deleteCartProductsByRequest() throws Exception {
         //given
-        String uri = "/api/cart/all";
-        
         Member member = Member.builder()
-                .memberEmailId("test")
-                .password("1234")
-                .memberName("테스트")
-                .build();
-        Member savedMember = memberRepository.save(member);
-
-        Cart createCart = Cart.createCart(savedMember);
-        Cart savedCart = cartRepository.save(createCart);
-
-        Products products1 = Products.builder()
-                .productName("향수")
-                .productPrice(10000)
-                .stockQuantity(100)
-                .categories(Categories.STUFF)
-                .build();
-        Products stuff = productsRepository.save(products1);
-        Products products2 = Products.builder()
-                .productName("밀키트")
-                .productPrice(5000)
-                .stockQuantity(100)
-                .categories(Categories.FOOD)
-                .build();
-        Products food = productsRepository.save(products2);
-
-        CartProducts cartWithStuff = CartProducts.builder()
-                .products(stuff)
-                .cart(createCart)
-                .count(3)
-                .build();
-        CartProducts cartWithFood = CartProducts.builder()
-                .products(food)
-                .cart(createCart)
-                .count(4)
-                .build();
-        cartProductsRepository.saveAll(List.of(cartWithStuff,cartWithFood));
-        //when
-        mockMvc.perform(delete(uri))
-        //then
-        .andExpect(status().isNoContent())
-        .andDo(print());
-    }
-    @Test
-    @DisplayName("회원의 아이디를 조회한후 조회한 회원의 장바구니에 담겨진 장바구니-상품을 전체 삭제하고 Http 204코드 응답에 성공한다.")
-    public void deleteCartProductsAllByMember() throws Exception{
-        //given
-        String uri = "/api/cart/all/{memberId}";
-        Member member1 = Member.builder()
                 .memberEmailId("사용자1")
                 .password("1234")
                 .memberName("테스트")
                 .build();
-        Member savedMember1 = memberRepository.save(member1);
-        Cart member1Cart = Cart.createCart(savedMember1);
-        Cart savedMember1Cart = cartRepository.save(member1Cart);
-
-        Member member2 = Member.builder()
-                .memberEmailId("사용자2")
-                .password("1234")
-                .memberName("테스트")
-                .build();
-        Member savedMember2 = memberRepository.save(member2);
-        Cart member2Cart = Cart.createCart(savedMember2);
-        Cart savedMember2Cart = cartRepository.save(member2Cart);
+        Member savedMember = memberRepository.save(member);
+        Cart memberCart = Cart.createCart(savedMember);
+        Cart savedMemberCart = cartRepository.save(memberCart);
 
         Products products1 = Products.builder()
                 .productName("향수")
@@ -268,38 +210,27 @@ class CartAPIControllerTest {
                 .build();
         Products stuff = productsRepository.save(products1);
         Products products2 = Products.builder()
-                .productName("밀키트")
-                .productPrice(5000)
+                .productName("음식")
+                .productPrice(10000)
                 .stockQuantity(100)
                 .categories(Categories.FOOD)
                 .build();
         Products food = productsRepository.save(products2);
-
-        CartProducts member1CartWithStuff = CartProducts.builder()
-                .cart(savedMember1Cart)
+        CartProducts cartWithStuff = CartProducts.builder()
                 .products(stuff)
+                .cart(savedMemberCart)
                 .count(3)
                 .build();
-        CartProducts member1CartWithFood = CartProducts.builder()
-                .cart(savedMember1Cart)
+        CartProducts cartWithFood = CartProducts.builder()
                 .products(food)
-                .count(4)
-                .build();
-
-        CartProducts member2CartWithStuff = CartProducts.builder()
-                .cart(savedMember2Cart)
-                .products(stuff)
+                .cart(savedMemberCart)
                 .count(3)
                 .build();
-        CartProducts member2CartWithFood = CartProducts.builder()
-                .cart(savedMember2Cart)
-                .products(food)
-                .count(4)
-                .build();
-        cartProductsRepository.saveAll(List.of(member1CartWithStuff,member1CartWithFood,member2CartWithStuff,member2CartWithFood));
-        //when
-        mockMvc.perform(delete(uri,1))
-        //then
+        cartProductsRepository.saveAll(List.of(cartWithStuff,cartWithFood));
+        String uri = "/api/cart?ids=1&ids=2";
+        //when  //then
+        mockMvc.perform(delete(uri))
+        .andDo(print())
         .andExpect(status().isNoContent());
     }
 }
