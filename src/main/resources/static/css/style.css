@@ -892,6 +892,10 @@ input[type=file]::file-selector-button {
       background-color: black;
       color: white;
     }
+    #productPost_btn:hover{
+        background-color: black;
+        color: white;
+    }
 
 #logoutBtn{
     cursor: pointer;

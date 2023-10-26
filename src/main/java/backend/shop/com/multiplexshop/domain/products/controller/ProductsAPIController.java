@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 
 @RestController
@@ -18,15 +20,22 @@ public class ProductsAPIController {
     private final ProductsService productsService;
 
     @PostMapping(value = "/api/products")
-    public ResponseEntity<ProductsResponseDTO> postProducts(@RequestBody ProductsRequestDTO productsRequestDTO){
-        ProductsResponseDTO responseDTO = productsService.productSaveByRequest(productsRequestDTO);
+    public ResponseEntity<ProductsResponseDTO> postProductByRequest(@RequestParam("ids")List<Long> ids,
+                                                                    @RequestBody ProductsRequestDTO productsRequestDTO){
+        ProductsResponseDTO responseDTO = productsService.createProductByRequest(productsRequestDTO, ids);
         log.info("dto = {}", responseDTO.getProductScript());
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
 
-    @PutMapping(value = "/api/products/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateProducts(@RequestBody ProductsRequestDTO requestDTO, @PathVariable("id") Long productId){
-        productsService.productUpdateByRequestAndId(requestDTO, productId);
+    @PutMapping(value = "/api/products", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateProductByRequest(@RequestBody ProductsRequestDTO request){
+        productsService.updateProductByRequest(request);
+        return ResponseEntity.noContent().build();
+    }
+    @PutMapping(value = "/api/productsAndImage", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateProductsWithImagePathByRequest
+                                                (@RequestParam List<Long> ids, @RequestBody ProductsRequestDTO request){
+        productsService.updateProductAndUploadFileByRequestAndIds(request,ids);
         return ResponseEntity.noContent().build();
     }
 

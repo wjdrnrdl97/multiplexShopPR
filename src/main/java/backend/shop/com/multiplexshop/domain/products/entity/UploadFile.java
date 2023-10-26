@@ -33,14 +33,17 @@ public class UploadFile {
         this.storeFileName = storeFileName;
     }
 
-    public UploadFile updateProductId(Products products){
+    public void updateProduct(Products products){
         this.products = products;
-        return this;
     }
 
-    public UploadFile(String originalFileName, String storeFileName, String productName) {
+    public void changeFilenames(String originalFileName, String storeFileName) {
         this.originalFileName = originalFileName;
         this.storeFileName = storeFileName;
-        this.productName = productName;
+    }
+
+    public UploadFile(String originalFileName, String storeFileName) {
+        this.originalFileName = originalFileName;
+        this.storeFileName = storeFileName;
     }
 }

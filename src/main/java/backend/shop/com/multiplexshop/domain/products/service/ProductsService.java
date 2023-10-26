@@ -1,6 +1,7 @@
 package backend.shop.com.multiplexshop.domain.products.service;
 
 
+import backend.shop.com.multiplexshop.domain.exception.BadImageException;
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
@@ -28,62 +29,66 @@ public class ProductsService {
     private final UploadFileRepository uploadFileRepository;
 
     @Transactional
-    public ProductsResponseDTO productSaveByRequest(ProductsRequestDTO request) {
+    public ProductsResponseDTO createProductByRequest(ProductsRequestDTO request, List<Long> imageIds) {
         Products products = request.toEntity(request);
         Products savedProduct = productsRepository.save(products);
         ProductsResponseDTO productsResponseDTO = ProductsResponseDTO.of(products);
 
-        addProductNumberToUploadfile(savedProduct);
+        addProductToUploadFile(savedProduct, imageIds);
 
         return productsResponseDTO;
     }
 
 
-    private void addProductNumberToUploadfile(Products productsEntity) {
-        List<UploadFile> uploadFilesByProductName
-                = uploadFileRepository.findAllByProductName(productsEntity.getProductName());
-
-        productsEntity.addImagePath(uploadFilesByProductName.get(0));
-
-        List<UploadFile> uploadFileAddedProduct = uploadFilesByProductName.stream()
-                .map(uploadFile -> uploadFile.updateProductId(productsEntity))
-                .toList();
-
-        uploadFileRepository.saveAll(uploadFileAddedProduct);
+    private void addProductToUploadFile(Products productsEntity, List<Long> imageIds) {
+        for(Long id : imageIds){
+            UploadFile uploadFile = uploadFileRepository.findById(id)
+                                    .orElseThrow(() -> new BadImageException("잘못된 이미지입니다."));
+            uploadFile.updateProduct(productsEntity);
+            uploadFileRepository.save(uploadFile);
+        }
     }
 
     @Transactional
-    public void productUpdateByRequestAndId(ProductsRequestDTO requestDTO, Long productId) {
-        Products updateProduct = findProductById(productId);
-        log.debug("product id = {}",updateProduct.getId());
-        updateProduct.updateByRequest(requestDTO);
+    public void updateProductByRequest(ProductsRequestDTO request){
+        Long requestProductsId = request.getId();
+        Products updateProduct = productsRepository.findById(requestProductsId)
+                       .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + requestProductsId));
+        updateProduct.updateByRequest(request);
         productsRepository.save(updateProduct);
+    }
+
+    @Transactional
+    public void updateProductAndUploadFileByRequestAndIds(ProductsRequestDTO request,List<Long> imageIds){
+        Long requestProductsId = request.getId();
+        Products updateProduct = productsRepository.findById(requestProductsId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + requestProductsId));
+        updateProduct.updateByRequest(request);
+        Products saveProductOfUpdate = productsRepository.save(updateProduct);
+        addProductToUploadFile(saveProductOfUpdate,imageIds);
     }
 
     @Transactional
     public void deleteProductById(Long productId) {
         deleteImageFilesByProduct(productId);
 
-        Products deleteProduct = findProductById(productId);
+        Products deleteProduct = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + productId));
         productsRepository.delete(deleteProduct);
     }
 
     private void deleteImageFilesByProduct(Long productId) {
-        Products productById = findProductById(productId);
-        List<UploadFile> byProducts = uploadFileRepository.findByProducts(productById);
+        Products findProductById = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + productId));
+        List<UploadFile> byProducts = uploadFileRepository.findByProductsId(productId);
         uploadFileRepository.deleteAll(byProducts);
     }
 
-    public Products findProductById(Long productId) {
-        return productsRepository.findById(productId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 상품 번호입니다. : "+productId));
+    public ProductsResponseDTO findProductByRequest(Long productId){
+        Products findProductById = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + productId));
+        return ProductsResponseDTO.of(findProductById);
     }
-
-    public List<UploadFile> findUploadFile(Long productId){
-        Products products = findProductById(productId);
-        return uploadFileRepository.findByProducts(products);
-    }
-
 
     public Page<ProductsResponseDTO> findAllProductsByCategories(Categories categories, int page) {
         int pageNum = (page == 0)? 0 : page - 1;

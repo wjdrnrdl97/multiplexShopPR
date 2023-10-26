@@ -1,13 +1,10 @@
 package backend.shop.com.multiplexshop.domain.products.controller;
 
-import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.MemberResponseDTO;
-import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
+
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
-import backend.shop.com.multiplexshop.domain.products.entity.Products;
-import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
+
 import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
 import backend.shop.com.multiplexshop.domain.products.service.UploadService;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
+import static backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs.*;
 
 @Controller
 @Slf4j
@@ -34,21 +32,13 @@ public class ProductViewController {
     @GetMapping("/{productsId}")
     public String getProductsDetailView(@PathVariable Long productsId, Model model){
 
-        Products responseProduct = productsService.findProductById(productsId);
-        List<UploadFile> uploadFile = productsService.findUploadFile(productsId);
-
-        model.addAttribute("img",new UploadFileDTOs(uploadFile.get(0)));
-        model.addAttribute("product", ProductsResponseDTO.of(responseProduct));
-
+        ProductsResponseDTO productByRequest = productsService.findProductByRequest(productsId);
+        model.addAttribute("product", productByRequest);
         return "product/productDetailView";
     }
 
     @GetMapping
-    public String getAllProductsView(@RequestParam(defaultValue = "0")int page, HttpSession session, Model model){
-
-        MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
-        model.addAttribute("loginUser", loginUser);
-
+    public String getAllProductsView(@RequestParam(defaultValue = "0")int page,Model model){
         Page<ProductsResponseDTO> allStuffProducts =
                 productsService.findAllProductsByCategories(Categories.STUFF,page);
 
@@ -104,14 +94,11 @@ public class ProductViewController {
 
     @GetMapping("/modifyProducts/{productId}")
     public String getUpdateProductsView(Model model, @PathVariable Long productId){
-        Products productById = productsService.findProductById(productId);
+        ProductsResponseDTO productByRequest = productsService.findProductByRequest(productId);
+        List<UploadFileResponseDTO> allUploadFileByRequest = uploadService.findAllUploadFileByProductId(productId);
 
-        model.addAttribute("product",productById);
+        model.addAttribute("product",productByRequest);
+        model.addAttribute("img",allUploadFileByRequest);
         return "product/modifyProduct";
-    }
-
-    @GetMapping("uploadImage")
-    public String getUploadImageModal(){
-        return "product/uploadModal";
     }
 }

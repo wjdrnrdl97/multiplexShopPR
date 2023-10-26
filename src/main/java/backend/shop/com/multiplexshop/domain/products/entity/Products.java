@@ -72,6 +72,8 @@ public class Products extends BaseEntity {
             this.productName = requestDTO.getProductName();
             this.productPrice = requestDTO.getProductPrice();
             this.productScript = requestDTO.getProductScript();
+            this.imagePath = requestDTO.getImagePath();
+            this.detailImagePath = requestDTO.getDetailImagePath();
      }
 
     public void decreaseStockQuantity(Integer count){

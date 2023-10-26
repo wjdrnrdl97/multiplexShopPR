@@ -1,13 +1,22 @@
 package backend.shop.com.multiplexshop.domain.products.service;
 
 import backend.shop.com.multiplexshop.domain.IntegrationTestSupport;
+import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs;
 import backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.ProductsResponseDTO;
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import backend.shop.com.multiplexshop.domain.products.entity.UploadFile;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
 import static org.assertj.core.api.Assertions.*;
 
 
@@ -108,5 +117,175 @@ class ProductsServiceTest extends IntegrationTestSupport {
         //then
         assertThat(result.getTotalPages()).isEqualTo(1);
         assertThat(result.getNumberOfElements()).isEqualTo(10);
+    }
+    @Test
+    @DisplayName("요청에 따라(상품번호) 해당 상품을 조회에 성공한다.")
+    public void findProductByRequest(){
+        //given
+        Products products = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .imagePath("썸네일")
+                .detailImagePath("상세이미지")
+                .categories(Categories.STUFF)
+                .build();
+        Products findProduct = productsRepository.save(products);
+        //when
+        ProductsResponseDTO result = productService.findProductByRequest(1L);
+        //then
+        assertThat(result).isNotNull();
+        assertThat(result.getProductName()).isEqualTo("향수");
+    }
+    @Test
+    @DisplayName("요청에 따라 상품을 조회하여 상품 내용을 수정 후 저장한다.")
+    public void updateProductByRequest(){
+        //given
+        Products products = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .imagePath("썸네일")
+                .detailImagePath("상세이미지")
+                .categories(Categories.STUFF)
+                .build();
+        productsRepository.save(products);
+        ProductsRequestDTO request = ProductsRequestDTO.builder()
+                .id(1L)
+                .productName("수정")
+                .productPrice(5000)
+                .imagePath("썸네일")
+                .detailImagePath("상세이미지")
+                .productScript("설명")
+                .categories(Categories.STUFF)
+                .build();
+        //when
+        productService.updateProductByRequest(request);
+        //then
+        ProductsResponseDTO result = productService.findProductByRequest(1L);
+        assertThat(result).isNotNull();
+        assertThat(result.getProductName()).isEqualTo("수정");
+    }
+
+    @Test
+    @DisplayName("상품을 생성하고 해당 상품을 업로드파일의 상품컬럼에 값을 insert한다.")
+    public void productSaveByRequest(){
+        //given
+        UploadFile thumbnail = UploadFile.builder()
+                .storeFileName("썸네일")
+                .originalFileName("원본")
+                .build();
+        UploadFile saveThumbnail = uploadFileRepository.save(thumbnail);
+        UploadFile detail = UploadFile.builder()
+                .storeFileName("상세이미지")
+                .originalFileName("원본")
+                .build();
+        UploadFile saveDetail = uploadFileRepository.save(detail);
+        ProductsRequestDTO request = ProductsRequestDTO.builder()
+                .productName("향수")
+                .productPrice(5000)
+                .stockQuantity(100)
+                .imagePath("썸네일")
+                .detailImagePath("상세이미지")
+                .productScript("설명")
+                .categories(Categories.STUFF)
+                .build();
+        List<Long> imageIds = Arrays.asList(saveThumbnail.getId(), saveDetail.getId());
+        //when
+        ProductsResponseDTO result = productService.createProductByRequest(request, imageIds);
+        UploadFile uploadFile = uploadFileRepository.findById(saveThumbnail.getId()).orElse(null);
+        //then
+        assertThat(result).isNotNull();
+        assertThat(uploadFile.getProducts().getId()).isEqualTo(1L);
+    }
+    @Test
+    @DisplayName("상품을 수정하고 수정된 상품을 업로드파일의 상품도 주입 및 수정한다.")
+    @Transactional
+    public void updateProductAndUploadFileByRequestAndIds(){
+        //given
+        Products products = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .imagePath("썸네일")
+                .detailImagePath("상세이미지")
+                .categories(Categories.STUFF)
+                .build();
+        Products saveProduct = productsRepository.save(products);
+
+        UploadFile thumbnail = UploadFile.builder()
+                .storeFileName("썸네일")
+                .originalFileName("원본")
+                .products(saveProduct)
+                .build();
+        UploadFile saveThumbnail = uploadFileRepository.save(thumbnail);
+        UploadFile detail = UploadFile.builder()
+                .storeFileName("상세이미지")
+                .originalFileName("원본")
+                .products(saveProduct)
+                .build();
+        UploadFile saveDetail = uploadFileRepository.save(detail);
+        UploadFile updateDetail = UploadFile.builder()
+                .storeFileName("수정한 상세이미지")
+                .originalFileName("원본")
+                .build();
+        UploadFile saveUpdateDetail = uploadFileRepository.save(updateDetail);
+
+        ProductsRequestDTO request = ProductsRequestDTO.builder()
+                .id(1L)
+                .productName("수정한 향수")
+                .productPrice(5000)
+                .imagePath("썸네일")
+                .detailImagePath("수정한 상세이미지")
+                .productScript("수정한 설명")
+                .categories(Categories.STUFF)
+                .build();
+        List<Long> imageIds = Arrays.asList(saveThumbnail.getId(), saveUpdateDetail.getId());
+        //when
+        productService.updateProductAndUploadFileByRequestAndIds(request,imageIds);
+        //then
+        Products resultProduct = productsRepository.findById(1L).orElse(null);
+        UploadFile resultUploadFile = uploadFileRepository.findById(3L).orElse(null);
+        assertThat(resultProduct.getDetailImagePath()).isEqualTo(request.getDetailImagePath());
+        assertThat(resultUploadFile.getProducts()).isEqualTo(saveProduct);
+    }
+    @Test
+    @DisplayName("상품번호를 입력받아 해당 상품의 업로드파일을 모두 삭제하고 그다음 해당 상품을 삭제한다. ")
+    public void deleteProductById(){
+        //given
+        Products products = Products.builder()
+                .productName("향수")
+                .productPrice(10000)
+                .stockQuantity(100)
+                .imagePath("썸네일")
+                .detailImagePath("상세이미지")
+                .categories(Categories.STUFF)
+                .build();
+        Products saveProduct = productsRepository.save(products);
+        UploadFile thumbnail = UploadFile.builder()
+                .storeFileName("썸네일")
+                .originalFileName("원본")
+                .products(saveProduct)
+                .build();
+        uploadFileRepository.save(thumbnail);
+        UploadFile detail = UploadFile.builder()
+                .storeFileName("상세이미지")
+                .originalFileName("원본")
+                .products(saveProduct)
+                .build();
+        uploadFileRepository.save(detail);
+        UploadFile updateDetail = UploadFile.builder()
+                .storeFileName("전 상세이미지")
+                .originalFileName("원본")
+                .products(saveProduct)
+                .build();
+        uploadFileRepository.save(updateDetail);
+        //when
+        productService.deleteProductById(1L);
+        //then
+        List<UploadFile> uploadFileResult = uploadFileRepository.findAll();
+        List<Products> productResult = productsRepository.findAll();
+        assertThat(uploadFileResult).isEmpty();
+        assertThat(productResult).isEmpty();
     }
 }

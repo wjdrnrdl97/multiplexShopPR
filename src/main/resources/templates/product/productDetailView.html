@@ -6,11 +6,11 @@
 
     <article id="article">
         <div class="proudct">
-            <div class="product_btns">
-                <a th:href="@{/products/modifyProducts/{productId}(productId=${product.id})}">
+            <div class="product_btns">                
+                <a th:if="${session.loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).ADMIN}" th:href="@{/products/modifyProducts/{productId}(productId=${product.id})}">
                 <button>M O D I F Y</button>
-                </a>
-                <button id="dlt_btn">D E L E T E</button>
+                </a>                
+                 <button th:if="${session.loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).ADMIN}" id="dlt_btn">D E L E T E</button>                
                 <a th:href="@{/products}">
                     <button> L I S T </button>
                 </a>
@@ -20,7 +20,7 @@
 
             <div class="detail_box">
                 <div class="product_img">
-                    <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
+                    <img th:src="@{'/uploadfile/'+${product.imagePath}}">
                 </div>
 
                 <div class="product_info">
@@ -41,8 +41,8 @@
                     </select>
 
                     <br>
-                    <button class="minusBtn"></button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
-                    <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000</p> <span style="font-size: 16px;">원</span>
+                    <button class="minusBtn"> < </button> <span class="quantity" style="font-size: 40px; vertical-align: middle;">1</span> <button class="plusBtn">></button>
+                    <p class="price" style="display: inline-block;" th:text="${product.productPrice}">10000 <span style="font-size: 16px;">원</span></p> 
                     <div class="order_btns">
                         <button id="cart_btn">장바구니</button>
                         <button id="order_btn">주문하기</button>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="product_info_img">
-                <img th:src="@{'/uploadfile/'+${img.getStoreFileName()}}">
+                <img th:src="@{'/uploadfile/'+${product.detailImagePath}}">
                 <p th:text="${product.productScript}">정말 좋은 향수네요.</p>
             </div>
         </div>
