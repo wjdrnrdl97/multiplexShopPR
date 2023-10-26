@@ -1,6 +1,8 @@
 package backend.shop.com.multiplexshop.domain;
 
 
+import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
+import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
 import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
 import backend.shop.com.multiplexshop.domain.products.service.UploadService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +29,10 @@ public abstract class ControllerTestSupport {
     protected ProductsService productsService;
     @Autowired
     protected UploadService uploadService;
+    @Autowired
+    protected ProductsRepository productsRepository;
+    @Autowired
+    protected UploadFileRepository uploadFileRepository;
 
     @BeforeEach
     void setUp() {

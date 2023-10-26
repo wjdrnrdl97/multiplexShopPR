@@ -26,7 +26,7 @@
                     <p>
                         <div>
                             <h3>썸네일 이미지 등록하기 → <label for="thumnailFile">C L I C K   H E R E</label> </h3>
-                            <button class="txt_tit_notice" id="thumnailUploadButton" type="button">이미지 미리보기</button>
+                            <button class="txt_tit_notice" id="thumnailUploadButton" type="button">이미지 전송 및 이미지 미리보기</button>
                         </div>
                         <input type="file" id="thumnailFile" accept="image/*" style="visibility: hidden;">                                                
                     </p>
@@ -36,7 +36,7 @@
                     <p>
                         <div>
                             <h3>상세내용 이미지 등록하기 → <label for="detailFile">C L I C K   H E R E</label> </h3>
-                            <button class="txt_tit_notice" id="detailUploadButton" type="button">이미지 미리보기</button>
+                            <button class="txt_tit_notice" id="detailUploadButton" type="button">이미지 전송 및 이미지 미리보기</button>
                         </div>
                         <input type="file" id="detailFile" accept="image/*" style="visibility: hidden;">
                         <input type="hidden" id="detailImageId" value="0">
@@ -52,7 +52,7 @@
             </div>
                 <div class="btns">
                     <a th:href="@{/products}" class="list-btn" style="margin-top:20px;">LIST</a>
-                    <a href="board.html" id="post_btn" class="list-btn" style="margin-top:20px;">POST</a>
+                    <a href="javascript:return false;" id="post_btn" class="list-btn" style="margin-top:20px;">POST</a>
                 </div>
             </div>
         </article>
@@ -199,14 +199,18 @@
     if(postBtn){
      postBtn.addEventListener('click', e => {
 
-        const thumbnailId = document.getElementById("thumnailImageId");
-        const detailImageId = document.getElementById("detailImageId");
+        var thumnailIdInput = document.getElementById("thumnailImageId"); // 이미지 번호를 가져올 input 요소
+        var thumnailImageNumber = parseInt(thumnailIdInput.value);
+
+        var detailIdInput = document.getElementById("detailImageId"); // 이미지 번호를 가져올 input 요소
+        var detailImageNumber = parseInt(detailIdInput.value);
         
-        if(thumbnailId === 0 || detailImageId === 0){
-            alert("상품 이미지를 업로드 해주세요.")
-            return;
+        if(thumnailImageNumber === 0 || detailImageNumber === 0){
+            alert("상품 이미지를 업로드 해주세요.")    
+            return;        
         }
-        const idArray = [thumbnailId.value,detailImageId.value];
+
+        const idArray = [thumnailIdInput.value,detailIdInput.value];
         let uri = '/api/products?' + idArray.map(id => 'ids=' + id).join('&');
 
          e.preventDefault()

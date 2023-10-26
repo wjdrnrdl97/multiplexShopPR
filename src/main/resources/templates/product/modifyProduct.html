@@ -7,7 +7,7 @@
         <article id="article">
             <div class="right_contents">
                 <div class="notice_contents">
-                    <input type="hidden" th:value="${product.id}" class="productId">
+                    <input type="hidden" th:value="${product.id}" class="productId" id="productId">
                     <h3> 상품 카데고리 : </h3> 
                     <select name="product_category" id="categories" class="product_select">
                         <option value="FOOD">FOOD</option>
@@ -31,24 +31,38 @@
                         </div>
                         <input type="file" id="thumnailFile" accept="image/*" style="visibility: hidden;">                                                
                     </p>
-                    <input type="hidden" id="thumnailImageId" value="0">
-                    <input type="hidden" id="thumnailPath" value="image">
-                    <div id="thumnail-container"></div>
+                    <th:block th:each="dto:${img}">
+                        <div th:if="${dto.storeFileName == product.imagePath}">
+                            <input type="hidden" id="uploadThumnailId" th:value="${dto.id}">
+                            <input type="hidden" id="thumnailImageId" th:value="${dto.id}">
+                            <input type="hidden" id="thumnailPath" th:value="${product.imagePath}">
+                        </div>                        
+                    </th:block>
+                    <div id="thumnail-container" style="width: 500px; height: 500px; padding: 10px; object-fit: contain;">
+                        <img th:src="@{'/uploadfile/'+${product.imagePath}}">
+                    </div>
                     <p>
                         <div>
                             <h3>상세내용 이미지 등록하기 → <label for="detailFile">C L I C K   H E R E</label> </h3>
                             <button class="txt_tit_notice" id="detailUploadButton" type="button">이미지 미리보기</button>
                         </div>
                         <input type="file" id="detailFile" accept="image/*" style="visibility: hidden;">
-                        <input type="hidden" id="detailImageId" value="0">
-                        <input type="hidden" id="detailPath" value="image">                                                                        
                     </p>
-                    <div id="detail-container"></div>
+                    <th:block th:each="dto:${img}">
+                        <div th:if="${dto.storeFileName == product.detailImagePath}">
+                            <input type="hidden" id="uploadDetailId" th:value="${dto.id}">
+                            <input type="hidden" id="detailImageId" th:value="${dto.id}">
+                            <input type="hidden" id="detailPath" th:value="${product.detailImagePath}">
+                        </div>                        
+                    </th:block>
+                    <div id="detail-container" style="width: 500px; height: 500px; padding: 10px; object-fit: contain;">
+                        <img th:src="@{'/uploadfile/'+${product.detailImagePath}}">
+                    </div>
 
                     <h3> 제품에대한 상세 설명을 해주세요. </h3>
                     <label for="productScript"></label>
                     <textarea class="box_contents" id="productScript" th:text="${product.productScript}"></textarea>
-                    
+
                 </div>
             </div>
                 <div class="btns">
@@ -61,9 +75,152 @@
     </th:block>
 </th:block>
 <script>
+    
+    const uploadThumnailImage = document.getElementById("uploadThumnailId")
+    const uploadDetailImage = document.getElementById("uploadDetailId")
+
+    const thumbnail = document.getElementById("thumnailImageId");
+    const detailImage = document.getElementById("detailImageId");
+
+    document.getElementById("thumnailUploadButton").addEventListener("click", function() {
+        var thumnailImageInput = document.getElementById("thumnailFile");
+        var file = thumnailImageInput.files[0];        
+        
+        // 이미지 번호를 가져올 input 요소   "thumnailImageId"
+        var thumnailImageNumber = parseInt(thumbnail.value);
+
+        // 이미지 번호를 가져올 input 요소   "uploadThumnailId"
+        var uploadThumnailImageNumber = parseInt(uploadThumnailImage.value);
+     
+        var thumnailPathInput = document.getElementById("thumnailPath");
+
+        if (!file) {
+            alert("이미지를 선택해주세요.");
+            return;
+        }
+
+            // 파일 확장자 확인
+        var allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+        var fileExtension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert("올바른 이미지 파일 형식이 아닙니다.");
+            return;
+        }
+
+        var formData = new FormData();        
+        formData.append("request", file); 
+
+        let uri = '';
+        let method = '';
+
+        if(thumnailImageNumber===uploadThumnailImageNumber){
+            uri = '/api/image-upload';
+            method = 'POST';
+        }else{
+            uri = `/api/image-upload?id=${thumnailImageNumber}`;
+            method = 'PUT';
+        }
+
+        fetch(uri, {
+            method: method,
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+
+
+            var imageElement = document.createElement("img");
+            imageElement.src = "/uploadfile/" + data.storeFileName;
+
+            imageElement.style.width = "500px";
+            imageElement.style.height = "500px";
+            imageElement.style.padding = "10px";
+            imageElement.style.objectFit = "contain";
+
+
+            var imageContainer = document.getElementById("thumnail-container");
+            imageContainer.innerHTML = ''; // 이미지를 교체하려면 이전 이미지를 지우고 새 이미지를 표시합니다.
+            imageContainer.appendChild(imageElement);
+            thumbnail.value = data.id;
+            thumnailPathInput.value = data.storeFileName;
+        })
+        .catch(error => {
+            console.error("Error: " + error);
+        });
+    });
+
+    document.getElementById("detailUploadButton").addEventListener("click", function() {
+        var detailImageInput = document.getElementById("detailFile");
+        var file = detailImageInput.files[0];       
+
+        // 이미지 번호를 가져올 input 요소  "detailImageId"
+        var detailImageNumber = parseInt(detailImage.value);
+        var uploadDetailImageNumber = parseInt(uploadDetailImage.value);
+
+        
+
+        var detailPathInput = document.getElementById("detailPath");
+
+        if (!file) {
+            alert("이미지를 선택해주세요.");
+            return;
+        }
+
+            // 파일 확장자 확인
+        var allowedExtensions = [".jpg", ".jpeg", ".png", ".gif"];
+        var fileExtension = file.name.substring(file.name.lastIndexOf(".")).toLowerCase();
+
+        if (allowedExtensions.indexOf(fileExtension) === -1) {
+            alert("올바른 이미지 파일 형식이 아닙니다.");
+            return;
+        }
+
+        var formData = new FormData();        
+        formData.append("request", file); 
+
+        let uri = '';
+        let method = '';
+
+        if(detailImageNumber===uploadDetailImageNumber){
+            uri = '/api/image-upload';
+            method = 'POST';
+        }else{
+            uri = `/api/image-upload?id=${detailImageNumber}`;
+            method = 'PUT';
+        }
+
+        fetch(uri, {
+            method: method,
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+
+
+            var imageElement = document.createElement("img");
+            imageElement.src = "/uploadfile/" + data.storeFileName;
+
+            imageElement.style.width = "500px";
+            imageElement.style.height = "500px";
+            imageElement.style.padding = "10px";
+            imageElement.style.objectFit = "contain";
+
+
+            var imageContainer = document.getElementById("detail-container");
+            imageContainer.innerHTML = ''; // 이미지를 교체하려면 이전 이미지를 지우고 새 이미지를 표시합니다.
+            imageContainer.appendChild(imageElement);
+            detailImage.value = data.id;
+            detailPathInput.value = data.storeFileName;
+        })
+        .catch(error => {
+            console.error("Error: " + error);
+        });
+    });
+
+    
     let dlt_btn = document.querySelector('#dlt_btn');
     let upt_btn = document.querySelector('#upt_btn');
-
 
     let pId = document.querySelector('.productId').value;
 
@@ -71,16 +228,33 @@
         upt_btn.addEventListener('click', e => {
             e.preventDefault();
 
-            fetch(`/api/products/${pId}`, 
+            const uploadThumnailImageId = uploadThumnailImage
+            const uploadDetailImageId = uploadDetailImage
+
+            const thumbnailId = thumbnail
+            const detailImageId = detailImage
+
+            let uri = '';
+
+            if(uploadThumnailImageId===thumbnailId && uploadDetailImageId===detailImageId){
+                uri = "/api/products"
+            }else{
+                const idArray = [thumbnailId.value,detailImageId.value];
+                uri = '/api/productsAndImage?' + idArray.map(id => 'ids=' + id).join('&');
+            }
+
+            fetch(uri, 
             {method: 'PUT',
             headers: {
                 "Content-Type": "application/json",},
                 body : JSON.stringify({
-
+                    id : document.getElementById('productId').value,
                     productName : document.getElementById('productName').value,
                     productPrice : document.getElementById('productPrice').value,
                     categories : document.getElementById('categories').value,
-                    productScript : document.getElementById('productScript').value
+                    productScript : document.getElementById('productScript').value,
+                    imagePath : document.getElementById('thumnailPath').value,
+                    detailImagePath : document.getElementById('detailPath').value
                 })
             })
             .then(()=>{

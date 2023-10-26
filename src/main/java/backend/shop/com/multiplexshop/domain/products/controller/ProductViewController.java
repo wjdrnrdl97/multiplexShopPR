@@ -41,11 +41,7 @@ public class ProductViewController {
     }
 
     @GetMapping
-    public String getAllProductsView(@RequestParam(defaultValue = "0")int page, HttpSession session, Model model){
-
-        MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
-        model.addAttribute("loginUser", loginUser);
-
+    public String getAllProductsView(@RequestParam(defaultValue = "0")int page,Model model){
         Page<ProductsResponseDTO> allStuffProducts =
                 productsService.findAllProductsByCategories(Categories.STUFF,page);
 
@@ -107,10 +103,5 @@ public class ProductViewController {
         model.addAttribute("product",productByRequest);
         model.addAttribute("img",allUploadFileByRequest);
         return "product/modifyProduct";
-    }
-
-    @GetMapping("uploadImage")
-    public String getUploadImageModal(){
-        return "product/uploadModal";
     }
 }

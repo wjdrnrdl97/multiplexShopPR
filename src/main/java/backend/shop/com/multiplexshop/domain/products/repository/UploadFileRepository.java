@@ -10,7 +10,5 @@ import java.util.List;
 @Repository
 public interface UploadFileRepository extends JpaRepository<UploadFile,Long> {
 
-    List<UploadFile> findAllByProducts(Products products);
-
     List<UploadFile> findByProductsId(Long productId);
 }

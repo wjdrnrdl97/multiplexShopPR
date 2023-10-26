@@ -7,8 +7,11 @@
     <article id="article">
         <div class="all_product_box">
 
-
-            <div class="food_coner">
+            <div class="food_coner">                
+                    <button class="productPost_btn" th:if="${session.loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).ADMIN}"
+                             style="background: transparent; border: 1px solid black;">
+                                <a th:href="@{/products/createProducts}">P O S T</a>
+                    </button>
                 <h2>F O O D</h2>
                 <form class="all_search_box" th:action="@{/products/search}" onsubmit="return handleSubmit();">
                     <label for="foodSelect" style="font-size: 25px; ">C A T E G O R Y :</label>

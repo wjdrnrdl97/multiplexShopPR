@@ -29,7 +29,7 @@ public class ProductsService {
     private final UploadFileRepository uploadFileRepository;
 
     @Transactional
-    public ProductsResponseDTO productSaveByRequest(ProductsRequestDTO request, List<Long> imageIds) {
+    public ProductsResponseDTO createProductByRequest(ProductsRequestDTO request, List<Long> imageIds) {
         Products products = request.toEntity(request);
         Products savedProduct = productsRepository.save(products);
         ProductsResponseDTO productsResponseDTO = ProductsResponseDTO.of(products);
@@ -50,24 +50,37 @@ public class ProductsService {
     }
 
     @Transactional
-    public void productUpdateByRequestAndId(ProductsRequestDTO requestDTO, Long productId) {
-        Products updateProduct = findProductById(productId);
-        log.debug("product id = {}",updateProduct.getId());
-        updateProduct.updateByRequest(requestDTO);
+    public void updateProductByRequest(ProductsRequestDTO request){
+        Long requestProductsId = request.getId();
+        Products updateProduct = productsRepository.findById(requestProductsId)
+                       .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + requestProductsId));
+        updateProduct.updateByRequest(request);
         productsRepository.save(updateProduct);
+    }
+
+    @Transactional
+    public void updateProductAndUploadFileByRequestAndIds(ProductsRequestDTO request,List<Long> imageIds){
+        Long requestProductsId = request.getId();
+        Products updateProduct = productsRepository.findById(requestProductsId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + requestProductsId));
+        updateProduct.updateByRequest(request);
+        Products saveProductOfUpdate = productsRepository.save(updateProduct);
+        addProductToUploadFile(saveProductOfUpdate,imageIds);
     }
 
     @Transactional
     public void deleteProductById(Long productId) {
         deleteImageFilesByProduct(productId);
 
-        Products deleteProduct = findProductById(productId);
+        Products deleteProduct = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + productId));
         productsRepository.delete(deleteProduct);
     }
 
     private void deleteImageFilesByProduct(Long productId) {
-        Products productById = findProductById(productId);
-        List<UploadFile> byProducts = uploadFileRepository.findAllByProducts(productById);
+        Products findProductById = productsRepository.findById(productId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + productId));
+        List<UploadFile> byProducts = uploadFileRepository.findByProductsId(productId);
         uploadFileRepository.deleteAll(byProducts);
     }
 
@@ -76,17 +89,6 @@ public class ProductsService {
                 .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 번호입니다. : " + productId));
         return ProductsResponseDTO.of(findProductById);
     }
-
-    public Products findProductById(Long productId) {
-        return productsRepository.findById(productId)
-                .orElseThrow(()-> new IllegalArgumentException("잘못된 상품 번호입니다. : "+productId));
-    }
-
-    public List<UploadFile> findUploadFile(Long productId){
-        Products products = findProductById(productId);
-        return uploadFileRepository.findAllByProducts(products);
-    }
-
 
     public Page<ProductsResponseDTO> findAllProductsByCategories(Categories categories, int page) {
         int pageNum = (page == 0)? 0 : page - 1;

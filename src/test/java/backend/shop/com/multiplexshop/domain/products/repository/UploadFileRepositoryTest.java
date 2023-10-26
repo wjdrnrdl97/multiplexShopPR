@@ -48,7 +48,7 @@ class UploadFileRepositoryTest {
                 .build();
         uploadFileRepository.save(uploadFile2);
         //when
-        List<UploadFile> result = uploadFileRepository.findAllByProducts(findProduct);
+        List<UploadFile> result = uploadFileRepository.findByProductsId(1L);
         //then
         assertThat(result).hasSize(2);
         assertThat(result.get(0).getStoreFileName()).isEqualTo("썸네일");
