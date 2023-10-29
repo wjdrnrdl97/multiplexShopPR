@@ -1,6 +1,8 @@
 package backend.shop.com.multiplexshop.domain;
 
 
+import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
+import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.products.repository.UploadFileRepository;
 import backend.shop.com.multiplexshop.domain.products.service.ProductsService;
@@ -13,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 
 @SpringBootTest
@@ -33,6 +36,11 @@ public abstract class ControllerTestSupport {
     protected ProductsRepository productsRepository;
     @Autowired
     protected UploadFileRepository uploadFileRepository;
+
+    @Autowired
+    protected MemberRepository memberRepository;
+    @Autowired
+    protected BoardRepository boardRepository;
 
     @BeforeEach
     void setUp() {

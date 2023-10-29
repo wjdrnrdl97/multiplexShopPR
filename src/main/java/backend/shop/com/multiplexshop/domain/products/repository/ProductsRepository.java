@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductsRepository extends JpaRepository<Products, Long> {
@@ -22,6 +23,8 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
                                     (Categories categories, String productName, Pageable pageable);
     @Override
     Page<Products> findAll(Pageable pageable);
+
+    List<Products> findAllByOrderByIdDesc();
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from Products p where p.id = :id")

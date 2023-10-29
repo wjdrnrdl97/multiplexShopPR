@@ -16,26 +16,12 @@
         <button class="bannerBtnR">></button>
 
         <div class="thumbnail_img">
-            <div class="products">
-                <a href="">
-                <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 005.jpeg" alt="">
+            <div class="products" th:each="product, iterStat : ${list}" th:if="${iterStat.index &lt; 3}">
+                <a th:href="@{/products/{id}(id=${product.id})}">
+                    <img th:src="@{'/uploadfile/'+${product.imagePath}}">
                 </a>
-                <p>상품 이름</p>
-                <p>가격 : <span> 3,9000원</span></p>
-            </div>
-            <div class="products">
-                <a href="">
-                    <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-58 010.jpeg" alt="">
-                </a>
-                <p>상품 이름</p>
-                <p>가격 : <span> 3,9000원</span></p>
-            </div>
-            <div class="products">
-                <a href="#">
-                    <img src="/img/KakaoTalk_Photo_2023-08-24-17-31-37 003.jpeg" alt="">
-                </a>
-                <p>상품 이름</p>
-                <p>가격 : <span> 3,9000원</span></p>
+                <p th:value="${product.productName}">상품 이름</p>
+                <p>가격 : <span  th:value="${product.productPrice}">3,900</span> 원</p>
             </div>
         </div>
         

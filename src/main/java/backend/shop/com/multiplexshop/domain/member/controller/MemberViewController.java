@@ -32,6 +32,13 @@ public class MemberViewController {
     private final ProductsService productsService;
     private final DeliveryService deliveryService;
 
+    @GetMapping("/")
+    public String getProductWithImageToMain(Model model){
+        List<ProductsResponseDTO> findByOrderByIdDesc = productsService.findAllByOrderByIdDesc();
+        model.addAttribute("list",findByOrderByIdDesc);
+        return "index";
+    }
+
     @GetMapping("/join")
     public String getJoinView(@RequestParam(required = false) Long id, Model model){
         if (id == null){

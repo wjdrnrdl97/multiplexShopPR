@@ -123,4 +123,8 @@ public class ProductsService {
         Page<Products> allProductOfPagination = productsRepository.findAll(pageable);
         return allProductOfPagination.map(ProductsResponseDTO::of);
     }
+    public List<ProductsResponseDTO> findAllByOrderByIdDesc(){
+        List<Products> findByOrderByIdDesc = productsRepository.findAllByOrderByIdDesc();
+        return findByOrderByIdDesc.stream().map(ProductsResponseDTO::of).toList();
+    }
 }

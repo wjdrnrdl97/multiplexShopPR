@@ -21,10 +21,14 @@
                     [[${getBoard.boardContent}]]
                 </div>
                 <div class="btns">
-                    <a th:href="@{/support(page = ${page})}" class="list-btn" style="margin-top:20px;">LIST</a>
+                    <a th:href="@{/support(page = ${page})}" class="list-btn">LIST</a>
+                    <div th:if="${session.loginUser.memberId == getBoard.member.memberId}">
                         <a th:onclick="|location.href='@{/support/post(boardId=${getBoard.boardId},page=${page})}'|"
-                           class="list-btn" style="margin-top:20px;">UPDATE</a>
-                    <a class="list-btn" style="margin-top:20px;" id="delete_btn">DELETE</a>
+                            class="list-btn">UPDATE</a>
+                    </div>
+                    <div th:if="${session.loginUser.memberId == getBoard.member.memberId || session.loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).ADMIN}">
+                        <a class="list-btn" id="delete_btn">DELETE</a>
+                    </div>
                 </div>
 
                 <hr class="hr">

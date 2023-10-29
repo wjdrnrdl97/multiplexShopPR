@@ -6,39 +6,48 @@
 
     <article id="article">
     <div class="join_box">
-        <input type="hidden" id="member_id" th:value="${member.memberId}">
-        <table class="join_table">
+        <input type="hidden" id="member_id" th:value="${member.memberId}">        
             <form id="myForm">
-                <tr class="join_tr">
-                    <td class="join_td">E - M A I L [&nbsp;I D&nbsp;]:</td>
-                    <td class="join_td" th:if="${member.memberId} != null">
-                        <input type="email" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" style="cursor:default; background-color: #efefef;" readonly >
-                    </td>
-                    <td class="join_td" th:if="${member.memberId} == null">
-                        <input type="email" id="" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" required>
-                    </td>
-                </tr>
-                <tr class="join_tr">
-                    <td class="join_td">P A S S W O R D :</td>
-                    <td class="join_td" th:if="${member.memberId} != null"><input type="password"  class="password" name="password" th:value="${member.password}" style="cursor:default; background-color: #efefef;" readonly required></td>
-                    <td class="join_td" th:if="${member.memberId} == null"><input type="password" id="password"  class="password" name="password" th:value="${member.password}" th:utext="${member.password}" required></td>
-                </tr>
-                <tr class="join_tr">
-                    <td class="join_td">N A M E:</td>
-                    <td class="join_td" th:if="${member.memberId} != null"><input type="text" class="memberName" name="memberName" style="cursor:default; background-color: #efefef;" th:value="${member.memberName}" readonly></td>
-                    <td class="join_td" th:if="${member.memberId} == null"><input type="text" class="memberName" name="memberName" th:value="${member.memberName}" required></td>
-                </tr>
-                <tr class="join_tr">
-                    <td class="join_td">A D D R E S S:</td>
-                    <td class="join_td" ><input type="text"  name="memberAddress" id="memberAddress" th:value="${member.memberAddress}" required></td>
-                    <td class="addr_td"><input type="button" id="address_kakao" class="addr_btn" value="주소 찾기"> </td>
+            <div style="width: 800px;">
+                <div style="display: flex; margin-top: 50px; justify-self: flex-start; align-items: center; justify-content: flex-end;">
+                    <div style="font-size: xx-large;">E - M A I L [&nbsp;I D&nbsp;]:</div>
+                    <div th:if="${member.memberId} != null">
+                        <input type="email" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" style="cursor:default; background-color: #efefef; width: 500px; margin-left: 50px; margin-right: 0px;" readonly >
+                    </div>
+                    <div  th:if="${member.memberId} == null">
+                        <input type="email" style="width: 500px; margin-left: 50px; margin-right: 0px;" id="" class="memberEmailId" name="memberEmailId" th:value="${member.memberEmailId}" required>
+                    </div>                    
+                </div>
+                <div style="color: red;"id="memberEmailId-error" class="error-message"></div>                    
 
-                </tr>
-                <tr class="join_tr"s>
-                    <td class="join_td">P H O N E :</td>
-                    <td class="join_td"><input type="text" id="phoneNumber" name="phoneNumber" th:value="${member.phoneNumber}"></td>
-                </tr>
-                </table>
+                <div style="display: flex; margin-top: 50px; justify-self: flex-start; align-items: center; justify-content: flex-end;">
+                    <div style="font-size: xx-large;">P A S S W O R D :</div>
+                    <div th:if="${member.memberId} != null"><input type="password" style=" cursor:default; background-color: #efefef; width: 500px; margin-left: 50px; margin-right: 0px;" class="password" name="password" th:value="${member.password}" readonly required></div>
+                    <div th:if="${member.memberId} == null"><input type="password" style="width: 500px; margin-left: 50px; margin-right: 0px;" id="password"  class="password" name="password" th:value="${member.password}" th:utext="${member.password}" required></div>                    
+                </div>
+                <div style="color: red;"id="password-error" class="error-message"></div>
+
+                <div style="display: flex; margin-top: 50px; justify-self: flex-start; align-items: center; justify-content: space-between;">
+                    <div style="font-size: xx-large; margin-left: 5px;">N A M E:</div>
+                    <div th:if="${member.memberId} != null"><input type="text" style="cursor:default; background-color: #efefef; width: 500px; margin:25px 0px 25px 50px;" class="memberName" name="memberName" th:value="${member.memberName}" readonly></div>
+                    <div th:if="${member.memberId} == null"><input type="text" style="width: 500px; margin:25px 0px 25px 50px;" class="memberName" name="memberName" th:value="${member.memberName}" required></div>
+                </div>
+                <div style="color: red;" id="memberName-error" class="error-message"></div>
+
+                <div style="width: 950px; display: flex; margin-top: 50px; justify-self: flex-end; align-items: center;">
+                    <div style="margin-right: 50px; font-size: xx-large;">A D D R E S S:</div>
+                    <div ><input type="text" tabindex="-1" style="width: 500px; margin:25px 0px 25px 50px;"  name="memberAddress" id="memberAddress" th:value="${member.memberAddress}" readonly></div>
+                    <div><input type="button" style="margin-left: 30px;" id="address_kakao" class="addr_btn" value="주소 찾기"> </div>
+                </div>
+                <div style="color: red;"id="memberAddress-error" class="error-message"></div>
+
+                <div style="display: flex; margin-top: 50px; justify-self: flex-start; align-items: center;  justify-content: space-between;">
+                    <div style="font-size: xx-large;">P H O N E :</div>
+                    <div><input type="text" style="width: 500px; margin:25px 0px 25px 50px; " id="phoneNumber" name="phoneNumber" th:value="${member.phoneNumber}"></div>
+                </div>
+                <div style="color: red;"id="phoneNumber-error" class="error-message"></div>
+                <input type="hidden" id="role" th:value = ${member.role}>
+            </div>
                 <br>
                 <input th:if="${member.memberId} == null" class="join_btn" id="join_btn" type="submit" value="S U B M I T">
                 <input th:if="${member.memberId} != null" class="modify_btn" id="modify_btn" type="submit" value="U P D A T E">
@@ -74,6 +83,7 @@
         }).open();
     });
 
+
     const passwordPattern = /^(?=.*\d).{6,12}$/;
     const passwordInput = document.getElementById("password");
 
@@ -93,11 +103,8 @@
     const joinBtn = document.getElementById('join_btn');
         if (joinBtn) {
             joinBtn.addEventListener('click', event => {
-                const email = document.querySelector('.memberEmailId').value;
-                const pw = document.querySelector('.password').value;
-                const name = document.querySelector('.memberName').value;
+                const memberRole = 'USER';
 
-                if(email != "" && pw != "" && name != ""){
                     fetch('/api/join', {
                     method: 'POST',
                     headers: {
@@ -108,24 +115,45 @@
                         password : document.querySelector('.password').value,
                         memberName : document.querySelector('.memberName').value,
                         memberAddress : document.getElementById('memberAddress').value,
-                        phoneNumber : document.getElementById('phoneNumber').value
+                        phoneNumber : document.getElementById('phoneNumber').value,
+                        role:memberRole
                     })
                 })
-                    .then(() => {
+                    .then(response => {
+                        if(response.ok){
+                            return response.json();
+                        }else{
+                            return response.json();
+                        }
+                    })
+                    .then(data => {
+                        if(data.code===400){                            
+                            alert(data.message);
+                            const errors = data.data;
+                            for(const field in errors){
+                                const errorMessage = errors[field];
+                                const errorElement = document.getElementById(field+'-error');
+                                    if(errorElement){
+                                      errorElement.textContent = errorMessage;
+                                    }
+                            }
+                        }else if(data.code===200){
                         alert('회원가입이 완료되었습니다!');
                         location.replace('/');
-                    });
-                }
-
+                    }
+                })
+                .catch(error=>{
+                    console.error("Error : " + error)
+                })
             });
         }
 
     const modifyButton = document.getElementById('modify_btn');
+
     if (modifyButton) {
         modifyButton.addEventListener('click', event => {
 
-        let params = new URLSearchParams(location.search);
-        let id = params.get('id');
+        const id = document.getElementById('member_id').value;
 
             fetch(`/api/mypage/${id}`, {
                 method: 'PUT',
@@ -133,16 +161,41 @@
                     "Content-Type": "application/json",
                     },
                 body: JSON.stringify({
-
-                memberAddress : document.getElementById('memberAddress').value,
-                phoneNumber : document.getElementById('phoneNumber').value
+                        memberEmailId : document.querySelector('.memberEmailId').value,
+                        password : document.querySelector('.password').value,
+                        memberName : document.querySelector('.memberName').value,
+                        memberAddress : document.getElementById('memberAddress').value,
+                        phoneNumber : document.getElementById('phoneNumber').value,
+                        role:document.getElementById('role').value
             })
         })
-        .then(() => {
-            alert('회원 정보가 수정되었습니다.');
-            location.replace(`/mypage/${id}`);
-        });
-    });
+        .then(response => {
+                        if(response.ok){
+                            return response.json();
+                        }else{
+                            return response.json();
+                        }
+                    })
+                    .then(data => {
+                        if(data.code===400){                            
+                            alert(data.message);
+                            const errors = data.data;
+                            for(const field in errors){
+                                const errorMessage = errors[field];
+                                const errorElement = document.getElementById(field+'-error');
+                                    if(errorElement){
+                                      errorElement.textContent = errorMessage;
+                                    }
+                            }
+                        }else if(data.code===200){
+                        alert('회원정보가 수정되었습니다!');
+                        location.replace(`/mypage/${id}`);
+                        }
+                })
+                .catch(error=>{
+                    console.error("Error : " + error)
+                })
+            });
 
    }
 

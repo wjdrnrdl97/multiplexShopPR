@@ -17,9 +17,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +38,7 @@ public class BoardService {
     private final CommentRepository commentRepository;
 
     /**
-     *  게시물 상세 조회
-     * @param  (조회할 게시물 번호)
-     * @return Board(조회 상세정보) + 조회수 증가
+     *  게시물 상세 조회     *
      */
     public Board searchById(Long boardId ) {
         return boardRepository.findById(boardId)
@@ -116,7 +116,7 @@ public class BoardService {
     public List<BoardResponseDTO> findByNotice() {
         List<Board> notice = boardRepository.findByNotice();
         return notice.stream()
-                .map(BoardResponseDTO::new)
+                .map(BoardResponseDTO::of)
                 .toList();
     }
 
@@ -130,7 +130,7 @@ public class BoardService {
         PageRequest pageAble = PageRequest.of(pageNum, 10, Sort.by("boardId").descending());
         Page<Board> postPage = boardRepository.findByPost(pageAble);
 
-        return postPage.map(BoardResponseDTO::new);
+        return postPage.map(BoardResponseDTO::of);
     }
 
     /**
@@ -138,8 +138,17 @@ public class BoardService {
      * @param boardRequestDTO (등록할 게시물 정보)
      * @return Board
      */
-    public Board save(BoardRequestDTO boardRequestDTO) {
-        return boardRepository.save(dtoToBoardEntity(boardRequestDTO));
+    public BoardResponseDTO save(BoardRequestDTO boardRequestDTO) {
+        Board dtoToBoardEntity = dtoToBoardEntity(boardRequestDTO);
+        Board saveBoard = boardRepository.save(dtoToBoardEntity);
+        return BoardResponseDTO.of(saveBoard);
+    }
+    public HashMap<String,String> validateHandling(BindingResult bindingResult){
+        HashMap<String,String> errorMap = new HashMap<>();
+        bindingResult.getFieldErrors().forEach(error ->{
+            errorMap.put(error.getField(),error.getDefaultMessage());
+        });
+        return errorMap;
     }
 
     /**
@@ -180,8 +189,9 @@ public class BoardService {
                 .boardTitle(boardRequestDTO.getBoardTitle())
                 .boardContent(boardRequestDTO.getBoardContent())
                 .member(member)
-                .memberName(member.getMemberName())
+                .boardType(boardRequestDTO.getBoardType())
                 .build();
+
     }
 
 }

@@ -1,30 +1,18 @@
 package backend.shop.com.multiplexshop.domain.board.controller;
 
+import backend.shop.com.multiplexshop.domain.ControllerTestSupport;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
-import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
+import backend.shop.com.multiplexshop.domain.board.entity.BoardType;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import jakarta.servlet.http.Cookie;
-
-
-
-
-
 
 import java.util.List;
 
@@ -32,31 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class BoardAPIControllerTest {
-
-    @Autowired
-    BoardRepository boardRepository;
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    protected MockMvc mockMvc;
-    @Autowired
-    protected WebApplicationContext context;
-    @Autowired
-    protected ObjectMapper objectMapper;
-
-    @BeforeEach
-    public void setMockMvc(){
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .addFilter(new CharacterEncodingFilter("UTF-8",true))
-                .build();
-    }
+class BoardAPIControllerTest extends ControllerTestSupport {
     @Test
     @DisplayName("getBoardList(): Board컨트롤러를 이용하여 게시물 목록조회")
     public void test2() throws Exception{
@@ -79,13 +49,19 @@ class BoardAPIControllerTest {
     @DisplayName("postBoard(): Board컨트롤러를 이용하여 게시물 등록")
     public void test3()throws Exception{
         //given
-        Member member = memberRepository.findById(1L).get();
+        Member member = Member.builder()
+                .memberEmailId("사용자1")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
         final String url = "/api/support";
         final String title = "NEW POST";
         BoardRequestDTO boardRequest = BoardRequestDTO.builder()
+                .memberId(1L)
                 .boardTitle(title)
                 .boardContent("new board")
-//                .memberId(member.getMemberId()) memberid -> id 로 수정해야함
+                .boardType(BoardType.POST)
                 .build();
         final String requestBody = objectMapper.writeValueAsString(boardRequest);
         //when
@@ -95,6 +71,32 @@ class BoardAPIControllerTest {
         perform.andExpect(status().isCreated());
         List<Board> userBoardList = boardRepository.findAll();
         assertThat(userBoardList.get(0).getBoardTitle()).isEqualTo(title);
+    }
+    @Test
+    @DisplayName("postBoard(): Board컨트롤러를 이용하여 게시물 등록 유효성 검사")
+    public void test3_1()throws Exception{
+        //given
+        Member member = Member.builder()
+                .memberEmailId("사용자1")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member savedMember = memberRepository.save(member);
+        final String url = "/api/support";
+        final String title = "";
+        BoardRequestDTO boardRequest = BoardRequestDTO.builder()
+                .memberId(1L)
+                .boardTitle(title)
+                .boardContent("new board")
+                .boardType(BoardType.POST)
+                .build();
+        final String requestBody = objectMapper.writeValueAsString(boardRequest);
+        //when//then
+        ResultActions perform = mockMvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON).content(requestBody))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+
     }
 
     @Test

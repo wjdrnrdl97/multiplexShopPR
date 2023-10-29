@@ -288,4 +288,22 @@ class ProductsServiceTest extends IntegrationTestSupport {
         assertThat(uploadFileResult).isEmpty();
         assertThat(productResult).isEmpty();
     }
+    @Test
+    @DisplayName("번호 역순으로 상품 전체목록을 조회한다.")
+    public void findAllByOrderByIdDesc(){
+        //given
+        for (int i = 0; i < 5; i++) {
+            Products stuff = Products.builder()
+                    .productName("향수" + i)
+                    .productPrice(10000)
+                    .stockQuantity(100)
+                    .categories(Categories.STUFF)
+                    .build();
+            productsRepository.save(stuff);
+        }
+        //when
+        List<ProductsResponseDTO> result = productService.findAllByOrderByIdDesc();
+        //then
+        assertThat(result.get(0).getId()).isEqualTo(5);
+    }
 }

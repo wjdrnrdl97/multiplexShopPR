@@ -5,14 +5,21 @@ import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs;
 import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO;
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
+import backend.shop.com.multiplexshop.domain.common.GlobalCommonResponseCode;
+import backend.shop.com.multiplexshop.domain.common.GlobalCommonResponseDTO;
+import backend.shop.com.multiplexshop.domain.common.GlobalCommonResponseDTO.GlobalCommonResponseDTOBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
@@ -22,18 +29,6 @@ import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 public class BoardAPIController {
 
     private final BoardService boardService;
-
-
-    /**
-     * 게시물 상세 조회
-     * @paramboardId (@PathVariable, 게시물 번호)
-     * @return : Http 200 OK, body(getBoard)
-     */
-//    @GetMapping("/api/support/{id}")
-//    public ResponseEntity<BoardResponseDTO> getUserBoard(@PathVariable("id") LongboardId) {
-//        Board getBoard = boardService.findById(id);
-//        return ResponseEntity.ok().body(new BoardResponseDTO(getBoard));
-//    }
 
     /**
      * 게시물 목록 조회
@@ -53,9 +48,24 @@ public class BoardAPIController {
      * @return Http 201 created, body(postBoard(new Board))
      */
     @PostMapping("/api/support")
-    public ResponseEntity<BoardResponseDTO> postUserBoard(@RequestBody BoardRequestDTO boardRequestDTO){
-        Board postBoard = boardService.save(boardRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new BoardResponseDTO(postBoard));
+    public ResponseEntity<GlobalCommonResponseDTO> postUserBoard(@RequestBody @Valid BoardRequestDTO boardRequestDTO,
+                                                                                BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            HashMap<String, String> errors = boardService.validateHandling(bindingResult);
+            GlobalCommonResponseDTO errorResponse = GlobalCommonResponseDTO.builder()
+                    .code(GlobalCommonResponseCode.BAD_REQUEST.getCode())
+                    .message("validation error")
+                    .data(errors)
+                    .build();
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
+        BoardResponseDTO postBoard = boardService.save(boardRequestDTO);
+        GlobalCommonResponseDTO successResponse = GlobalCommonResponseDTO.builder()
+                .code(GlobalCommonResponseCode.SUCCESS.getCode())
+                .message("create Board")
+                .data(postBoard)
+                .build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
     }
 
     /**
@@ -64,11 +74,24 @@ public class BoardAPIController {
      * @param boardRequestDTO (수정할 게시물 내용)
      */
     @PutMapping("/api/support/{id}")
-    public ResponseEntity<BoardResponseDTO> updateUserBoard(@PathVariable("id") Long boardId,
-                                                 @RequestBody BoardRequestDTO boardRequestDTO){
+    public ResponseEntity<GlobalCommonResponseDTO> updateUserBoard(@PathVariable("id") Long boardId,
+                                    @RequestBody @Valid BoardRequestDTO boardRequestDTO, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            HashMap<String, String> errors = boardService.validateHandling(bindingResult);
+            GlobalCommonResponseDTO errorResponse = GlobalCommonResponseDTO.builder()
+                    .code(GlobalCommonResponseCode.BAD_REQUEST.getCode())
+                    .message("validation error")
+                    .data(errors)
+                    .build();
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
         Board updateBoard = boardService.update(boardId, boardRequestDTO);
-        BoardResponseDTO boardResponseDTO = new BoardResponseDTO(updateBoard);
-        return ResponseEntity.ok().body(boardResponseDTO);
+        BoardResponseDTO boardResponseDTO = BoardResponseDTO.of(updateBoard);
+        GlobalCommonResponseDTO successResponse = GlobalCommonResponseDTO.builder()
+                .code(GlobalCommonResponseCode.SUCCESS.getCode())
+                .message(GlobalCommonResponseCode.SUCCESS.getMessage())
+                .build();
+        return ResponseEntity.ok().body(successResponse);
     }
 
     @DeleteMapping("/api/support/{id}")
@@ -91,7 +114,7 @@ public class BoardAPIController {
                                                              @PathVariable("id") Long boardId,
                                                              HttpServletResponse response, HttpServletRequest request){
         Board board = boardService.viewCountValidation(boardId,request,response);
-        return ResponseEntity.ok().body(new BoardResponseDTO(board));
+        return ResponseEntity.ok().body(BoardResponseDTO.of(board));
     }
 
 }

@@ -10,26 +10,30 @@
         <!-- 공지사항 본문 -->
         <div th:object="${Board}" class="notice_contents">
             <input type="hidden" class="txt_tit_notice" name="boardId" id="boardId" th:value="${Board.boardId}">
-            <input type="hidden" class="txt_tit_notice" name="boardType" id="boardType" th:value="${Board.boardType}">
-            <p>
-            <h3> TITLE : </h3> <input class="txt_tit_notice" name="boardTitle" id="boardTitle"
-                                      th:value="${Board.boardTitle}">
-            </p>
-            <p>
+            <div>
+                <div style="color: red;"id="boardTitle-error" class="error-message"></div>
+                <h3> TITLE : </h3> <input class="txt_tit_notice" name="boardTitle" id="boardTitle"
+                                          th:value="${Board.boardTitle}">                
+            </div>
             <input type="hidden" id="memberId" th:value="${session.loginUser.memberId}">
-            </p>
-            <h3> CONTENT : </h3>
-            <textarea class="box_contents" name="boardContent" id="boardContent" th:text="${Board.boardContent}">
+            <input type="hidden" id="memberRole" th:value="${session.loginUser.role}">
+            <div>
+                <h3>  CONTENT : </h3>
+                <div style="color: red;"id="boardContent-error" class="error-message"></div>
+                <textarea class="box_contents" name="boardContent" id="boardContent" th:text="${Board.boardContent}">
 
                 </textarea>
+            </div>
         </div>
     </div>
 
     <div class="btns">
-        <a th:href="@{/support(page=${page})}" class="list-btn list2" style="margin-top:20px;">LIST</a></a>
+        <a th:href="@{/support(page=${page})}" class="list-btn list2" style=" margin-top:20px; margin-rigth:15px;">LIST</a></a>
         <a th:if="${Board.boardId} == null" class="list-btn" style="margin-top:20px;" id="post_btn">POST</a>
-        <a th:if="${Board.boardId} != null" class="list-btn" style="margin-top:20px;" id="update_btn">UPDATE</a>
-        <a th:if="${Board.boardId} != null" class="list-btn" style="margin-top:20px;" id="delete_btn">DELETE</a>
+        <div style="margin-top:20px;">
+            <a th:if="${Board.boardId} != null" class="list-btn" id="update_btn">UPDATE</a>
+            <a th:if="${Board.boardId} != null" class="list-btn" id="delete_btn">DELETE</a>
+        </div>
     </div>
 
 </article>
@@ -46,6 +50,9 @@
     const postBtn = document.getElementById('post_btn');
  if(postBtn){
      postBtn.addEventListener('click', event => {
+
+        const role = document.getElementById('memberRole').value;
+        const boardTypeInput = (role === 'ADMIN') ? 'NOTICE' : 'POST';
          fetch('/api/support',{
              method:'POST',
              headers:{
@@ -54,14 +61,37 @@
              body: JSON.stringify({
                  memberId : document.getElementById('memberId').value,
                  boardTitle : document.getElementById('boardTitle').value,
-                 boardContent : document.getElementById('boardContent').value
+                 boardContent : document.getElementById('boardContent').value,
+                 boardType:boardTypeInput
              })
          })
-         .then(()=>{
-             alert('게시물이 등록되었습니다.');
-             location.replace('/support');
-         });
-         }
+         .then(response => {
+            if(response.ok){
+                return response.json();
+            }else{
+                return response.json();
+            }
+        })
+         .then(data =>{
+            if(data.code===400){
+                alert(data.message);
+                const errors = data.data;
+                for(const field in errors){
+                    const errorMessage = errors[field];
+                    const errorElement = document.getElementById(field + '-error');
+                    if(errorElement){
+                        errorElement.textContent = errorMessage;
+                    }
+                }
+            }else if(data.code===200){
+                alert('게시물이 등록되었습니다.')
+                location.replace('/support');
+            }
+         })
+         .catch(error=>{
+            console.error("Error : " +error)
+         });         
+    }
  )}
     let id = document.getElementById('boardId').value;
 const updateBtn = document.getElementById('update_btn');
@@ -81,9 +111,21 @@ if (updateBtn) {
         })
         .then(response => response.json()) // 서버 응답을 JSON으로 파싱
         .then(data => {
-            // 성공적으로 처리되었을 때의 로직
-            alert('게시물이 수정되었습니다.');
-            location.replace('/support');
+            if(data.code === 400){
+                alert(data.message);
+                const errors = data.data;
+                for(const field in errors){
+                    const errorMessage = errors[field];
+                    const errorElement = document.getElementById(field + '-error');
+                    if(errorElement){
+                        errorElement.textContent = errorMessage;
+                    }
+                }
+            }else if(data.code === 200){
+                // 성공적으로 처리되었을 때의 로직
+                alert('게시물이 수정되었습니다.');
+                location.replace('/support');
+            }
         })
         .catch(error => {
             // 에러 발생시 처리

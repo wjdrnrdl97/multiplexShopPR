@@ -5,6 +5,7 @@ import backend.shop.com.multiplexshop.domain.cart.repository.CartRepository;
 import backend.shop.com.multiplexshop.domain.cart.service.CartService;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
+import backend.shop.com.multiplexshop.domain.member.service.MemberService;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
 import backend.shop.com.multiplexshop.domain.orders.service.OrderService;
@@ -45,6 +46,8 @@ public abstract class IntegrationTestSupport {
     protected OrderProductsRepository orderProductsRepository;
     @Autowired
     protected DeliveryRepository deliveryRepository;
+    @Autowired
+    protected MemberService memberService;
 
 
 

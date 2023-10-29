@@ -31,12 +31,10 @@ public class BoardViewController {
     private final BoardService boardService;
     private final CommentService commentService;
     @GetMapping()
-    public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model, HttpSession session){
+    public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model){
         List<BoardResponseDTO> noticePages = boardService.findByNotice();
         Page<BoardResponseDTO> postPages = boardService.findByPost(page);
-        MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
 
-        model.addAttribute("login",loginUser);
         model.addAttribute("notice",noticePages);
         model.addAttribute("board",postPages);
         model.addAttribute("page",page);
@@ -56,7 +54,7 @@ public class BoardViewController {
 
         model.addAttribute("loginUser", loginUser);
         model.addAttribute("comment", commentResponseDTOList);
-        model.addAttribute("getBoard",new BoardResponseDTO(getBoard));
+        model.addAttribute("getBoard", BoardResponseDTO.of(getBoard));
         model.addAttribute("page",page);
         return "support/read";
     }
@@ -73,7 +71,7 @@ public class BoardViewController {
             model.addAttribute("page",page);
         }else {
             Board board = (Board) boardService.searchById(boardId);
-            model.addAttribute("Board", new BoardResponseDTO(board));
+            model.addAttribute("Board", BoardResponseDTO.of(board));
             model.addAttribute("page",page);
         }
 

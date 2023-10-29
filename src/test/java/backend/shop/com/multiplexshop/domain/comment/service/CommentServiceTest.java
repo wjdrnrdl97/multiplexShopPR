@@ -169,14 +169,17 @@ class CommentServiceTest {
     @DisplayName("게시물 번호를 통해서 게시물 번호와 연관된 댓글 목록을 가져오는데에 성공한다. ")
     public void findAllByBoard() throws Exception{
         //given
-        Member member = getMember(1L);
+        Member member = Member.builder()
+                .memberEmailId("test")
+                .password("1234")
+                .memberName("테스트")
+                .build();
+        Member saveMember = memberRepository.save(member);
         Board board = Board.builder()
                 .boardTitle("title")
                 .boardContent("content")
-                .memberName("정국이")
-                .member(member)
+                .member(saveMember)
                 .build();
-
         boardRepository.save(board);
         final String content1 = "첫번째 댓글입니다.";
         final String content2 = "두번째 댓글입니다.";

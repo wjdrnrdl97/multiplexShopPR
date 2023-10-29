@@ -5,7 +5,9 @@ import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.*;
@@ -17,11 +19,11 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
 
-    public void memberSave(MemberRequestDTO memberRequestDTO){
-
+    public MemberResponseDTO memberSave(MemberRequestDTO memberRequestDTO){
         Member member = dtoToMemberEntity(memberRequestDTO);
         duplicateEmailValidate(member);
-        memberRepository.save(member);
+        Member savedMember = memberRepository.save(member);
+        return MemberResponseDTO.of(savedMember);
     }
 
     public MemberResponseDTO findById(Long id){
@@ -36,6 +38,14 @@ public class MemberService {
             throw new IllegalStateException("이미 존재하는 E-Mail[ID] 입니다.");
         }
     }
+    public HashMap<String,String>validateHandling(BindingResult bindingResult){
+        HashMap<String, String> errorMap = new HashMap<>();
+        bindingResult.getFieldErrors().forEach(error -> {
+            errorMap.put(error.getField(), error.getDefaultMessage());
+        });
+        return errorMap;
+    }
+
 
     public void deleteMemberById(Long id){
         Member deleteMember = memberRepository.findById(id)
@@ -43,7 +53,7 @@ public class MemberService {
         memberRepository.delete(deleteMember);
     }
 
-    public Member dtoToMemberEntity(MemberRequestDTO memberRequestDTO){
+    private Member dtoToMemberEntity(MemberRequestDTO memberRequestDTO){
         return Member.builder()
                 .memberEmailId(memberRequestDTO.getMemberEmailId())
                 .password(memberRequestDTO.getPassword())
@@ -55,13 +65,12 @@ public class MemberService {
     }
 
     @Transactional
-    public Member update(Long id, MemberRequestDTO request){
-        Member member = memberRepository.findById(id)
+    public MemberResponseDTO updateMemberByRequest(Long id, MemberRequestDTO request){
+        Member findmember = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException("등록되지 않은 회원입니다."));
-
-        member.updateMember(request.getMemberAddress(), request.getPhoneNumber());
-
-        return member;
+        findmember.updateMember(request.getMemberAddress(), request.getPhoneNumber());
+        Member saveUpdateMember = memberRepository.save(findmember);
+        return MemberResponseDTO.of(saveUpdateMember);
 
     }
 

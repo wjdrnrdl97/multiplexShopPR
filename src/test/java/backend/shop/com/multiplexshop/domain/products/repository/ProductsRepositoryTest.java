@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.objenesis.ObjenesisStd;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -24,6 +25,7 @@ import static org.assertj.core.api.Assertions.*;
 
 
 @DataJpaTest
+@ActiveProfiles("test")
 class ProductsRepositoryTest {
 
     @Autowired
@@ -31,7 +33,7 @@ class ProductsRepositoryTest {
 
     @Test
     @DisplayName("검색어가 포함된 모든 카테고리의 상품목록을 조회한다.")
-    public void findAllByProductNameContaining(){
+    public void findAllByProductNameContaining() {
         //given
         for (int i = 0; i < 3; i++) {
             String testPerfumeName = "테스트" + i;
@@ -76,6 +78,7 @@ class ProductsRepositoryTest {
         //then
         assertThat(result.getNumberOfElements()).isEqualTo(6);
     }
+
     @Test
     @DisplayName("검색어가 포함된 상품 목록을 카테고리별로 조회한다.")
     void findAllByCategoriesAndProductNameContaining() throws Exception {
@@ -104,9 +107,10 @@ class ProductsRepositoryTest {
         assertThat(result.getNumberOfElements()).isEqualTo(6);
         assertThat(result.getTotalPages()).isEqualTo(1);
     }
+
     @Test
     @DisplayName("모든 상품목록을 조회하여 페이징처리에 성공한다.")
-    public void findAll(){
+    public void findAll() {
         //given
         for (int i = 0; i < 10; i++) {
             Products stuff = Products.builder()
@@ -123,5 +127,24 @@ class ProductsRepositoryTest {
         //then
         assertThat(result.getNumberOfElements()).isEqualTo(5);
         assertThat(result.getTotalPages()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("상품의 번호 역순으로 상품전체목록을 조회한다.")
+    public void findAllByOrderByIdDesc() {
+        //given
+        for (int i = 0; i < 5; i++) {
+            Products stuff = Products.builder()
+                    .productName("향수" + i)
+                    .productPrice(10000)
+                    .stockQuantity(100)
+                    .categories(Categories.STUFF)
+                    .build();
+            productsRepository.save(stuff);
+        }
+        //when
+        List<Products> result = productsRepository.findAllByOrderByIdDesc();
+        //then
+        assertThat(result.get(0).getId()).isEqualTo(5);
     }
 }

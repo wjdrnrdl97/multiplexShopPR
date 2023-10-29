@@ -2,6 +2,7 @@ package backend.shop.com.multiplexshop.domain.member.entity;
 
 
 
+import backend.shop.com.multiplexshop.domain.board.entity.BoardType;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,6 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@ToString
 public class Member extends BaseEntity {
 
 
@@ -38,9 +38,8 @@ public class Member extends BaseEntity {
     private String phoneNumber;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10)
-    private Role role;
-
+    @Column(length = 10, columnDefinition = "varchar(10) default 'USER'")
+    private Role role = Role.USER;
 
     @Builder
     public Member(Long memberId, String memberEmailId, String password, String memberName, String memberAddress, String phoneNumber, Role role) {
