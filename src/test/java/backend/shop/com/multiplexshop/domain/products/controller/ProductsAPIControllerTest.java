@@ -39,6 +39,9 @@ class ProductsAPIControllerTest extends ControllerTestSupport {
                 .productName("향수")
                 .productPrice(10000)
                 .categories(Categories.FOOD)
+                .productScript("설명")
+                .detailImagePath("test.png")
+                .imagePath("test.png")
                 .build();
 
         // when //then

@@ -15,17 +15,24 @@
                     </select>
                     </p>
                     <p>
-                    <h3> 상품명 : </h3> <input class="txt_tit_notice" style="width: 400px;" id="productName">
+                    <h3> 상품명 : </h3>
+                    <div style="color: red; margin-bottom: 10px;" id="productName-error" class="error-message"></div>
+                    <input class="txt_tit_notice" style="width: 400px;" id="productName">
                     </p>
                     <p>
-                    <h3> 개 수 : </h3> <input class="txt_tit_notice" style="width: 400px;"  id="stockQuantity">
+                    <h3> 개 수 : </h3>
+                    <div style="color: red; margin-bottom: 10px;" id="stockQuantity-error" class="error-message"></div>
+                    <input class="txt_tit_notice" style="width: 400px;"  id="stockQuantity">
                     </p>
                     <p>
-                    <h3> 가 격 : </h3> <input class="txt_tit_notice" style="width: 400px;"  id="productPrice">
+                    <h3> 가 격 : </h3>
+                    <div style="color: red; margin-bottom: 10px;" id="productPrice-error" class="error-message"></div>
+                    <input class="txt_tit_notice" style="width: 400px;"  id="productPrice">
                     </p>
                     <p>
                         <div>
                             <h3>썸네일 이미지 등록하기 → <label for="thumnailFile">C L I C K   H E R E</label> </h3>
+                            <div style="color: red; margin-bottom: 10px;" id="imagePath-error" class="error-message"></div>
                             <button class="txt_tit_notice" id="thumnailUploadButton" type="button">이미지 전송 및 이미지 미리보기</button>
                         </div>
                         <input type="file" id="thumnailFile" accept="image/*" style="visibility: hidden;">                                                
@@ -36,6 +43,7 @@
                     <p>
                         <div>
                             <h3>상세내용 이미지 등록하기 → <label for="detailFile">C L I C K   H E R E</label> </h3>
+                            <div style="color: red; margin-bottom: 10px;" id="detailImagePath-error" class="error-message"></div>
                             <button class="txt_tit_notice" id="detailUploadButton" type="button">이미지 전송 및 이미지 미리보기</button>
                         </div>
                         <input type="file" id="detailFile" accept="image/*" style="visibility: hidden;">
@@ -45,9 +53,9 @@
                     <div id="detail-container"></div>
 
                     <h3> 제품에 대한 상세 설명을 해주세요. </h3>
+                    <div style="color: red; margin-bottom: 10px;" id="productScript-error" class="error-message"></div>
                     <label for="productScript"></label>
                     <textarea class="box_contents" id="productScript"></textarea>
-
                 </div>
             </div>
                 <div class="btns">
@@ -229,12 +237,34 @@
                  detailImagePath : document.getElementById('detailPath').value
              })
          })
-         .then(()=>{
-             alert('상품이 등록되었습니다.');
-             location.replace('/products');
-         });
-         }
-    )}
+         .then(response => {
+            if(response.ok){
+                return response.json();
+            }else{
+                return response.json();
+            }
+        })
+                    .then(data => {
+                        if(data.code===400){
+                            alert(data.message);
+                            const errors = data.data;
+                            for(const field in errors){
+                                const errorMessage = errors[field];
+                                const errorElement = document.getElementById(field+'-error');
+                                    if(errorElement){
+                                      errorElement.textContent = errorMessage;
+                                    }
+                            }
+                        }else if(data.code===200){
+                        alert('상품등록이 완료되었습니다!');
+                        location.replace('/products');
+                    }
+                })
+                .catch(error=>{
+                    console.error("Error : " + error)
+                })
+            });
+    }
 
 
 </script>
