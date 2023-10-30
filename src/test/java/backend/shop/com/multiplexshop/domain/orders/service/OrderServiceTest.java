@@ -3,20 +3,14 @@ package backend.shop.com.multiplexshop.domain.orders.service;
 import backend.shop.com.multiplexshop.domain.IntegrationTestSupport;
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
-import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
-import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
-import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderProducts;
-import backend.shop.com.multiplexshop.domain.orders.repository.OrderProductsRepository;
 import backend.shop.com.multiplexshop.domain.orders.entity.OrderStatus;
 import backend.shop.com.multiplexshop.domain.orders.entity.Orders;
-import backend.shop.com.multiplexshop.domain.orders.repository.OrdersRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -72,7 +66,7 @@ class OrderServiceTest extends IntegrationTestSupport {
                 .productWithCount(productAndCount)
                 .build();
         //when
-        OrderResponseDTO result = orderService.save(request);
+        OrderResponseDTO result = orderService.createOrderByRequest(request);
         //then
         List<OrderProducts> orderProducts = orderProductsRepository.findAll();
         Products productResult = productsRepository.findById(1L).orElse(null);
@@ -127,7 +121,7 @@ class OrderServiceTest extends IntegrationTestSupport {
         for(int i = 0; i < threadCount; i++){
             executorService.submit(()-> {
                try {
-                   orderService.save(request);
+                   orderService.createOrderByRequest(request);
                }
                finally {
                    latch.countDown();
@@ -333,7 +327,7 @@ class OrderServiceTest extends IntegrationTestSupport {
         OrderProducts orderProductsByFood = OrderProducts.createOrderProducts(savedOrder, savedFood,4);
         orderProductsRepository.saveAll(List.of(orderProductsByStuff,orderProductsByFood));
         //when
-        List<OrderProductsResponseDTO> result = orderService.findOrderWithProductsByMemberId(1L);
+        List<OrderProductsResponseDTO> result = orderService.findOrderProductsByMemberId(1L);
         //then
         assertThat(result).hasSize(2);
     }

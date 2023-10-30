@@ -34,7 +34,7 @@ public class MemberAPIController {
                         .build();
                 return ResponseEntity.badRequest().body(errorResponse);
             }else{
-                MemberResponseDTO response = memberService.memberSave(request);
+                MemberResponseDTO response = memberService.createMemberByRequest(request);
                 GlobalCommonResponseDTO successResponse = GlobalCommonResponseDTO.builder()
                         .code(GlobalCommonResponseCode.SUCCESS.getCode())
                         .message("join success")
@@ -63,12 +63,12 @@ public class MemberAPIController {
                     .message("modify success")
                     .data(updateMemberByRequest)
                     .build();
-            return ResponseEntity.status(HttpStatus.CREATED).body(successResponse);
+            return ResponseEntity.status(HttpStatus.OK).body(successResponse);
         }
     }
 
     @DeleteMapping("/api/mypage/{id}")
-    public ResponseEntity deleteMember(@PathVariable Long id){
+    public ResponseEntity deleteMemberByRequest(@PathVariable Long id){
         memberService.deleteMemberById(id);
         return ResponseEntity.ok().build();
     }

@@ -2,12 +2,8 @@ package backend.shop.com.multiplexshop.domain.board.controller;
 
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.service.BoardService;
-import backend.shop.com.multiplexshop.domain.comment.dto.CommentDTOs;
 import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
-import backend.shop.com.multiplexshop.domain.config.interceptor.SessionConst;
-import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs;
 import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.MemberResponseDTO;
-import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -32,8 +28,8 @@ public class BoardViewController {
     private final CommentService commentService;
     @GetMapping()
     public String getBoardList(@RequestParam(defaultValue = "0")int page, Model model){
-        List<BoardResponseDTO> noticePages = boardService.findByNotice();
-        Page<BoardResponseDTO> postPages = boardService.findByPost(page);
+        List<BoardResponseDTO> noticePages = boardService.findAllByNotice();
+        Page<BoardResponseDTO> postPages = boardService.findAllByPost(page);
 
         model.addAttribute("notice",noticePages);
         model.addAttribute("board",postPages);
@@ -70,8 +66,8 @@ public class BoardViewController {
             model.addAttribute("Board", new BoardResponseDTO());
             model.addAttribute("page",page);
         }else {
-            Board board = (Board) boardService.searchById(boardId);
-            model.addAttribute("Board", BoardResponseDTO.of(board));
+            BoardResponseDTO findBoardByBoardId = boardService.findBoardByboardId(boardId);
+            model.addAttribute("Board", findBoardByBoardId);
             model.addAttribute("page",page);
         }
 

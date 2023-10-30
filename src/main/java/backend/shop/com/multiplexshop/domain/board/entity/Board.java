@@ -1,6 +1,7 @@
 package backend.shop.com.multiplexshop.domain.board.entity;
 
 
+import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs;
 import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
 
@@ -11,6 +12,8 @@ import org.hibernate.annotations.Comments;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
 @Entity
 @Getter
@@ -40,6 +43,19 @@ public class Board extends BaseEntity {
         @Enumerated(EnumType.STRING)
         @Column(length = 10)
         private BoardType boardType;
+
+        @Builder
+        public Board(Long boardId, Member member, String boardTitle, String boardContent, String memberName,
+                                                                        Long boardViewCount, BoardType boardType) {
+                this.boardId = boardId;
+                this.member = member;
+                this.boardTitle = boardTitle;
+                this.boardContent = boardContent;
+                this.memberName = memberName;
+                this.boardViewCount = boardViewCount;
+                this.boardType = boardType;
+        }
+
         /**
          *  비즈니스 로직 : 게시물 수정
          */
@@ -47,14 +63,6 @@ public class Board extends BaseEntity {
                 this.boardTitle = updateTitle;
                 this.boardContent = updateContent;
         }
-        @Builder
-        public Board(Long boardId,Member member, String boardTitle, String boardContent, BoardType boardType){
-                this.boardId = boardId;
-                this.boardTitle = boardTitle;
-                this.boardContent = boardContent;
-                this.member = member;
-                this.memberName = member.getMemberName();
-                this.boardType = boardType;
-        }
+
 
 }

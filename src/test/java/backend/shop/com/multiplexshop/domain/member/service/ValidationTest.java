@@ -1,4 +1,4 @@
-package backend.shop.com.multiplexshop.domain.member;
+package backend.shop.com.multiplexshop.domain.member.service;
 
 
 import jakarta.validation.ConstraintViolation;

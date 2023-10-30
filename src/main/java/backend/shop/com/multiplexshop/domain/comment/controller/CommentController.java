@@ -1,6 +1,5 @@
 package backend.shop.com.multiplexshop.domain.comment.controller;
 
-import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,10 +43,8 @@ public class CommentController {
     @ResponseBody
     @PostMapping(value = "/api/comment", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommentResponseDTO> postComment (@RequestBody CommentRequestDTO commentRequestDTO){
-        Comment comment = commentService.save(commentRequestDTO);
-        CommentResponseDTO response = CommentResponseDTO.of(comment);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        CommentResponseDTO createComment = commentService.createCommentByRequest(commentRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createComment);
     }
 
     @ResponseBody
@@ -56,16 +52,15 @@ public class CommentController {
     public ResponseEntity updateComment(@PathVariable("id") Long commentId,
                                         @RequestBody CommentRequestDTO commentRequestDTO){
         log.info("PUT REQUEST = {}", commentRequestDTO);
-        commentService.update(commentId, commentRequestDTO);
+        commentService.updateCommentByRequest(commentId, commentRequestDTO);
         return ResponseEntity.noContent().build();
     }
 
     //수정 요청 뷰 메서드
     @GetMapping("/api/CommentUpdate/{commentId}")
     public String getUpdateTag(Model model, @PathVariable("commentId")Long commentId){
-        Comment updatedComment = commentService.searchById(commentId);
-        CommentResponseDTO responseDTO = CommentResponseDTO.of(updatedComment);
-        model.addAttribute("reply",responseDTO);
+        CommentResponseDTO findCommentByRequest = commentService.findCommentById(commentId);
+        model.addAttribute("reply",findCommentByRequest);
 
         return "reply/commentUpdate";
     }

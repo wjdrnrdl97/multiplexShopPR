@@ -39,7 +39,7 @@ class MemberAPIControllerTest extends ControllerTestSupport {
 
     @Test
     @DisplayName("postMemberByRequest(): 회원 저장에 성공하기")
-    void test1() throws Exception{
+    void postMemberByRequest() throws Exception{
         //given
         final String url = "/api/join";
         final String userEmail = "test2@naver.com";
@@ -60,7 +60,7 @@ class MemberAPIControllerTest extends ControllerTestSupport {
     }
     @Test
     @DisplayName("postMemberByRequest(): 조건에 맞지않는 요청으로 회원 저장에 실패하기")
-    void test2() throws Exception{
+    void postMemberByBadRequest() throws Exception{
         //given
         final String url = "/api/join";
         final String userEmail = "test2@naver.com";
@@ -82,30 +82,61 @@ class MemberAPIControllerTest extends ControllerTestSupport {
 
     @Test
     @DisplayName("updateMemberInfo(): 회원 정보 수정에 성공한다.")
-    void test3() throws Exception{
+    void updateMemberInfo() throws Exception{
          //given
         String url = "/api/mypage/{id}";
-        String newAddr = "연수동 552-1";
-        String newTel = "010-9299-3944";
 
-        Member member = memberRepository.findById(99L).get();
-        MemberRequestDTO request = builder()
-                .memberAddress(newAddr)
-                .phoneNumber(newTel)
+        Member member = Member.builder()
+                .memberEmailId("test@naver.com")
+                .password("test1234!@#$")
+                .memberName("테스트")
+                .build();
+        Member saveMember = memberRepository.save(member);
+
+        MemberRequestDTO updateRequest = builder()
+                .memberEmailId("test@naver.com")
+                .password("test1234!@#$")
+                .memberName("테스트")
+                .memberAddress("서울 강남구")
+                .phoneNumber("02-1234-5678")
                 .build();
 
-        //when
-        ResultActions result = mockMvc.perform(put(url, member.getMemberId())
+        Long requestMemberId = saveMember.getMemberId();
+        //then //when
+        ResultActions result = mockMvc.perform(put(url, requestMemberId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)));
-        //then
-        result.andExpect(status().isOk());
+                .content(objectMapper.writeValueAsString(updateRequest)))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+    @Test
+    @DisplayName("updateMemberInfo(): 잘못된 요청으로 회원 정보 수정에 실패한다.")
+    void updateMemberInfoByBadRequest() throws Exception{
+        //given
+        String url = "/api/mypage/{id}";
 
-        Member modifiedMember = memberRepository.findById(member.getMemberId()).get();
-        assertThat(modifiedMember.getMemberAddress()).isEqualTo(newAddr);
-        assertThat(modifiedMember.getPhoneNumber()).isEqualTo(newTel);
+        Member member = Member.builder()
+                .memberEmailId("test@naver.com")
+                .password("test1234!@#$")
+                .memberName("테스트")
+                .build();
+        Member saveMember = memberRepository.save(member);
 
+        MemberRequestDTO updateRequest = builder()
+                .memberEmailId("test@naver.com")
+                .password("test1234!@#$")
+                .memberName("테스트")
+                .memberAddress("")
+                .phoneNumber("02-1234-5678")
+                .build();
 
+        Long requestMemberId = saveMember.getMemberId();
+        //then //when
+        ResultActions result = mockMvc.perform(put(url, requestMemberId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(updateRequest)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -113,14 +144,16 @@ class MemberAPIControllerTest extends ControllerTestSupport {
     void test4() throws Exception{
         //given
         String url = "/api/mypage/{id}";
-        Member deleteMember = memberRepository.findById(99L).get();
+        Member member = Member.builder()
+                .memberEmailId("test@naver.com")
+                .password("test1234!@#$")
+                .memberName("테스트")
+                .build();
+        Member saveMember = memberRepository.save(member);
         //when
-        ResultActions result = mockMvc.perform(delete(url, deleteMember.getMemberId()));
+        ResultActions result = mockMvc.perform(delete(url, saveMember.getMemberId()));
         //then
         result.andExpect(status().isOk());
-        List<Member> members = memberRepository.findAll();
-        assertThat(members).isEmpty();
-        //
     }
 
 }

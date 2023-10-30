@@ -4,7 +4,6 @@ import backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.BoardRequestDTO
 import backend.shop.com.multiplexshop.domain.board.entity.Board;
 import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
 
-import backend.shop.com.multiplexshop.domain.comment.entity.Comment;
 import backend.shop.com.multiplexshop.domain.comment.repository.CommentRepository;
 import backend.shop.com.multiplexshop.domain.member.entity.Member;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
@@ -23,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 import static backend.shop.com.multiplexshop.domain.board.dto.BoardDTOs.*;
 
@@ -37,12 +35,10 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final CommentRepository commentRepository;
 
-    /**
-     *  게시물 상세 조회     *
-     */
-    public Board searchById(Long boardId ) {
-        return boardRepository.findById(boardId)
-                .orElseThrow(()-> new IllegalArgumentException("Board not Found" +boardId));
+    public BoardResponseDTO findBoardByboardId(Long boardId) {
+        Board findBoard = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("Board not Found" + boardId));
+        return BoardResponseDTO.of(findBoard);
     }
 
 
@@ -109,23 +105,14 @@ public class BoardService {
         response.addCookie(cookie);
     }
 
-    /**
-     *  공지사항 게시물 목록 조회
-     * @return List<BoardResponseDTO>
-     */
-    public List<BoardResponseDTO> findByNotice() {
+    public List<BoardResponseDTO> findAllByNotice() {
         List<Board> notice = boardRepository.findByNotice();
         return notice.stream()
                 .map(BoardResponseDTO::of)
                 .toList();
     }
 
-    /**
-     * 일반 게시물 목록 조회
-     * @param page
-     * @return Page<BoardResponseDTO>
-     */
-    public Page<BoardResponseDTO> findByPost(int page) {
+    public Page<BoardResponseDTO> findAllByPost(int page) {
         int pageNum = (page == 0)? 0 : page - 1;
         PageRequest pageAble = PageRequest.of(pageNum, 10, Sort.by("boardId").descending());
         Page<Board> postPage = boardRepository.findByPost(pageAble);
@@ -133,16 +120,12 @@ public class BoardService {
         return postPage.map(BoardResponseDTO::of);
     }
 
-    /**
-     *  게시물 등록
-     * @param boardRequestDTO (등록할 게시물 정보)
-     * @return Board
-     */
-    public BoardResponseDTO save(BoardRequestDTO boardRequestDTO) {
-        Board dtoToBoardEntity = dtoToBoardEntity(boardRequestDTO);
+    public BoardResponseDTO createBoardByRequest(BoardRequestDTO request) {
+        Board dtoToBoardEntity = dtoToBoardEntity(request);
         Board saveBoard = boardRepository.save(dtoToBoardEntity);
         return BoardResponseDTO.of(saveBoard);
     }
+
     public HashMap<String,String> validateHandling(BindingResult bindingResult){
         HashMap<String,String> errorMap = new HashMap<>();
         bindingResult.getFieldErrors().forEach(error ->{
@@ -158,10 +141,12 @@ public class BoardService {
      * @return Board(수정된 게시물 정보)
      */
     @Transactional
-    public Board update(Long boardId, BoardRequestDTO boardRequestDTO){
-        Board getBoard = boardRepository.findById(boardId).get();
-        getBoard.updateBoard(boardRequestDTO.getBoardTitle(), boardRequestDTO.getBoardContent());
-        return boardRepository.save(getBoard);
+    public BoardResponseDTO updateBoardInfoByRequest(Long boardId, BoardRequestDTO boardRequestDTO){
+        Board findBoard = boardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("Board not Found" + boardId));
+        findBoard.updateBoard(boardRequestDTO.getBoardTitle(), boardRequestDTO.getBoardContent());
+        Board updateBoard = boardRepository.save(findBoard);
+        return BoardResponseDTO.of(updateBoard);
     }
 
     /**
@@ -170,7 +155,7 @@ public class BoardService {
      */
 
     @Transactional
-    public void delete(Long boardId) {
+    public void deleteByRequest(Long boardId) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(()-> new IllegalStateException("Board not Found" + boardId));
         commentRepository.deleteAllByBoard(board);
@@ -189,6 +174,7 @@ public class BoardService {
                 .boardTitle(boardRequestDTO.getBoardTitle())
                 .boardContent(boardRequestDTO.getBoardContent())
                 .member(member)
+                .memberName(member.getMemberName())
                 .boardType(boardRequestDTO.getBoardType())
                 .build();
 

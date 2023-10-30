@@ -1,5 +1,6 @@
 package backend.shop.com.multiplexshop.domain.delivery.service;
 
+import backend.shop.com.multiplexshop.domain.IntegrationTestSupport;
 import backend.shop.com.multiplexshop.domain.delivery.dto.DeliveryDTOs;
 import backend.shop.com.multiplexshop.domain.delivery.entity.Delivery;
 import backend.shop.com.multiplexshop.domain.delivery.entity.DeliveryStatus;
@@ -22,18 +23,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class DeliveryServiceTest {
-
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    OrdersRepository ordersRepository;
-    @Autowired
-    DeliveryRepository deliveryRepository;
-
-    @Autowired
-    DeliveryService deliveryService;
-
+class DeliveryServiceTest extends IntegrationTestSupport {
     @Test
     @DisplayName("회원번호를 입력받아 회원을 조회 한후 해당 회원의 주문들을 조회한 다음 해당 주문들의 배송정보를 조회한다.")
     public void findAllByMemberId(){

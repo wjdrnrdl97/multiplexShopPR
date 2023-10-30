@@ -44,7 +44,7 @@ public class MemberViewController {
         if (id == null){
             model.addAttribute("member",new MemberResponseDTO());
         }else {
-            MemberResponseDTO  findMember = memberService.findById(id);
+            MemberResponseDTO  findMember = memberService.findByMemberId(id);
             model.addAttribute("member", findMember);
         }
         return "member/join";
@@ -57,7 +57,7 @@ public class MemberViewController {
 
     @GetMapping("/mypage/{id}")
     public String getMyPageView(Model model, @PathVariable Long id){
-        MemberResponseDTO getMemberByMemberId = memberService.findById(id);
+        MemberResponseDTO getMemberByMemberId = memberService.findByMemberId(id);
         model.addAttribute("member", getMemberByMemberId);
 
         List<OrderResponseDTO> getOrderByMemberId = orderService.findAllByMemberId(id);

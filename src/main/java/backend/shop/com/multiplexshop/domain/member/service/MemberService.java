@@ -19,16 +19,15 @@ public class MemberService {
     private final MemberRepository memberRepository;
 
 
-    public MemberResponseDTO memberSave(MemberRequestDTO memberRequestDTO){
-        Member member = dtoToMemberEntity(memberRequestDTO);
-        duplicateEmailValidate(member);
-        Member savedMember = memberRepository.save(member);
+    public MemberResponseDTO createMemberByRequest(MemberRequestDTO request){
+        Member createMember = Member.dtoToMemberEntity(request);
+        duplicateEmailValidate(createMember);
+        Member savedMember = memberRepository.save(createMember);
         return MemberResponseDTO.of(savedMember);
     }
-
-    public MemberResponseDTO findById(Long id){
+    public MemberResponseDTO findByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("등록되지않은 회원 입니다. : " + id));
+                .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 회원입니다."));
         return MemberResponseDTO.of(findMember);
     }
 
@@ -49,19 +48,8 @@ public class MemberService {
 
     public void deleteMemberById(Long id){
         Member deleteMember = memberRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("등록되지않은 회원 입니다. : " + id));
+                .orElseThrow(() -> new IllegalArgumentException("등록되지 않은 회원 입니다. : " + id));
         memberRepository.delete(deleteMember);
-    }
-
-    private Member dtoToMemberEntity(MemberRequestDTO memberRequestDTO){
-        return Member.builder()
-                .memberEmailId(memberRequestDTO.getMemberEmailId())
-                .password(memberRequestDTO.getPassword())
-                .memberName(memberRequestDTO.getMemberName())
-                .memberAddress(memberRequestDTO.getMemberAddress())
-                .phoneNumber(memberRequestDTO.getPhoneNumber())
-                .role(memberRequestDTO.getRole())
-                .build();
     }
 
     @Transactional

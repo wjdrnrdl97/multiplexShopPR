@@ -19,7 +19,7 @@ public class OrdersAPIController {
 
     @PostMapping("/api/order")
     public ResponseEntity<OrderResponseDTO> postOrderByRequest(@RequestBody OrderRequestDTO request){
-        OrderResponseDTO postOrderByRequest = orderService.save(request);
+        OrderResponseDTO postOrderByRequest = orderService.createOrderByRequest(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(postOrderByRequest);
     }
     @GetMapping("/api/order/{id}")
@@ -27,12 +27,6 @@ public class OrdersAPIController {
         List<OrderProductsResponseDTO> findAllByOrderId = orderService.findAllByOrderId(id);
         return ResponseEntity.ok().body(findAllByOrderId);
     }
-//    @GetMapping("/api/order/product")
-//    public ResponseEntity<OrderProductsResponseDTO> getProductWithCountByRequest
-//                                                                        (@RequestBody OrderProductsRequestDTO request){
-//        OrderProductsResponseDTO productsAndInjectCount = orderService.getProductsAndInjectCount(request);
-//        return ResponseEntity.ok().body(productsAndInjectCount);
-//    }
 
     @DeleteMapping("api/order/{id}")
     public ResponseEntity deleteOrderByOrderId(@PathVariable("id") Long id){

@@ -4,12 +4,14 @@ package backend.shop.com.multiplexshop.domain.member.entity;
 
 import backend.shop.com.multiplexshop.domain.board.entity.BoardType;
 import backend.shop.com.multiplexshop.domain.common.BaseEntity;
+import backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static backend.shop.com.multiplexshop.domain.member.dto.MemberDTOs.*;
 
 
 @Entity
@@ -50,6 +52,17 @@ public class Member extends BaseEntity {
         this.memberAddress = memberAddress;
         this.phoneNumber = phoneNumber;
         this.role = role;
+    }
+
+    public static Member dtoToMemberEntity(MemberRequestDTO memberRequestDTO){
+        return Member.builder()
+                .memberEmailId(memberRequestDTO.getMemberEmailId())
+                .password(memberRequestDTO.getPassword())
+                .memberName(memberRequestDTO.getMemberName())
+                .memberAddress(memberRequestDTO.getMemberAddress())
+                .phoneNumber(memberRequestDTO.getPhoneNumber())
+                .role(memberRequestDTO.getRole())
+                .build();
     }
 
     public void updateMember(String memberAddress, String phoneNumber){

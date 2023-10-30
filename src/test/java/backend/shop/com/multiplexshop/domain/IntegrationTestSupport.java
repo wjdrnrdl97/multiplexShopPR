@@ -1,9 +1,14 @@
 package backend.shop.com.multiplexshop.domain;
 
+import backend.shop.com.multiplexshop.domain.board.repository.BoardRepository;
+import backend.shop.com.multiplexshop.domain.board.service.BoardService;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartRepository;
 import backend.shop.com.multiplexshop.domain.cart.service.CartService;
+import backend.shop.com.multiplexshop.domain.comment.repository.CommentRepository;
+import backend.shop.com.multiplexshop.domain.comment.service.CommentService;
 import backend.shop.com.multiplexshop.domain.delivery.repository.DeliveryRepository;
+import backend.shop.com.multiplexshop.domain.delivery.service.DeliveryService;
 import backend.shop.com.multiplexshop.domain.member.repository.MemberRepository;
 import backend.shop.com.multiplexshop.domain.member.service.MemberService;
 import backend.shop.com.multiplexshop.domain.orders.repository.OrderProductsRepository;
@@ -29,11 +34,11 @@ public abstract class IntegrationTestSupport {
     protected UploadFileRepository uploadFileRepository;
     @Autowired
     protected UploadService uploadService;
-
     @Autowired
     protected CartRepository cartRepository;
     @Autowired
     protected CartProductsRepository cartProductsRepository;
+
     @Autowired
     protected MemberRepository memberRepository;
     @Autowired
@@ -48,6 +53,17 @@ public abstract class IntegrationTestSupport {
     protected DeliveryRepository deliveryRepository;
     @Autowired
     protected MemberService memberService;
+    @Autowired
+    protected BoardRepository boardRepository;
+    @Autowired
+    protected BoardService boardService;
+    @Autowired
+    protected CommentRepository commentRepository;
+    @Autowired
+    protected CommentService commentService;
+    @Autowired
+    protected DeliveryService deliveryService;
+
 
 
 

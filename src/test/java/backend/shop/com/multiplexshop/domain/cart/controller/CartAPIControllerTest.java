@@ -1,5 +1,6 @@
 package backend.shop.com.multiplexshop.domain.cart.controller;
 
+import backend.shop.com.multiplexshop.domain.ControllerTestSupport;
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
@@ -31,33 +32,8 @@ import static backend.shop.com.multiplexshop.domain.cart.dto.CartDTOs.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+class CartAPIControllerTest extends ControllerTestSupport {
 
-@SpringBootTest
-@AutoConfigureMockMvc
-class CartAPIControllerTest {
-
-    @Autowired
-    CartService cartService;
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    ProductsRepository productsRepository;
-    @Autowired
-    CartRepository cartRepository;
-    @Autowired
-    CartProductsRepository cartProductsRepository;
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    WebApplicationContext context;
-    @Autowired
-    ObjectMapper objectMapper;
-    @BeforeEach
-    public void setMockMvc(){
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .addFilter(new CharacterEncodingFilter("UTF-8",true))
-                .build();
-    }
     @Test
     @DisplayName("요청(회원PK,상품PK,수량)을 입력받아 장바구니-상품을 생성하고 Http 201 코드와 함께 응답에 성공한다.")
     public void postCartByRequest() throws Exception{

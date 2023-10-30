@@ -1,5 +1,6 @@
 package backend.shop.com.multiplexshop.domain.orders.controller;
 
+import backend.shop.com.multiplexshop.domain.ControllerTestSupport;
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
@@ -41,33 +42,8 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class OrdersAPIControllerTest {
+class OrdersAPIControllerTest extends ControllerTestSupport {
 
-    @Autowired
-    OrderService orderService;
-    @Autowired
-    MemberRepository memberRepository;
-    @Autowired
-    ProductsRepository productsRepository;
-    @Autowired
-    OrdersRepository ordersRepository;
-    @Autowired
-    OrderProductsRepository orderProductsRepository;
-    @Autowired
-    DeliveryRepository deliveryRepository;
-
-    @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    WebApplicationContext context;
-    @Autowired
-    ObjectMapper objectMapper;
-    @BeforeEach
-    public void setMockMvc(){
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .addFilter(new CharacterEncodingFilter("UTF-8",true))
-                .build();
-    }
     @Test
     @DisplayName("사용자의 요청에 따라 서비스를 통해 주문이 생성되고 Http 201 코드와 body에 생성된 주문이 응답해야 한다.")
     public void postOrderByRequest() throws Exception{
@@ -179,28 +155,4 @@ public void getOrderWithProductByOrderId() throws Exception{
         //then
                 .andExpect(status().isNoContent());
     }
-//    @Test
-//    @DisplayName("요청을 통해 해당 상품을 조회한 후 HTTP 200코드와 함께 상품과 주문갯수를 응답한다.")
-//    public void getProductWithCountByRequest() throws Exception {
-//        //given
-//        String uri = "/api/order/product";
-//        Products products1 = Products.builder()
-//                .productName("향수")
-//                .productPrice(10000)
-//                .stockQuantity(100)
-//                .categories(Categories.STUFF)
-//                .build();
-//        productsRepository.save(products1);
-//        OrderProductsRequestDTO dto = OrderProductsRequestDTO.builder()
-//                .productId(1L)
-//                .count(3)
-//                .build();
-//        String request = objectMapper.writeValueAsString(dto);
-//        //when
-//        mockMvc.perform(get(uri).contentType(MediaType.APPLICATION_JSON).content(request))
-//        //then
-//                .andExpect(status().isOk())
-//                .andDo(print());
-//    }
-
 }

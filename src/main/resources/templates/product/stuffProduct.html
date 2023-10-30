@@ -7,7 +7,7 @@
 
     <article id="article">
         <div class="all_product_box">
-            <div class="stuff_coner" style="margin-top:0px margin-bottom:100px;">
+            <div class="stuff_coner" style="margin-top:0px; margin-bottom:100px;">
                 <button class="productPost_btn" th:if="${session.loginUser.role == T(backend.shop.com.multiplexshop.domain.member.entity.Role).ADMIN}"
                                                 style="background: transparent; border: 1px solid black;">
                                                     <a th:href="@{/products/createProducts}">P O S T</a>

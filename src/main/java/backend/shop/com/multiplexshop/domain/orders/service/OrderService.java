@@ -1,6 +1,5 @@
 package backend.shop.com.multiplexshop.domain.orders.service;
 
-import backend.shop.com.multiplexshop.domain.orders.dto.OrderProductsDTOs;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
 import backend.shop.com.multiplexshop.domain.products.repository.ProductsRepository;
 import backend.shop.com.multiplexshop.domain.cart.repository.CartProductsRepository;
@@ -35,38 +34,37 @@ public class OrderService {
     private final CartProductsRepository cartProductsRepository;
 
     @Transactional
-    public OrderResponseDTO save(OrderRequestDTO request){
+    public OrderResponseDTO createOrderByRequest(OrderRequestDTO request){
 
-        Member findMemberByIdFromRequest = memberRepository.findById(request.getMemberId())
+        Member findMember = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
 
-        Orders createOrderByMember = Orders.createOrder(findMemberByIdFromRequest);
-        Orders savedOrder = ordersRepository.save(createOrderByMember);
+        Orders createOrderByMember = Orders.createOrder(findMember);
+        Orders savedCreateOrder = ordersRepository.save(createOrderByMember);
 
         List<OrderProductsRequestDTO> productWithCountList = request.getProductWithCount();
         productWithCountList.stream().forEach(dto -> {
-            Products findProductById = productsRepository.findAndPessimisticLockById(dto.getProductId())
+            Products findProduct = productsRepository.findAndPessimisticLockById(dto.getProductId())
                     .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
 
 
-            findProductById.decreaseStockQuantity(dto.getCount());
-            Products savedProductOfDecreaseStock = productsRepository.save(findProductById);
+            findProduct.decreaseStockQuantity(dto.getCount());
+            Products savedProductOfDecreaseStock = productsRepository.save(findProduct);
 
             OrderProducts createNewOrderProduct = OrderProducts
                     .createOrderProducts(createOrderByMember, savedProductOfDecreaseStock, dto.getCount());
             orderProductsRepository.save(createNewOrderProduct);
 
-            cartProductsRepository.deleteByCartMemberAndProducts(findMemberByIdFromRequest,findProductById);
+            cartProductsRepository.deleteByCartMemberAndProducts(findMember,findProduct);
         });
 
-            Delivery createDeliveryByNewOrder = Delivery.createDelivery(savedOrder);
+            Delivery createDeliveryByNewOrder = Delivery.createDelivery(savedCreateOrder);
             deliveryRepository.save(createDeliveryByNewOrder);
 
-
-        return OrderResponseDTO.of(savedOrder);
+        return OrderResponseDTO.of(savedCreateOrder);
     }
 
-    public List<OrderProductsResponseDTO> findOrderWithProductsByMemberId(Long id){
+    public List<OrderProductsResponseDTO> findOrderProductsByMemberId(Long id){
         Member findMember = memberRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 회원이 없습니다."));
 
@@ -78,10 +76,10 @@ public class OrderService {
 
     @Transactional
     public void deleteByOrdersIds(Long id){
-        Delivery delivery = deliveryRepository.findByOrderId(id)
+        Delivery findDeliveryByOrder = deliveryRepository.findByOrderId(id)
                 .orElseThrow(() -> new IllegalArgumentException("배송정보가 없습니다."));
 
-        if(delivery.getDeliveryStatus() == DeliveryStatus.COMPLETE){
+        if(findDeliveryByOrder.getDeliveryStatus() == DeliveryStatus.COMPLETE){
             throw new IllegalArgumentException("이미 배송이 완료된 주문입니다.");
         }
 
@@ -91,15 +89,17 @@ public class OrderService {
         findByOrderIdFromRequest.changeOrderStatus();
         ordersRepository.save(findByOrderIdFromRequest);
 
-        List<OrderProducts> findOrderProductsByOrderId = orderProductsRepository.findByOrdersIdAll(id);
-        findOrderProductsByOrderId.stream().forEach(orderProducts -> {
-            Long getProductsIdByCancelOrderProducts = orderProducts.getProducts().getId();
-            Integer getCountByCancelOrderProducts = orderProducts.getCount();
+        List<OrderProducts> findAllByOrderId = orderProductsRepository.findByOrdersIdAll(id);
+
+        findAllByOrderId.stream().forEach(orderProducts -> {
+            Long getCancelProductsId = orderProducts.getProducts().getId();
+            Integer getCancelCount = orderProducts.getCount();
 
             Products productsByCancelOrder = productsRepository
-                    .findAndPessimisticLockById(getProductsIdByCancelOrderProducts)
+                    .findAndPessimisticLockById(getCancelProductsId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
-            productsByCancelOrder.increaseStockQuantity(getCountByCancelOrderProducts);
+
+            productsByCancelOrder.increaseStockQuantity(getCancelCount);
             productsRepository.save(productsByCancelOrder);
         });
     }
