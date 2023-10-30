@@ -2,28 +2,41 @@ package backend.shop.com.multiplexshop.domain.products.dto;
 
 import backend.shop.com.multiplexshop.domain.products.entity.Categories;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class ProductsDTOs {
-
-    /**
-     * 개발 초기 단계에서는 가격 수량 이름 카테고리만 받고 후에 나머지 데이터 빌더에 추가 예정.
-     */
     @Getter
     @NoArgsConstructor
     public static class ProductsRequestDTO{
         private Long id;
+        @NotBlank(message = "상품의 이름을 기입하세요")
         private String productName;
+
+        @NotNull(message = "상품의 가격을 기입하세요")
+        @Max(value = 1000000, message = "최대 가격은 1,000,000원 입니다.")
+        @Min(value = 100, message = "최소 가격은 100원입니다.")
         private Integer productPrice;
+
+        @NotNull(message = "상품의 수량을 기입하세요.")
+        @Min(value = 1,message = "최소 수량은 1개입니다.")
+        @Max(value = 1000,message = "최대 수량은 1000개입니다.")
         private Integer stockQuantity;
+
         private String selectTag1;
         private String selectTag2;
         private Categories categories;
+
+        @NotBlank(message = "이미지를 등록하세요.")
         private String imagePath;
+
+        @NotBlank(message = "이미지를 등록하세요.")
         private String detailImagePath;
+
+        @NotBlank(message = "상품설명을 기입하세요.")
         private String productScript;
         private Integer orderQuantity;
 
@@ -44,7 +57,6 @@ public class ProductsDTOs {
             this.productScript = productScript;
             this.orderQuantity = orderQuantity;
         }
-
 
         public Products toEntity(ProductsRequestDTO requestDTO){
             return Products.builder()

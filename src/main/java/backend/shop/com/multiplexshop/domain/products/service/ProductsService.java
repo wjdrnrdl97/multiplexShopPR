@@ -14,7 +14,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static backend.shop.com.multiplexshop.domain.products.dto.ProductsDTOs.*;
@@ -39,6 +41,13 @@ public class ProductsService {
         return productsResponseDTO;
     }
 
+    public HashMap<String,String> validateHandling(BindingResult bindingResult){
+        HashMap<String,String> errorMap = new HashMap<>();
+        bindingResult.getFieldErrors().forEach(error ->{
+            errorMap.put(error.getField(),error.getDefaultMessage());
+        });
+        return errorMap;
+    }
 
     private void addProductToUploadFile(Products productsEntity, List<Long> imageIds) {
         for(Long id : imageIds){
