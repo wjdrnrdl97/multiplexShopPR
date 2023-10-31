@@ -44,7 +44,7 @@ public class ValidationTest{
         //given
         MemberRequestDTO dto = MemberRequestDTO.builder()
                 .memberEmailId("test@naver.com")
-                .password("wkrwjs12#")
+                .password("1234")
                 .memberName("홍길동")
                 .phoneNumber("01012345678")
                 .memberAddress("서울 강남구 언주로")

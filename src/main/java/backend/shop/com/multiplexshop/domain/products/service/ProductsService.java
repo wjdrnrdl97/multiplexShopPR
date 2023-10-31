@@ -101,7 +101,7 @@ public class ProductsService {
 
     public Page<ProductsResponseDTO> findAllProductsByCategories(Categories categories, int page) {
         int pageNum = (page == 0)? 0 : page - 1;
-        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by("modDate").descending());
+        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by("id").descending());
 
         Page<Products> productsByCategories =
                 productsRepository.findAllByCategories(categories, pageable);
@@ -110,7 +110,7 @@ public class ProductsService {
     }
     public Page<ProductsResponseDTO>findAllByProductNameContaining(String keyword, int page){
         int pageNum = (page == 0) ? 0 : page - 1;
-        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by(Sort.Direction.DESC, "modDate"));
+        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by(Sort.Direction.DESC, "id"));
 
         Page<Products> productsByNameContaining = productsRepository.findAllByProductNameContaining(keyword, pageable);
 
@@ -120,7 +120,7 @@ public class ProductsService {
     public Page<ProductsResponseDTO>findAllByCategoriesAndProductNameContaining
                                                                     (Categories categories, String keyword, int page){
         int pageNum = (page == 0) ? 0 : page - 1;
-        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by(Sort.Direction.DESC, "modDate"));
+        PageRequest pageable = PageRequest.of(pageNum, 6, Sort.by(Sort.Direction.DESC, "id"));
         Page<Products> byCategoriesAndProductNameContaining
                         = productsRepository.findAllByCategoriesAndProductNameContaining(categories, keyword, pageable);
         return byCategoriesAndProductNameContaining.map(ProductsResponseDTO::of);
