@@ -1,5 +1,6 @@
 package backend.shop.com.multiplexshop.domain.products.service;
 
+import backend.shop.com.multiplexshop.domain.config.FileProperties;
 import backend.shop.com.multiplexshop.domain.exception.BadImageException;
 import backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs;
 import backend.shop.com.multiplexshop.domain.products.entity.Products;
@@ -25,12 +26,12 @@ import static backend.shop.com.multiplexshop.domain.products.dto.UploadFileDTOs.
 public class UploadService {
 
     private final UploadFileRepository uploadFileRepository;
+    private final FileProperties fileProperties;
 
-    @Value("${file.dir}")
-    private String fileDir;
 
     public String getFullPath(String filename){
-        return fileDir+filename;
+        String fileDir = fileProperties.getDir();
+        return fileDir + filename;
     }
 
     public UploadFileResponseDTO createUploadFileByRequest(MultipartFile request) throws IOException {

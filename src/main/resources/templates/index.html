@@ -15,13 +15,13 @@
           </div>
         <button class="bannerBtnR">></button>
 
-        <div class="thumbnail_img">
+        <div class="thumbnail_img" style="margin-left:450px;">
             <div class="products" th:each="product, iterStat : ${list}" th:if="${iterStat.index &lt; 3}">
                 <a th:href="@{/products/{id}(id=${product.id})}">
                     <img th:src="@{'/uploadfile/'+${product.imagePath}}">
                 </a>
-                <p th:value="${product.productName}">상품 이름</p>
-                <p>가격 : <span  th:value="${product.productPrice}">3,900</span> 원</p>
+                <p th:text="${product.productName}">상품 이름</p>
+                <p>가격 : <span  th:text="${product.productPrice}">3,900</span> 원</p>
             </div>
         </div>
         

@@ -43,14 +43,14 @@ public class BoardViewController {
     public String getBoard(@PathVariable("id") Long boardId, HttpServletRequest request, HttpSession session,
                            @RequestParam(defaultValue = "0") int page, HttpServletResponse response, Model model){
 
-        Board getBoard = boardService.viewCountValidation(boardId, request,response);
+        BoardResponseDTO getBoardByRequest = boardService.viewCountValidation(boardId, request, response);
         List<CommentResponseDTO> commentResponseDTOList = commentService.findAllByBoard(boardId);
 
         MemberResponseDTO loginUser = (MemberResponseDTO) session.getAttribute("loginUser");
 
         model.addAttribute("loginUser", loginUser);
         model.addAttribute("comment", commentResponseDTOList);
-        model.addAttribute("getBoard", BoardResponseDTO.of(getBoard));
+        model.addAttribute("getBoard",getBoardByRequest);
         model.addAttribute("page",page);
         return "support/read";
     }

@@ -50,7 +50,7 @@ public class BoardService {
      * @return 조회수 증가
      */
     @Transactional
-    public Board viewCountValidation(Long boardId, HttpServletRequest request, HttpServletResponse response){
+    public BoardResponseDTO viewCountValidation(Long boardId, HttpServletRequest request, HttpServletResponse response){
         Cookie myCookie = findCookie(request.getCookies(), "boardView");
         if (myCookie!=null && !myCookie.getValue().contains("[" + boardId.toString() + "]")){
                 increaseViewCount(boardId,response,myCookie);
@@ -58,7 +58,8 @@ public class BoardService {
         if(myCookie == null){
             newCookieAndIncreaseViewCount(boardId,response);
         }
-        return boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("Board Not Found"));
+        Board findBoard = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("Board Not Found"));
+        return BoardResponseDTO.of(findBoard);
 
     }
 
@@ -134,12 +135,6 @@ public class BoardService {
         return errorMap;
     }
 
-    /**
-     *  게시물 수정
-     * @param boardId (수정할 게시물 번호)
-     * @param boardRequestDTO (수정한 게시물 정보)
-     * @return Board(수정된 게시물 정보)
-     */
     @Transactional
     public BoardResponseDTO updateBoardInfoByRequest(Long boardId, BoardRequestDTO boardRequestDTO){
         Board findBoard = boardRepository.findById(boardId)
@@ -149,11 +144,6 @@ public class BoardService {
         return BoardResponseDTO.of(updateBoard);
     }
 
-    /**
-     * 게시물 삭제
-     * @param boardId (삭제할 게시물 번호)
-     */
-
     @Transactional
     public void deleteByRequest(Long boardId) {
         Board board = boardRepository.findById(boardId)
@@ -162,11 +152,6 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
-    /**
-     * 요청한 dto 정보 Entity 변환
-     * @param boardRequestDTO (요청정보)
-     * @return Board(Entity)
-     */
     public Board dtoToBoardEntity(BoardRequestDTO boardRequestDTO) {
         Member member = memberRepository.findById(boardRequestDTO.getMemberId())
             .orElseThrow(()->new IllegalArgumentException("Member not found"));
@@ -175,6 +160,7 @@ public class BoardService {
                 .boardContent(boardRequestDTO.getBoardContent())
                 .member(member)
                 .memberName(member.getMemberName())
+                .boardViewCount(0L)
                 .boardType(boardRequestDTO.getBoardType())
                 .build();
 

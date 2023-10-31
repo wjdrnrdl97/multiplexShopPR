@@ -188,7 +188,7 @@ img{
 
   .thumbnail_img{
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
     text-align: center;
