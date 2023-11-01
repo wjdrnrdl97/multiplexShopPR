@@ -10,6 +10,7 @@
             <div class="notice_contents1">
                 <h2  class="txt_title_notice_read" style="text-align: center; font-size: 35px;">
                     [[${getBoard.boardTitle}]]</h2>
+                <input type="hidden" id="memberName" th:value="${session.loginUser.memberName}">
                 <div class="read_info">
                     <span id="boardId" th:text="${getBoard.boardId}"></span>
                     / <span> WRITER : </span> <span>[[${getBoard.memberName}]]</span>
@@ -73,8 +74,8 @@
         const replyArea = document.querySelector('.cmt_area');
         const replyMemberId = document.querySelector('.memberId');
         const replyBoardId = document.querySelector('#boardId');
-
         const replyCont = document.getElementById('replyCont');
+        const memberName = document.getElementById('memberName');
 
         const commentElements = document.querySelectorAll(".comment-view");
 
@@ -184,6 +185,7 @@
             headers: {
                 "Content-Type": "application/json",
             },body: JSON.stringify({
+                memberName: memberName.value,
                 commentContent: replyArea.value,
                 boardId : [[${getBoard.boardId}]],
                 memberId : replyMemberId.value
